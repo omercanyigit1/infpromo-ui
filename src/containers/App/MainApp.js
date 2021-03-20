@@ -81,7 +81,7 @@ const MainApp = (props) => {
     <Layout className="gx-app-layout">
       <Sidebar/>
       <Layout>
-        {getNavStyles(navStyle)}
+        {/**getNavStyles(navStyle)**/}
         <Content className={`gx-layout-content ${getContainerClass(navStyle)}`}>
           <App match={match}/>
           <Footer>

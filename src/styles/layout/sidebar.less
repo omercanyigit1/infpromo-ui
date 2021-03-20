@@ -3,6 +3,35 @@
   .transition(all 0.2s ease);
 }
 
+
+.ant-menu-dark .ant-menu-item > a {
+  color: @white !important;
+}
+
+.sidebar-bottom {
+  position: absolute;
+  padding-left: 20px;
+  padding-right: 20px;
+  bottom: 10px;
+  height:  150px;
+  width: 100%;
+  left: 0;
+  right: 0;
+
+  a:hover, button:hover {
+    //background-color: rgba(@white, .5);
+  }
+
+  p {
+    background-color: rgba(255, 255, 255, .2);
+    color: @white;
+    width: 100%;
+    padding: 10px;
+    text-align: center;
+    border-radius: 5px;
+  }
+}
+
 .ant-layout-sider {
   background-color: @nav-bar-bg;
   color: @nav-bar-text-color;
@@ -40,7 +69,7 @@
 
 .@{class-prefix}-layout-sider-dark {
   background-color: @nav-dark-bg;
-  color: @nav-dark-text-color;
+  color: @white;
 }
 
 .@{class-prefix}-layout-sider-header {

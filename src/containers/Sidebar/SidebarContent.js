@@ -1,6 +1,7 @@
 import React from "react";
-import {Menu} from "antd";
+import {Menu, Button} from "antd";
 import {Link} from "react-router-dom";
+import {LogoutOutlined} from '@ant-design/icons';
 
 import CustomScrollbars from "util/CustomScrollbars";
 import SidebarLogo from "./SidebarLogo";
@@ -14,6 +15,8 @@ import {
 import IntlMessages from "../../util/IntlMessages";
 import {useSelector} from "react-redux";
 
+const name = localStorage.getItem('user_name');
+const surName = localStorage.getItem('user_surName');
 
 const SidebarContent = ({sidebarCollapsed, setSidebarCollapsed}) => {
 
@@ -39,8 +42,7 @@ const SidebarContent = ({sidebarCollapsed, setSidebarCollapsed}) => {
       <SidebarLogo sidebarCollapsed={sidebarCollapsed} setSidebarCollapsed={setSidebarCollapsed}/>
       <div className="gx-sidebar-content">
         <div className={`gx-sidebar-notifications ${getNoHeaderClass(navStyle)}`}>
-          <UserProfile/>
-          <AppsNavigation/>
+          <UserProfile name={name} surName={surName} />
         </div>
         <CustomScrollbars className="gx-layout-sider-scrollbar">
           <Menu
@@ -49,14 +51,40 @@ const SidebarContent = ({sidebarCollapsed, setSidebarCollapsed}) => {
             theme={themeType === THEME_TYPE_LITE ? 'lite' : 'dark'}
             mode="inline">
 
-            <Menu.Item key="sample">
-              <Link to="/sample"><i className="icon icon-widgets"/>
-                <span><IntlMessages id="sidebar.samplePage"/></span>
+            <Menu.Item key="search">
+              <Link to="/search">
+                <i className="icon icon-search"/>
+                <span>
+                  Influencer Arama
+                </span>
+              </Link>
+            </Menu.Item>
+            <Menu.Item key={"credit"}>
+              <Link to="/credit">
+                <i className="icon icon-shopping-cart"/>
+                <span>
+                  Kredi Yükle
+                </span>
+              </Link>
+            </Menu.Item>
+            <Menu.Item key={"account"}>
+              <Link to="/account">
+                <i className="icon icon-avatar"/>
+                <span>
+                  Hesabım
+                </span>
               </Link>
             </Menu.Item>
 
           </Menu>
         </CustomScrollbars>
+
+        <div className={"sidebar-bottom"}>
+          <p>Kredim: 90</p>
+          <Button type={"link"} icon={<LogoutOutlined />} style={{width: '100%', textAlign: 'left', color: '#fff', marginBottom: 15}}>
+            Çıkış
+          </Button>
+        </div>
       </div>
     </>
   );
