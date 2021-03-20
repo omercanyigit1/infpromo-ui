@@ -1,0 +1,18 @@
+@import "/node_modules/bootstrap/scss/bootstrap.scss";
+@import "./assets/scss2/custom.scss";
+
+// //Import Light mode
+@import "./assets/scss2/style.scss";
+
+body {
+  overflow-y: scroll !important;
+}
+
+//Import Dark RTL mode
+// @import './assets/scss2/style-dark-rtl.scss';
+
+//Import RTL mode
+// @import './assets/scss2/style-rtl.scss';
+
+// Import Dark Mode
+// @import './assets/scss2/style-dark.scss';
