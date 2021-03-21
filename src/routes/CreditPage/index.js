@@ -2,9 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Card, Input, InputNumber, Row, Col, Button, Spin, Alert} from 'antd';
 import 'react-credit-cards/es/styles-compiled.css';
 import Cards from 'react-credit-cards';
-import {AvField} from "availity-reactstrap-validation";
-import {FormGroup} from "reactstrap";
-import {postPayment, isLoggedIn, postSearchAdvanced, postGeneratePdf} from '../../appRedux/actions/';
+import {postPayment, isLoggedIn} from '../../appRedux/actions/';
 import {connect} from 'react-redux';
 
 const CreditPage = (props) => {

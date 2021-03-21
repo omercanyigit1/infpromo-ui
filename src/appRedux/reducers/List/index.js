@@ -12,7 +12,7 @@ import {
 const initialState = {
   loading: false,
   error: null,
-  searchList: {},
+  searchList: [],
   total: 0,
   pdfUrl: '',
   credit: null

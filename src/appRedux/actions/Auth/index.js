@@ -7,6 +7,8 @@ import {
   REGISTER_USER_REQUEST,
   REGISTER_USER_SUCCESS,
   REGISTER_USER_FAILED,
+  LOGOUT_USER_REQUEST,
+  LOGOUT_USER_SUCCESS,
   API_URL,
 } from "../../../constants/ActionTypes";
 import axios from 'axios';
@@ -15,18 +17,23 @@ export const postLoginUserRequest = () => ({
   type: LOGIN_USER_REQUEST
 });
 
-export const postLoginUserFailed = error => ({
-  type: LOGIN_USER_FAILED,
-  payload: error
-});
-
 export const postLoginUserSuccess = (data) => ({
   type: LOGIN_USER_SUCCESS,
   payload: data,
 });
 
+export const postLoginUserFailed = error => ({
+  type: LOGIN_USER_FAILED,
+  payload: error
+});
+
 export const postRegisterUserRequest = () => ({
   type: REGISTER_USER_REQUEST
+});
+
+export const postRegisterUserSuccess = data => ({
+  type: REGISTER_USER_SUCCESS,
+  payload: data
 });
 
 export const postRegisterUserFailed = error => ({
@@ -34,9 +41,12 @@ export const postRegisterUserFailed = error => ({
   payload: error
 });
 
-export const postRegisterUserSuccess = data => ({
-  type: REGISTER_USER_SUCCESS,
-  payload: data
+export const postLogoutUserRequest = () => ({
+  type: LOGOUT_USER_REQUEST
+});
+
+export const postLogoutUserSuccess = () => ({
+  type: LOGOUT_USER_SUCCESS
 });
 
 export const postLoginUser = (user) => {
@@ -87,5 +97,14 @@ export const isLoggedIn = () => {
         payload: false
       });
     }
+  };
+};
+
+export const postLogout = () => {
+  localStorage.removeItem('access_token');
+  localStorage.removeItem('user_id');
+
+  return (dispatch) => {
+    dispatch(postLogoutUserSuccess());
   };
 };

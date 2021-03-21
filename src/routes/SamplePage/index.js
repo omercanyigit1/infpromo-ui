@@ -93,7 +93,18 @@ const SamplePage = (props) => {
   const [engagementRate, setEngagementRate] = useState(1);
   const [contactDetails, setContactDetails] = useState(false);
 
-  const {searchList, postSearchAdvanced, isLoggedIn, isLogged, loading, error, total, postGeneratePdf, pdfUrl, user} = props;
+  const {
+    searchList,
+    postSearchAdvanced,
+    isLoggedIn,
+    isLogged,
+    loading,
+    error,
+    total,
+    postGeneratePdf,
+    pdfUrl,
+    user
+  } = props;
 
   function handleNetworkChange(e) {
     setNetwork(e.target.value);
@@ -153,7 +164,7 @@ const SamplePage = (props) => {
       }
     }
 
-    if(user.credit < 1) {
+    if (user.credit < 1) {
       message.error(`Yetersiz Bakiye`);
     } else {
       postSearchAdvanced(data, network);
@@ -162,7 +173,7 @@ const SamplePage = (props) => {
 
   function handleGeneratePdf(id) {
 
-    if(user.credit < 2) {
+    if (user.credit < 2) {
       message.error(`Yetersiz Bakiye`);
     } else {
       postGeneratePdf(id, network);
@@ -281,7 +292,8 @@ const SamplePage = (props) => {
                       </label>
                     </Col>
                     <Col xs={24} md={24}>
-                      <Select allowClear placeholder={"Seçiniz"} style={{width: '100%'}} onChange={handleLanguagesChange}>
+                      <Select allowClear placeholder={"Seçiniz"} style={{width: '100%'}}
+                              onChange={handleLanguagesChange}>
                         {languages}
                       </Select>
                     </Col>
@@ -344,7 +356,8 @@ const SamplePage = (props) => {
                       </label>
                     </Col>
                     <Col xs={24} md={24}>
-                      <Select allowClear placeholder={"Seçiniz"} style={{width: '100%'}} onChange={handleLanguagesChange}>
+                      <Select allowClear placeholder={"Seçiniz"} style={{width: '100%'}}
+                              onChange={handleLanguagesChange}>
                         {languages}
                       </Select>
                     </Col>
@@ -393,7 +406,8 @@ const SamplePage = (props) => {
                       </label>
                     </Col>
                     <Col xs={24} md={24}>
-                      <Select allowClear placeholder={"Seçiniz"} style={{width: '100%'}} onChange={handleLanguagesChange}>
+                      <Select allowClear placeholder={"Seçiniz"} style={{width: '100%'}}
+                              onChange={handleLanguagesChange}>
                         {languages}
                       </Select>
                     </Col>
@@ -450,58 +464,62 @@ const SamplePage = (props) => {
         </Card>
 
         <div>
-          {searchList.length > 0 &&
-          <div className={"list-header-item"}>
-            <Row>
-              <Col span={24}>
-                <div style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  marginBottom: 30,
-                  marginTop: 10
-                }}>
-                  <SortDescendingOutlined/>
-                  <span style={{marginLeft: 5}}>Sıralama: </span>
-                  <Select defaultValue={"1"} placeholder={"Sıralama"} style={{width: 150, marginLeft: 5}}
-                          onChange={handleSortChange}>
-                    <Option value="1">Seçiniz</Option>
-                    <Option value="2">Takipçi Sayısı</Option>
-                    <Option value="3">Etkileşim Oranı</Option>
-                  </Select>
-                  <hr/>
-                </div>
-              </Col>
-            </Row>
-            <Row>
-              <Col xs={12} md={9}>
-                <p style={{marginBottom: 0}}><b>{total}</b> adet influencer bulundu.</p>
-              </Col>
-              <Col xs={12} md={4}>
-                <p style={{marginBottom: 0}}>Takipçi Oranı</p>
-              </Col>
-              <Col xs={12} md={11}>
-                <p style={{marginBottom: 0}}>Etkileşim (Etkileşim Oranı %)</p>
-              </Col>
-            </Row>
-          </div>
+          {
+            searchList &&
+            <div className={"list-header-item"}>
+              <Row>
+                <Col span={24}>
+                  <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    marginBottom: 30,
+                    marginTop: 10
+                  }}>
+                    <SortDescendingOutlined/>
+                    <span style={{marginLeft: 5}}>Sıralama: </span>
+                    <Select defaultValue={"1"} placeholder={"Sıralama"} style={{width: 150, marginLeft: 5}}
+                            onChange={handleSortChange}>
+                      <Option value="1">Seçiniz</Option>
+                      <Option value="2">Takipçi Sayısı</Option>
+                      <Option value="3">Etkileşim Oranı</Option>
+                    </Select>
+                    <hr/>
+                  </div>
+                </Col>
+              </Row>
+              <Row>
+                <Col xs={12} md={9}>
+                  <p style={{marginBottom: 0}}><b>{total}</b> adet influencer bulundu.</p>
+                </Col>
+                <Col xs={12} md={4}>
+                  <p style={{marginBottom: 0}}>Takipçi Oranı</p>
+                </Col>
+                <Col xs={12} md={11}>
+                  <p style={{marginBottom: 0}}>Etkileşim (Etkileşim Oranı %)</p>
+                </Col>
+              </Row>
+            </div>
           }
-          {searchList.length > 0 && searchList.map((item) => {
-            return (
-              <CardList key={item.userId}
-                        url={item.profile.url}
-                        avatar={item.profile.picture}
-                        name={item.profile.fullname}
-                        userName={item.profile.username}
-                        follower={item.profile.followers}
-                        engagement={item.profile.engagements}
-                        engagementRate={parseFloat(item.profile.engagementRate).toFixed(1)}
-                        onClick={() => {
-                          handleGeneratePdf(item.userId)
-                        }}
-                        pdfUrl={pdfUrl}
-              />
-            )
-          })}
+          {
+            searchList && searchList.map((item) => {
+              return (
+                <CardList key={item.userId}
+                          url={item.profile.url}
+                          avatar={item.profile.picture}
+                          name={item.profile.fullname}
+                          userName={item.profile.username}
+                          follower={item.profile.followers}
+                          engagement={item.profile.engagements}
+                          engagementRate={parseFloat(item.profile.engagementRate).toFixed(1)}
+                          onClick={() => {
+                            handleGeneratePdf(item.userId)
+                          }}
+                          pdfUrl={pdfUrl}
+                />
+              )
+            })
+
+          }
           {searchList === {} &&
           <h3>Lütfen Filtreleme Seçeneğini kullanın!</h3>
           }

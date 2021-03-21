@@ -5,10 +5,8 @@ import App from "./containers/App";
 import LandingApp from "./containers/LandingApp";
 import {connect} from "react-redux";
 
-const tokenFirst = localStorage.getItem('access_token');
-
 const WrapperApp = (props) => {
-  const {isLoggedIn, token, isLogged, user} = props;
+  const {isLoggedIn, isLogged} = props;
 
   useEffect(() => {
     isLoggedIn();

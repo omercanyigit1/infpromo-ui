@@ -5,6 +5,7 @@ import {
   REGISTER_USER_FAILED,
   REGISTER_USER_REQUEST,
   REGISTER_USER_SUCCESS,
+  LOGOUT_USER_SUCCESS,
   LOGGED_IN,
   NOT_LOGGED_IN,
 } from "../../../constants/ActionTypes";
@@ -12,6 +13,7 @@ import {
 const initialState = {
   user: {},
   token: '',
+  user_id: '',
   isLogged: false,
   loading: false,
   error: null,
@@ -34,7 +36,8 @@ export default (state = initialState, action) => {
         loading: false,
         isLogged: true,
         user: action.payload.user,
-        token: action.payload.token
+        token: action.payload.token,
+        user_id: action.payload._id
       };
     case LOGIN_USER_FAILED:
       return {
@@ -42,7 +45,7 @@ export default (state = initialState, action) => {
         loading: false,
         isLogged: false,
         error: 'Invalid User',
-        user: []
+        user: {}
       };
     case REGISTER_USER_REQUEST:
       return {
@@ -61,7 +64,14 @@ export default (state = initialState, action) => {
         ...state,
         loading: false,
         error: 'Geçersiz Kullanıcı',
-        user: []
+        user: {}
+      };
+    case LOGOUT_USER_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        token: null,
+        user_id: null
       };
     case LOGGED_IN:
       return {

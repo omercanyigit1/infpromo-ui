@@ -1,6 +1,5 @@
 import React from 'react';
 import {Row, Col} from 'antd';
-import {Link} from 'react-router-dom';
 
 const CardList = ({avatar, name, userName, follower, url, engagement, engagementRate, onClick, pdfUrl}) => {
   return (

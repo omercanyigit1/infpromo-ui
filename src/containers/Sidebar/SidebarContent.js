@@ -1,6 +1,6 @@
 import React, {useEffect} from "react";
 import {Menu, Button} from "antd";
-import {Link} from "react-router-dom";
+import {Link, useHistory} from "react-router-dom";
 import {LogoutOutlined} from '@ant-design/icons';
 
 import CustomScrollbars from "util/CustomScrollbars";
@@ -14,11 +14,12 @@ import {
 } from "../../constants/ThemeSetting";
 import IntlMessages from "../../util/IntlMessages";
 import {useSelector, connect} from "react-redux";
-import {getUser, isLoggedIn} from '../../appRedux/actions';
+import {getUser, isLoggedIn, postLogout} from '../../appRedux/actions';
 
 const SidebarContent = (props) => {
+  let history = useHistory();
 
-  const {sidebarCollapsed, setSidebarCollapsed, user, getUser, isLoggedIn, credit, creditLoaded} = props;
+  const {sidebarCollapsed, setSidebarCollapsed, user, getUser, isLoggedIn, credit, creditLoaded, postLogout} = props;
 
   let {navStyle, themeType} = useSelector(({settings}) => settings);
   let {pathname} = useSelector(({common}) => common);
@@ -29,6 +30,13 @@ const SidebarContent = (props) => {
     }
     return "";
   };
+
+  function handleLogout() {
+    //postLogout();
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('user_id');
+    history.push('/');
+  }
 
   useEffect(() => {
     getUser()
@@ -80,8 +88,7 @@ const SidebarContent = (props) => {
 
         <div className={"sidebar-bottom"}>
           <p>Kredim: {user.credit}</p>
-          <Button type={"link"} icon={<LogoutOutlined/>}
-                  style={{width: '100%', textAlign: 'left', color: '#fff', marginBottom: 15}}>
+          <Button type={"link"} icon={<LogoutOutlined/>} style={{width: '100%', textAlign: 'left', color: '#fff', marginBottom: 15}} onClick={handleLogout}>
             Çıkış
           </Button>
         </div>
@@ -100,5 +107,5 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, {getUser, isLoggedIn})(SidebarContent);
+export default connect(mapStateToProps, {getUser, isLoggedIn, postLogout})(SidebarContent);
 
