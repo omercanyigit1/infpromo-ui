@@ -1,42 +1,41 @@
 import {
-  LOGIN_USER_FAILED,
-  LOGIN_USER_REQUEST,
-  LOGIN_USER_SUCCESS,
-  REGISTER_USER_FAILED,
-  REGISTER_USER_REQUEST,
-  REGISTER_USER_SUCCESS,
+  FETCH_USER_FAILED,
+  FETCH_USER_REQUEST,
+  FETCH_USER_SUCCESS,
   LOGGED_IN,
   NOT_LOGGED_IN,
+  POST_PAYMENT_REQUEST,
+  POST_PAYMENT_SUCCESS,
+  POST_PAYMENT_FAILED,
 } from "../../../constants/ActionTypes";
 
 const initialState = {
-  user: {},
-  token: '',
   isLogged: false,
   loading: false,
   error: null,
   message: '',
-  isCreated: false,
+  user: {},
+  isPayment: false,
+  credit: null
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case LOGIN_USER_REQUEST:
+    case FETCH_USER_REQUEST:
       return {
         ...state,
         loading: true,
         isLogged: false,
         error: null
       };
-    case LOGIN_USER_SUCCESS:
+    case FETCH_USER_SUCCESS:
       return {
         ...state,
         loading: false,
         isLogged: true,
-        user: action.payload.user,
-        token: action.payload.token
+        user: action.payload.userPublic,
       };
-    case LOGIN_USER_FAILED:
+    case FETCH_USER_FAILED:
       return {
         ...state,
         loading: false,
@@ -44,24 +43,26 @@ export default (state = initialState, action) => {
         error: 'Invalid User',
         user: []
       };
-    case REGISTER_USER_REQUEST:
+    case POST_PAYMENT_REQUEST:
       return {
         ...state,
         loading: true,
-        error: null
+        error: null,
+        credit: null
       };
-    case REGISTER_USER_SUCCESS:
+    case POST_PAYMENT_SUCCESS:
       return {
         ...state,
         loading: false,
-        isCreated: action.payload.isCreated
+        isPayment: action.payload.isPayment,
+        credit: action.payload.credit
       };
-    case REGISTER_USER_FAILED:
+    case POST_PAYMENT_FAILED:
       return {
         ...state,
         loading: false,
-        error: 'Geçersiz Kullanıcı',
-        user: []
+        error: 'Invalid User',
+        isPayment: false,
       };
     case LOGGED_IN:
       return {

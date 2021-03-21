@@ -1,0 +1,288 @@
+{
+  "interests": [
+    {
+      "name": "Clothes, Shoes, Handbags & Accessories",
+      "id": 13
+    },
+    {
+      "name": "Friends, Family & Relationships",
+      "id": 1708
+    },
+    {
+      "name": "Camera & Photography",
+      "id": 11
+    },
+    {
+      "name": "Restaurants, Food & Grocery",
+      "id": 139
+    },
+    {
+      "name": "Travel, Tourism & Aviation",
+      "id": 43
+    },
+    {
+      "name": "Toys, Children & Baby",
+      "id": 190
+    },
+    {
+      "name": "Beauty & Cosmetics",
+      "id": 80
+    },
+    {
+      "name": "Music",
+      "id": 3
+    },
+    {
+      "name": "Television & Film",
+      "id": 1
+    },
+    {
+      "name": "Electronics & Computers",
+      "id": 25
+    },
+    {
+      "name": "Sports",
+      "id": 21
+    },
+    {
+      "name": "Art & Design",
+      "id": 36
+    },
+    {
+      "name": "Cars & Motorbikes",
+      "id": 1826
+    },
+    {
+      "name": "Fitness & Yoga",
+      "id": 196
+    },
+    {
+      "name": "Pets",
+      "id": 673
+    },
+    {
+      "name": "Shopping & Retail",
+      "id": 7
+    },
+    {
+      "name": "Coffee, Tea & Beverages",
+      "id": 9
+    },
+    {
+      "name": "Healthy Lifestyle",
+      "id": 798
+    },
+    {
+      "name": "Activewear",
+      "id": 33
+    },
+    {
+      "name": "Luxury Goods",
+      "id": 1500
+    }
+  ],
+  "languages": [
+    {
+      "code": "en",
+      "name": "English",
+      "count": 79842810
+    },
+    {
+      "code": "es",
+      "name": "Spanish",
+      "count": 51443191
+    },
+    {
+      "code": "pt",
+      "name": "Portuguese",
+      "count": 49020894
+    },
+    {
+      "code": "ru",
+      "name": "Russian",
+      "count": 36616585
+    },
+    {
+      "code": "fr",
+      "name": "French",
+      "count": 35588239
+    },
+    {
+      "code": "ar",
+      "name": "Arabic",
+      "count": 34145981
+    },
+    {
+      "code": "it",
+      "name": "Italian",
+      "count": 28652776
+    },
+    {
+      "code": "de",
+      "name": "German",
+      "count": 26725294
+    },
+    {
+      "code": "fa",
+      "name": "Persian",
+      "count": 22743528
+    },
+    {
+      "code": "id",
+      "name": "Indonesian",
+      "count": 22220943
+    },
+    {
+      "code": "tr",
+      "name": "Turkish",
+      "count": 21741207
+    },
+    {
+      "code": "ja",
+      "name": "Japanese",
+      "count": 11002626
+    },
+    {
+      "code": "pl",
+      "name": "Polish",
+      "count": 9875139
+    },
+    {
+      "code": "zh",
+      "name": "Chinese",
+      "count": 6864794
+    },
+    {
+      "code": "th",
+      "name": "Thai",
+      "count": 6736537
+    },
+    {
+      "code": "hi",
+      "name": "Hindi",
+      "count": 5020969
+    },
+    {
+      "code": "ko",
+      "name": "Korean",
+      "count": 4911357
+    },
+    {
+      "code": "ms",
+      "name": "Malay",
+      "count": 4645528
+    },
+    {
+      "code": "nl",
+      "name": "Dutch",
+      "count": 4360988
+    },
+    {
+      "code": "uk",
+      "name": "Ukrainian",
+      "count": 4312603
+    }
+  ],
+  "locations": [
+    {
+      "id": 2202162,
+      "name": "France",
+      "title": "France"
+    },
+    {
+      "id": 148838,
+      "name": "United States",
+      "title": "United States"
+    },
+    {
+      "id": 59470,
+      "name": "Brazil",
+      "title": "Brazil"
+    },
+    {
+      "id": 365331,
+      "name": "Italy",
+      "title": "Italy"
+    },
+    {
+      "id": 51477,
+      "name": "Germany",
+      "title": "Germany"
+    },
+    {
+      "id": 304716,
+      "name": "India",
+      "title": "India"
+    },
+    {
+      "id": 60189,
+      "name": "Russia",
+      "title": "Russia"
+    },
+    {
+      "id": 1428125,
+      "name": "Canada",
+      "title": "Canada"
+    },
+    {
+      "id": 1376330,
+      "name": "Mexico City",
+      "title": "Mexico City, Mexico"
+    },
+    {
+      "id": 80500,
+      "name": "Australia",
+      "title": "Australia"
+    },
+    {
+      "id": 62149,
+      "name": "United Kingdom",
+      "title": "United Kingdom"
+    },
+    {
+      "id": 304938,
+      "name": "Iran",
+      "title": "Iran"
+    },
+    {
+      "id": 192307,
+      "name": "Greece",
+      "title": "Greece"
+    },
+    {
+      "id": 1311341,
+      "name": "Spain",
+      "title": "Spain"
+    },
+    {
+      "id": 382313,
+      "name": "Japan",
+      "title": "Japan"
+    },
+    {
+      "id": 51800,
+      "name": "London",
+      "title": "London, United Kingdom"
+    },
+    {
+      "id": 49715,
+      "name": "Poland",
+      "title": "Poland"
+    },
+    {
+      "id": 286393,
+      "name": "Argentina",
+      "title": "Argentina"
+    },
+    {
+      "id": 175905,
+      "name": "New York City",
+      "title": "New York City, New York, United States"
+    },
+    {
+      "id": 114686,
+      "name": "Mexico",
+      "title": "Mexico"
+    }
+  ]
+}

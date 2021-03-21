@@ -2,7 +2,7 @@ import React, {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import URLSearchParams from 'url-search-params'
 import {Redirect, Route} from "react-router-dom";
-import { ConfigProvider } from 'antd';
+import {ConfigProvider} from 'antd';
 import {IntlProvider} from "react-intl";
 
 import AppLocale from "lngProvider";
@@ -79,11 +79,10 @@ const App = (props) => {
   if (themeType === THEME_TYPE_DARK) {
     document.body.classList.add('dark-theme');
   }
-  //**
-  // if (location.pathname === '/') {
-  //     return (<Redirect to={'/'}/>);
-  //   }
-  // *//
+
+  if (location.pathname === '/') {
+    return (<Redirect to={'/search'}/>);
+  }
 
   setLayoutType(layoutType);
 

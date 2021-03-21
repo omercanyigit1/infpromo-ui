@@ -1,5 +1,5 @@
 import React from 'react';
-import {Card} from 'antd';
+import {Card, Input} from 'antd';
 
 const AccountPage = (props) => {
   return (
@@ -14,6 +14,10 @@ const AccountPage = (props) => {
       </div>
 
       <Card title={"Hesabım"}>
+
+        <div>
+          <p><b>Email: </b> canygt27@gmail.com</p>
+        </div>
 
       </Card>
     </div>

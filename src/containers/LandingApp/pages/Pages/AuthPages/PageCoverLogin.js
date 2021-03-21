@@ -1,6 +1,6 @@
 // React Basic and Bootstrap
 import React, {useState, useEffect} from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, Redirect } from "react-router-dom";
 import {
   Container,
   Row,
@@ -33,7 +33,7 @@ const PageCoverLogin = (props) => {
   const [, forceUpdate] = useState();
 
   //props
-  const {postLoginUser, isLogged, isLoggedIn, user} = props;
+  const {postLoginUser, isLogged, isLoggedIn, user, error} = props;
 
   function handleEmailChange(e) {
     setEmail(e.target.value);
@@ -50,15 +50,20 @@ const PageCoverLogin = (props) => {
       password: password
     }
 
-    postLoginUser(values)
+    postLoginUser(values);
+
+    if(!error) {
+      props.history.push('/');
+    }
   };
 
   useEffect(() => {
     forceUpdate({});
 
     if(isLogged === true) {
-      //history.push('/');
-      console.log(history);
+      return (
+        <Redirect to="/search" />
+      )
     }
 
   }, [email, password, isLoggedIn, isLogged, user]);
@@ -108,18 +113,18 @@ const PageCoverLogin = (props) => {
                                   className="form-control pl-5"
                                   name="email"
                                   id="email"
-                                  placeholder="Enter Email"
+                                  placeholder="Email Giriniz"
                                   required
                                   errorMessage=""
                                   validate={{
                                     required: {
                                       value: true,
-                                      errorMessage: "Please enter your email",
+                                      errorMessage: "Lütfen email adresinizi giriniz.",
                                     },
                                     pattern: {
                                       value:
                                         "^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$",
-                                      errorMessage: "E-Mail is not valid!",
+                                      errorMessage: "Email adresi geçerli değil!",
                                     },
                                   }}
                                 />
@@ -146,13 +151,13 @@ const PageCoverLogin = (props) => {
                                   className="form-control pl-5"
                                   name="password"
                                   id="password"
-                                  placeholder="Enter password"
+                                  placeholder="Parola Giriniz"
                                   required
                                   errorMessage=""
                                   validate={{
                                     required: {
                                       value: true,
-                                      errorMessage: "Please enter Password",
+                                      errorMessage: "Lütfen parolanızı giriniz.",
                                     },
                                     minLength: {
                                       value: 6,
@@ -240,7 +245,7 @@ const PageCoverLogin = (props) => {
 const mapStateToProps = (state) => {
 
   return {
-    user: state.auth.user,
+    user: state.user.user,
     token: state.auth.token,
     loading: state.auth.loading,
     error: state.auth.error,

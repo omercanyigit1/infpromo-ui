@@ -8,24 +8,24 @@ import {connect} from "react-redux";
 const tokenFirst = localStorage.getItem('access_token');
 
 const WrapperApp = (props) => {
-  const {token, isLogged} = props;
+  const {isLoggedIn, token, isLogged, user} = props;
 
   useEffect(() => {
-    console.log(token);
+    isLoggedIn();
   }, [isLoggedIn, isLogged])
 
-  if(token || tokenFirst) {
+  if(isLogged) {
     return (
       <Switch>
-        <Route path="/" component={App}/>
+        <Route path="/" component={App} />
       </Switch>
     )
   }
 
-  if(!token || !tokenFirst) {
+  if(!isLogged) {
     return (
       <Switch>
-        <Route path={`/`} component={LandingApp}/>
+        <Route path={`/`} component={LandingApp} />
       </Switch>
     )
   }
@@ -34,7 +34,7 @@ const WrapperApp = (props) => {
 const mapStateToProps = (state) => {
 
   return {
-    user: state.auth.user,
+    user: state.user.user,
     token: state.auth.token,
     isLogged: state.auth.isLogged
   }

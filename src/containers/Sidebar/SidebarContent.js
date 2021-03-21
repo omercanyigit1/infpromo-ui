@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {Menu, Button} from "antd";
 import {Link} from "react-router-dom";
 import {LogoutOutlined} from '@ant-design/icons';
@@ -13,12 +13,12 @@ import {
   THEME_TYPE_LITE
 } from "../../constants/ThemeSetting";
 import IntlMessages from "../../util/IntlMessages";
-import {useSelector} from "react-redux";
+import {useSelector, connect} from "react-redux";
+import {getUser, isLoggedIn} from '../../appRedux/actions';
 
-const name = localStorage.getItem('user_name');
-const surName = localStorage.getItem('user_surName');
+const SidebarContent = (props) => {
 
-const SidebarContent = ({sidebarCollapsed, setSidebarCollapsed}) => {
+  const {sidebarCollapsed, setSidebarCollapsed, user, getUser, isLoggedIn, credit, creditLoaded} = props;
 
   let {navStyle, themeType} = useSelector(({settings}) => settings);
   let {pathname} = useSelector(({common}) => common);
@@ -29,12 +29,11 @@ const SidebarContent = ({sidebarCollapsed, setSidebarCollapsed}) => {
     }
     return "";
   };
-  // const getNavStyleSubMenuClass = (navStyle) => {
-  //   if (navStyle === NAV_STYLE_NO_HEADER_MINI_SIDEBAR) {
-  //     return "gx-no-header-submenu-popup";
-  //   }
-  //   return "";
-  // };
+
+  useEffect(() => {
+    getUser()
+  }, [credit, creditLoaded, getUser])
+
   const selectedKeys = pathname.substr(1);
   const defaultOpenKeys = selectedKeys.split('/')[1];
   return (
@@ -42,7 +41,7 @@ const SidebarContent = ({sidebarCollapsed, setSidebarCollapsed}) => {
       <SidebarLogo sidebarCollapsed={sidebarCollapsed} setSidebarCollapsed={setSidebarCollapsed}/>
       <div className="gx-sidebar-content">
         <div className={`gx-sidebar-notifications ${getNoHeaderClass(navStyle)}`}>
-          <UserProfile name={name} surName={surName} />
+          <UserProfile name={user.name} surName={user.surName}/>
         </div>
         <CustomScrollbars className="gx-layout-sider-scrollbar">
           <Menu
@@ -80,8 +79,9 @@ const SidebarContent = ({sidebarCollapsed, setSidebarCollapsed}) => {
         </CustomScrollbars>
 
         <div className={"sidebar-bottom"}>
-          <p>Kredim: 90</p>
-          <Button type={"link"} icon={<LogoutOutlined />} style={{width: '100%', textAlign: 'left', color: '#fff', marginBottom: 15}}>
+          <p>Kredim: {user.credit}</p>
+          <Button type={"link"} icon={<LogoutOutlined/>}
+                  style={{width: '100%', textAlign: 'left', color: '#fff', marginBottom: 15}}>
             Çıkış
           </Button>
         </div>
@@ -90,6 +90,15 @@ const SidebarContent = ({sidebarCollapsed, setSidebarCollapsed}) => {
   );
 };
 
-SidebarContent.propTypes = {};
-export default SidebarContent;
+const mapStateToProps = (state) => {
+  return {
+    loading: state.user.loading,
+    user: state.user.user,
+    error: state.list.error,
+    credit: state.list.credit,
+    creditLoaded: state.user.credit
+  }
+}
+
+export default connect(mapStateToProps, {getUser, isLoggedIn})(SidebarContent);
 
