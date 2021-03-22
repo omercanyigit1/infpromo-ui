@@ -1,5 +1,5 @@
 import React from 'react';
-import {Row, Col} from 'antd';
+import {Row, Col, Statistic} from 'antd';
 
 const CardList = ({avatar, name, userName, follower, url, engagement, engagementRate, onClick, pdfUrl}) => {
   return (
@@ -13,13 +13,17 @@ const CardList = ({avatar, name, userName, follower, url, engagement, engagement
           <a href={`${url}`} target={"_blank"}>@{userName}</a>
         </Col>
         <Col xs={12} md={4}>
-          <h4 className={"gx-mb-0"}>{follower}k</h4>
+          <h4 className={"gx-mb-0"}>
+            <Statistic value={follower} />
+          </h4>
           <p className="text-muted">
             Takipçi
           </p>
         </Col>
         <Col xs={12} md={5}>
-          <h4 className={"gx-mb-0"}>{engagement} <small>({engagementRate} %)</small></h4>
+          <h4 className={"gx-mb-0"}>
+            <Statistic value={engagement} suffix={`(${engagementRate} %)`}/>
+          </h4>
           <p className="gx-text-grey">
             Etkileşimler ve Oranı
           </p>

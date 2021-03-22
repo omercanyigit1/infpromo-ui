@@ -5,6 +5,9 @@ import {
   POST_PAYMENT_REQUEST,
   POST_PAYMENT_SUCCESS,
   POST_PAYMENT_FAILED,
+  UPDATE_USER_REQUEST,
+  UPDATE_USER_SUCCESS,
+  UPDATE_USER_FAILED,
   API_URL,
 } from "../../../constants/ActionTypes";
 import axios from 'axios';
@@ -59,6 +62,20 @@ export const postPaymentSuccess = (data) => ({
   payload: data,
 });
 
+export const updateUserRequest = () => ({
+  type: UPDATE_USER_REQUEST
+});
+
+export const updateUserFailed = error => ({
+  type: UPDATE_USER_FAILED,
+  payload: error
+});
+
+export const updateUserSuccess = (data) => ({
+  type: UPDATE_USER_SUCCESS,
+  payload: data,
+});
+
 export const getUser = () => {
 
   return dispatch => {
@@ -107,6 +124,37 @@ export const postPayment = (data) => {
           //console.log(response.data.data);
         }).catch((error) => {
           dispatch(postPaymentFailed(error.response));
+        });
+      });
+    });
+  };
+};
+
+export const updateUser = (data) => {
+
+  console.log(data);
+
+  return dispatch => {
+
+    _retrieveDataId().then((id) => {
+      _retrieveData().then((token) => {
+
+        const axiosConfig = {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': "application/json",
+            'Access-Control-Allow-Origin': '*/*',
+            'Access-Control-Allow-Methods': 'POST, PUT, GET, OPTIONS, DELETE, PATCH'
+          }
+        };
+
+        dispatch(updateUserRequest());
+
+        axios.put(`${API_URL}/users/${id}`,data, axiosConfig).then((response) => {
+          dispatch(updateUserSuccess(response.data));
+          //console.log(response.data.data);
+        }).catch((error) => {
+          dispatch(updateUserFailed(error.response));
         });
       });
     });

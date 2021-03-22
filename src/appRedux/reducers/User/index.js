@@ -7,6 +7,9 @@ import {
   POST_PAYMENT_REQUEST,
   POST_PAYMENT_SUCCESS,
   POST_PAYMENT_FAILED,
+  UPDATE_USER_FAILED,
+  UPDATE_USER_REQUEST,
+  UPDATE_USER_SUCCESS
 } from "../../../constants/ActionTypes";
 
 const initialState = {
@@ -41,7 +44,7 @@ export default (state = initialState, action) => {
         loading: false,
         isLogged: false,
         error: 'Invalid User',
-        user: []
+        user: {}
       };
     case POST_PAYMENT_REQUEST:
       return {
@@ -63,6 +66,24 @@ export default (state = initialState, action) => {
         loading: false,
         error: 'Invalid User',
         isPayment: false,
+      };
+    case UPDATE_USER_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        error: null
+      };
+    case UPDATE_USER_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        user: action.payload.user,
+      };
+    case UPDATE_USER_FAILED:
+      return {
+        ...state,
+        loading: false,
+        error: 'Kullanıcı Güncellenemedi.',
       };
     case LOGGED_IN:
       return {
