@@ -1,9 +1,11 @@
 import React from "react";
 import {Route, Switch} from "react-router-dom";
-
 import asyncComponent from "util/asyncComponent";
+import {isLoggedIn} from "../appRedux/actions";
+import {connect} from 'react-redux';
 
 const App = ({match}) => {
+
   return (
     <div className="gx-main-content-wrapper">
       <Switch>
@@ -15,4 +17,10 @@ const App = ({match}) => {
   )
 };
 
-export default App;
+const mapStateToProps = (state) => {
+  return {
+    isLogged: state.auth.isLogged
+  }
+}
+
+export default connect(mapStateToProps, {isLoggedIn})(App);

@@ -4,7 +4,6 @@ import URLSearchParams from 'url-search-params'
 import {Redirect, Route} from "react-router-dom";
 import {ConfigProvider} from 'antd';
 import {IntlProvider} from "react-intl";
-
 import AppLocale from "lngProvider";
 import MainApp from "./MainApp";
 import {onLayoutTypeChange, onNavStyleChange, setThemeType} from "../../appRedux/actions/Setting";
@@ -22,7 +21,6 @@ import {
 } from "../../constants/ThemeSetting";
 
 const App = (props) => {
-
   const {match, location} = props;
 
   const dispatch = useDispatch();

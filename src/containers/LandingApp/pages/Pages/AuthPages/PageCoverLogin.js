@@ -1,6 +1,6 @@
 // React Basic and Bootstrap
 import React, {useState, useEffect} from "react";
-import { Link, useHistory, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
   Container,
   Row,
@@ -15,7 +15,8 @@ import {
 import { AvForm, AvField } from "availity-reactstrap-validation";
 import {connect} from 'react-redux';
 import {postLoginUser, isLoggedIn} from '../../../../../appRedux/actions/';
-import moment from 'moment';
+//import moment from 'moment';
+import {Alert} from 'antd';
 
 //Import Icons
 import FeatherIcon from "feather-icons-react";
@@ -25,7 +26,7 @@ import user01 from "../../../assets/images/user/01.jpg";
 
 const PageCoverLogin = (props) => {
 
-  let history = useHistory();
+  //let history = useHistory();
 
   //states
   const [email, setEmail] = useState('');
@@ -51,22 +52,12 @@ const PageCoverLogin = (props) => {
     }
 
     postLoginUser(values);
-
-    if(!error) {
-      props.history.push('/');
-    }
   };
 
   useEffect(() => {
     forceUpdate({});
 
-    if(isLogged === true) {
-      return (
-        <Redirect to="/search" />
-      )
-    }
-
-  }, [email, password, isLoggedIn, isLogged, user]);
+  }, [email, password, isLoggedIn, isLogged, user, error]);
 
   return (
     <React.Fragment>
@@ -91,6 +82,15 @@ const PageCoverLogin = (props) => {
                     >
                       <CardBody className="p-0">
                         <h4 className="card-title text-center">Giriş</h4>
+                        {error &&
+                        <Alert
+                          message="Hata!"
+                          description={`${error}`}
+                          type="error"
+                          closable
+                        />
+                        }
+
                         <AvForm className="llogin-form mt-4">
                           <Row>
                             <Col lg={12}>

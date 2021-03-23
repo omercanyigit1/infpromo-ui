@@ -2,13 +2,13 @@ import React from "react";
 import {Layout} from "antd";
 
 import Sidebar from "../Sidebar/index";
-import HorizontalDefault from "../Topbar/HorizontalDefault/index";
+/**import HorizontalDefault from "../Topbar/HorizontalDefault/index";
 import HorizontalDark from "../Topbar/HorizontalDark/index";
 import InsideHeader from "../Topbar/InsideHeader/index";
 import AboveHeader from "../Topbar/AboveHeader/index";
-import BelowHeader from "../Topbar/BelowHeader/index";
+import BelowHeader from "../Topbar/BelowHeader/index";**/
 
-import Topbar from "../Topbar/index";
+//import Topbar from "../Topbar/index";
 import {footerText} from "util/config";
 import App from "routes/index";
 import {useSelector} from "react-redux";
@@ -17,14 +17,14 @@ import {
   NAV_STYLE_BELOW_HEADER,
   NAV_STYLE_DARK_HORIZONTAL,
   NAV_STYLE_DEFAULT_HORIZONTAL,
-  NAV_STYLE_DRAWER,
-  NAV_STYLE_FIXED,
+  //NAV_STYLE_DRAWER,
+  //NAV_STYLE_FIXED,
   NAV_STYLE_INSIDE_HEADER_HORIZONTAL,
-  NAV_STYLE_MINI_SIDEBAR,
-  NAV_STYLE_NO_HEADER_EXPANDED_SIDEBAR,
-  NAV_STYLE_NO_HEADER_MINI_SIDEBAR
+  //NAV_STYLE_MINI_SIDEBAR,
+  //NAV_STYLE_NO_HEADER_EXPANDED_SIDEBAR,
+  //NAV_STYLE_NO_HEADER_MINI_SIDEBAR
 } from "../../constants/ThemeSetting";
-import NoHeaderNotification from "../Topbar/NoHeaderNotification/index";
+//import NoHeaderNotification from "../Topbar/NoHeaderNotification/index";
 
 const {Content, Footer} = Layout;
 
@@ -48,7 +48,8 @@ const MainApp = (props) => {
         return ""
     }
   };
-  const getNavStyles = (navStyle) => {
+  /**
+   * const getNavStyles = (navStyle) => {
     switch (navStyle) {
       case NAV_STYLE_DEFAULT_HORIZONTAL :
         return <HorizontalDefault/>;
@@ -73,7 +74,7 @@ const MainApp = (props) => {
       default :
         return null;
     }
-  };
+  };*/
 
   const {match} = props;
 

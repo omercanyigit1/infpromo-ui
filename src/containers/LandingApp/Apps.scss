@@ -8,6 +8,11 @@ body {
   overflow-y: scroll !important;
 }
 
+.ant-form-item-label > label {
+  float: left;
+  font-weight: bold;
+}
+
 //Import Dark RTL mode
 // @import './assets/scss2/style-dark-rtl.scss';
 

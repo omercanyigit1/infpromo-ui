@@ -6,6 +6,8 @@ import {
   BrowserRouter as Router,
   withRouter,
 } from "react-router-dom";
+import {isLoggedIn} from "../../appRedux/actions";
+import {connect} from 'react-redux';
 
 // Import Css
 import "./assets/css/materialdesignicons.min.css";
@@ -42,7 +44,13 @@ class LandingApp extends Component {
       </div>
     );
   };
+
+  componentWillMount() {
+
+  }
+
   render() {
+
     return (
       <React.Fragment>
         <Router>
@@ -73,4 +81,11 @@ class LandingApp extends Component {
   }
 }
 
-export default withRouter(LandingApp);
+const mapStateToProps = (state) => {
+  return {
+    loading: state.auth.loading,
+    isLogged: state.auth.isLogged
+  }
+}
+
+export default connect(mapStateToProps, {isLoggedIn})(withRouter(LandingApp));

@@ -1,16 +1,31 @@
 import React, {useEffect} from "react";
 import {isLoggedIn} from "./appRedux/actions";
-import {Route, Switch} from "react-router-dom";
+import {Route, Switch, useHistory} from "react-router-dom";
 import App from "./containers/App";
 import LandingApp from "./containers/LandingApp";
 import {connect} from "react-redux";
 
 const WrapperApp = (props) => {
   const {isLoggedIn, isLogged} = props;
+  const history = useHistory();
 
   useEffect(() => {
     isLoggedIn();
-  }, [isLoggedIn, isLogged])
+
+    if(isLogged === false) {
+      if(window.location.pathname === '/search' || window.location.pathname === '/account' || window.location.pathname === '/credit') {
+        history.push('/');
+        history.go(0);
+      }
+    }
+
+    if(isLogged === true) {
+      if(window.location.pathname === '/login' || window.location.pathname === '/register' || window.location.pathname === '/forget-password') {
+        history.push('/search');
+      }
+    }
+
+  }, [isLoggedIn, isLogged, history])
 
   if(isLogged) {
     return (

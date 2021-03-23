@@ -56,8 +56,6 @@ export const postLoginUser = (user) => {
     "password": `${user.password}`
   };
 
-  console.log("data:", data);
-
   return dispatch => {
     dispatch(postLoginUserRequest());
     axios.post(`${API_URL}/users/login`, data).then((response) => {
@@ -65,7 +63,7 @@ export const postLoginUser = (user) => {
       localStorage.setItem("user_id", response.data.user._id);
       localStorage.setItem("access_token", response.data.token);
     }).catch((e) => {
-      dispatch(postLoginUserFailed(e))
+      dispatch(postLoginUserFailed(e.response.data));
     })
   }
 };

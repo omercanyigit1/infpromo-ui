@@ -21,7 +21,7 @@ const initialState = {
   isCreated: false,
 };
 
-export default (state = initialState, action) => {
+const AuthReducer = (state = initialState, action) => {
   switch (action.type) {
     case LOGIN_USER_REQUEST:
       return {
@@ -44,7 +44,7 @@ export default (state = initialState, action) => {
         ...state,
         loading: false,
         isLogged: false,
-        error: 'Invalid User',
+        error: action.payload.message,
         user: {}
       };
     case REGISTER_USER_REQUEST:
@@ -70,6 +70,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         loading: false,
+        isLogged: false,
         token: null,
         user_id: null
       };
@@ -87,3 +88,5 @@ export default (state = initialState, action) => {
       return state;
   }
 }
+
+export default AuthReducer;

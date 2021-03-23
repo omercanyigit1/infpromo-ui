@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import {Radio, Card, Select, Row, Col, Tooltip, Input, Spin, Button, message} from 'antd';
+import {Radio, Card, Select, Row, Col, Tooltip, Input, Spin, Button, message, Pagination} from 'antd';
 import {InfoCircleOutlined, SortDescendingOutlined} from '@ant-design/icons';
 import debounce from 'lodash/debounce';
 import CardList from "./components/CardList";
@@ -85,21 +85,19 @@ const CardTitle = ({title, subTitle}) => {
 const SamplePage = (props) => {
   const [value, setValue] = useState([]);
   const [network, setNetwork] = useState('instagram');
-  const [followersFrom, setFollowersFrom] = useState(10000);
-  const [followersTo, setFollowersTo] = useState(5000000);
+  const [followersFrom, setFollowersFrom] = useState(20000);
+  const [followersTo, setFollowersTo] = useState(1000000);
   const [gender, setGender] = useState('');
   const [interest, setInterests] = useState([]);
-  const [language, setLanguages] = useState('tr');
-  const [engagementRate, setEngagementRate] = useState(1);
+  const [language, setLanguages] = useState('en');
+  const [engagementRate, setEngagementRate] = useState(0);
   const [contactDetails, setContactDetails] = useState(false);
+  const [page, setPage] = useState(1);
 
   const {
     searchList,
     postSearchAdvanced,
-    isLoggedIn,
-    isLogged,
     loading,
-    error,
     total,
     postGeneratePdf,
     pdfUrl,
@@ -128,6 +126,7 @@ const SamplePage = (props) => {
 
   function handleLanguagesChange(value) {
     setLanguages(value);
+    //console.log(value);
   }
 
   function handleEngagementRateChange(value) {
@@ -142,6 +141,10 @@ const SamplePage = (props) => {
     console.log(`selected ${value}`);
   }
 
+  function handlePage(value) {
+    setPage(value);
+  }
+
   function handleFilter() {
 
     let data = {
@@ -149,6 +152,7 @@ const SamplePage = (props) => {
         "field": "followers",
         "direction": "desc"
       },
+      "page": page,
       "filter": {
         "influencer": {
           "location": [148838],
@@ -158,8 +162,7 @@ const SamplePage = (props) => {
           },
           "engagementRate": parseInt(engagementRate),
           "language": language,
-          "gender": gender,
-          "interests": interest
+          "gender": gender
         }
       }
     }
@@ -182,7 +185,7 @@ const SamplePage = (props) => {
 
   useEffect(() => {
 
-  }, [searchList, postSearchAdvanced, total, pdfUrl]);
+  }, [searchList, total, pdfUrl]);
 
   return (
     <Spin spinning={loading}>
@@ -419,8 +422,8 @@ const SamplePage = (props) => {
           <Row>
             <Col xs={24} sm={24}>
               <div style={{textAlign: 'right'}} className={"gx-mt-3 gx-mb-3"}>
-                <Button className="btn btn-primary" onClick={handleFilter}>
-                  Filtrele
+                <Button className="btn btn-primary" onClick={handleFilter} disabled={loading} loading={loading}>
+                  {user.credit < 1 ? 'Yetersiz Bakiye' : 'Filtrele'}
                 </Button>
               </div>
             </Col>
@@ -524,7 +527,7 @@ const SamplePage = (props) => {
           <h3>Lütfen Filtreleme Seçeneğini kullanın!</h3>
           }
         </div>
-
+        <Pagination current={page} pageSize={50} total={total} onChange={handlePage} showSizeChanger={false} />
       </div>
     </Spin>
   );

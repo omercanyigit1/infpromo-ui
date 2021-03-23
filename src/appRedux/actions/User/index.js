@@ -132,8 +132,6 @@ export const postPayment = (data) => {
 
 export const updateUser = (data) => {
 
-  console.log(data);
-
   return dispatch => {
 
     _retrieveDataId().then((id) => {
@@ -150,9 +148,8 @@ export const updateUser = (data) => {
 
         dispatch(updateUserRequest());
 
-        axios.put(`${API_URL}/users/${id}`,data, axiosConfig).then((response) => {
+        axios.patch(`${API_URL}/users/${id}`,data, axiosConfig).then((response) => {
           dispatch(updateUserSuccess(response.data));
-          //console.log(response.data.data);
         }).catch((error) => {
           dispatch(updateUserFailed(error.response));
         });

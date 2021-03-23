@@ -11,6 +11,7 @@ import {
   UPDATE_USER_REQUEST,
   UPDATE_USER_SUCCESS
 } from "../../../constants/ActionTypes";
+import _ from 'lodash';
 
 const initialState = {
   isLogged: false,
@@ -22,7 +23,7 @@ const initialState = {
   credit: null
 };
 
-export default (state = initialState, action) => {
+const UserReducer = (state = initialState, action) => {
   switch (action.type) {
     case FETCH_USER_REQUEST:
       return {
@@ -74,16 +75,18 @@ export default (state = initialState, action) => {
         error: null
       };
     case UPDATE_USER_SUCCESS:
+      const newUser = _.extend({}, state.user, action.payload.data.userPublic);
+
       return {
         ...state,
         loading: false,
-        user: action.payload.user,
+        user: newUser
       };
     case UPDATE_USER_FAILED:
       return {
         ...state,
         loading: false,
-        error: 'Kullanıcı Güncellenemedi.',
+        error: 'Kullanıcı Güncellenemedi...',
       };
     case LOGGED_IN:
       return {
@@ -99,3 +102,5 @@ export default (state = initialState, action) => {
       return state;
   }
 }
+
+export default UserReducer;

@@ -1,25 +1,24 @@
 import React, {useEffect} from "react";
 import {Menu, Button} from "antd";
-import {Link, useHistory} from "react-router-dom";
+import {Link} from "react-router-dom";
 import {LogoutOutlined} from '@ant-design/icons';
 
 import CustomScrollbars from "util/CustomScrollbars";
 import SidebarLogo from "./SidebarLogo";
 import UserProfile from "./UserProfile";
-import AppsNavigation from "./AppsNavigation";
+//import AppsNavigation from "./AppsNavigation";
 import {
   NAV_STYLE_NO_HEADER_EXPANDED_SIDEBAR,
   NAV_STYLE_NO_HEADER_MINI_SIDEBAR,
   THEME_TYPE_LITE
 } from "../../constants/ThemeSetting";
-import IntlMessages from "../../util/IntlMessages";
+//import IntlMessages from "../../util/IntlMessages";
 import {useSelector, connect} from "react-redux";
 import {getUser, isLoggedIn, postLogout} from '../../appRedux/actions';
 
 const SidebarContent = (props) => {
-  let history = useHistory();
 
-  const {sidebarCollapsed, setSidebarCollapsed, user, getUser, isLoggedIn, credit, creditLoaded, postLogout} = props;
+  const {sidebarCollapsed, setSidebarCollapsed, user, getUser, credit, creditLoaded, postLogout} = props;
 
   let {navStyle, themeType} = useSelector(({settings}) => settings);
   let {pathname} = useSelector(({common}) => common);
@@ -32,14 +31,12 @@ const SidebarContent = (props) => {
   };
 
   function handleLogout() {
-    //postLogout();
-    localStorage.removeItem('access_token');
-    localStorage.removeItem('user_id');
-    history.push('/');
+    postLogout();
   }
 
   useEffect(() => {
-    getUser()
+    getUser();
+
   }, [credit, creditLoaded, getUser])
 
   const selectedKeys = pathname.substr(1);
@@ -100,6 +97,7 @@ const SidebarContent = (props) => {
 const mapStateToProps = (state) => {
   return {
     loading: state.user.loading,
+    isLogged: state.auth.isLogged,
     user: state.user.user,
     error: state.list.error,
     credit: state.list.credit,

@@ -10,7 +10,7 @@ const CardList = ({avatar, name, userName, follower, url, engagement, engagement
         </Col>
         <Col xs={20} md={7}>
           <h4 className={"gx-mb-0"}>{name}</h4>
-          <a href={`${url}`} target={"_blank"}>@{userName}</a>
+          <a href={`${url}`} target={"_blank"} rel="noreferrer">@{userName}</a>
         </Col>
         <Col xs={12} md={4}>
           <h4 className={"gx-mb-0"}>
@@ -30,7 +30,7 @@ const CardList = ({avatar, name, userName, follower, url, engagement, engagement
         </Col>
         <Col xs={24} md={5}>
           <div className={"text-md-right"}>
-            <a href={`${pdfUrl}`} className="btn btn-secondary" onClick={onClick} download>
+            <a href={`${pdfUrl}`} className="btn btn-secondary" rel="noreferrer" onClick={onClick} download>
               <span>Rapor Al (2 Kredi)</span>
             </a>
           </div>

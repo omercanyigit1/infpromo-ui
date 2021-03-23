@@ -1,6 +1,6 @@
 // React Basic and Bootstrap
 import React, {useEffect, useState} from "react";
-import {Link, useHistory} from "react-router-dom";
+import {Link} from "react-router-dom";
 import {
   Container,
   Row,
@@ -14,7 +14,7 @@ import {
 import {AvForm, AvField} from "availity-reactstrap-validation";
 import {Spin, Result, Button} from 'antd';
 import {connect} from 'react-redux';
-import {postRegisterUser, isLoggedIn, postLoginUser} from '../../../../../appRedux/actions/';
+import {postRegisterUser, isLoggedIn} from '../../../../../appRedux/actions/';
 
 //Import Icons
 import FeatherIcon from "feather-icons-react";
@@ -23,8 +23,6 @@ import FeatherIcon from "feather-icons-react";
 import user02 from "../../../assets/images/user/02.jpg";
 
 const PageCoverSignup = (props) => {
-
-  let history = useHistory();
 
   const {postRegisterUser, isLoggedIn, loading, error, isCreated} = props;
 

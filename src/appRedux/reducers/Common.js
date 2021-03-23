@@ -10,7 +10,7 @@ const INIT_STATE = {
   pathname: '/',
 };
 
-export default (state = INIT_STATE, action) => {
+const CommonReducer = (state = INIT_STATE, action) => {
   switch (action.type) {
     case '@@router/LOCATION_CHANGE': {
       return {
@@ -49,3 +49,5 @@ export default (state = INIT_STATE, action) => {
       return state;
   }
 }
+
+export default CommonReducer;

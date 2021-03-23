@@ -61,6 +61,7 @@
     "react-instantsearch": "^6.8.2",
     "react-instantsearch-dom": "^6.8.2",
     "react-intl": "^5.10.16",
+    "react-lazyload": "^3.2.0",
     "react-masonry-css": "^1.0.14",
     "react-modal-video": "^1.2.6",
     "react-notifications": "^1.7.2",

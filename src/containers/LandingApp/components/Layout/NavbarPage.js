@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { Container } from "reactstrap";
-import ScrollspyNav from "./scrollSpy";
 
 //Import Images
 import logodark from "./../../../../assets/images/infpromo-logo-black.png";
@@ -27,10 +26,9 @@ class NavbarPage extends Component {
   }
 
   render() {
-    //Store all Navigationbar Id into TargetID variable(Used for Scrollspy)
-    let targetId = this.state.navItems.map((item) => {
+    /**let targetId = this.state.navItems.map((item) => {
       return item.idnm;
-    });
+    });**/
     return (
       <React.Fragment>
         <header id="topnav" className="defaultscroll sticky">

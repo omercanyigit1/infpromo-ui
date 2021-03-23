@@ -1,5 +1,5 @@
 import React from "react";
-import {Avatar, Popover} from "antd";
+//import {Avatar, Popover} from "antd";
 
 const UserProfile = ({name, surName}) => {
 

@@ -18,7 +18,7 @@ const initialState = {
   credit: null
 };
 
-export default (state = initialState, action) => {
+const ListReducer = (state = initialState, action) => {
   switch (action.type) {
     case SEARCH_ADVANCED_REQUEST:
       return {
@@ -34,7 +34,7 @@ export default (state = initialState, action) => {
         error: null,
         searchList: action.payload.bodyNew.lookalikes,
         credit: action.payload.credit,
-        total: action.payload.total
+        total: action.payload.bodyNew.total
       };
     case SEARCH_ADVANCED_FAILED:
       return {
@@ -78,3 +78,5 @@ export default (state = initialState, action) => {
       return state;
   }
 }
+
+export default ListReducer;

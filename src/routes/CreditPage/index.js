@@ -14,7 +14,7 @@ const CreditPage = (props) => {
   const [cardNumber, setCardNumber] = useState('');
   const [issuer, setIssuer] = useState('');
 
-  const  {postPayment, isLoggedIn, loading, error, user, isPayment} = props;
+  const  {postPayment, loading, isPayment} = props;
 
   const handleCallback = ({ issuer }, isValid) => {
     if (isValid) {
@@ -54,7 +54,7 @@ const CreditPage = (props) => {
 
   useEffect(() => {
 
-  }, [value])
+  }, [value, issuer])
 
   return (
     <Spin spinning={loading}>
@@ -75,79 +75,84 @@ const CreditPage = (props) => {
               </Col>
             </Row>
           }
-          <Row>
-            <Col span={24}>
-              {value &&
-              <div className={"gx-mb-5 gx-mt-3"}>
-                <h3>{value} Arama İmkanı - {value / 2} Raporlama</h3>
-              </div>
-              }
-              {!value &&
-              <div className={"gx-mb-5 gx-mt-3"}>
-                <h3>0 Arama İmkanı - 0 Raporlama</h3>
-              </div>
-              }
+
+          <Row gutter={[10, 10]} align={"middle"} justify={"center"}>
+            <Col span={14}>
+              <Row>
+                <Col span={24}>
+                  <p style={{marginBottom: 10}}><b>Kredi Miktarı:</b></p>
+                  <InputNumber keyboard={true} min={0} max={100} style={{width: '50%'}} placeholder={"Miktar"} onChange={onChange} />
+                </Col>
+                <Col span={24}>
+                  {value &&
+                  <div className={"gx-mt-4 gx-pb-3"}>
+                    <h5>{value} Arama / {value / 2} Raporlama
+                      <span style={{fontSize: 14, marginLeft: 10}}> (Yüklenecek Tutar: {value} Kredi)</span>
+                    </h5>
+                  </div>
+                  }
+                  {!value &&
+                  <div className={"gx-mt-4 gx-pb-3"}>
+                    <h5>0 Arama / 0 Raporlama</h5>
+                  </div>
+                  }
+                </Col>
+                <Col span={24}>
+                  <h3 className={"gx-mt-5 gx-text-right"}>
+                    <b>Tutar: {value} $ ({value} dolar)</b>
+                  </h3>
+                </Col>
+              </Row>
+            </Col>
+            <Col span={10}>
+              <Row gutter={[30]} justify={"center"} align={"middle"} className={"payment-details"}>
+                <Col xs={24} md={24}>
+                  <Cards
+                    cvc={cvc}
+                    expiry={expiry}
+                    focused={focus}
+                    name={cardName}
+                    number={cardNumber}
+                    locale={{valid: 'MM / YY'}}
+                    placeholders={{name: 'AD SOYAD'}}
+                    callback={handleCallback}
+                    style={{marginBottom: 30}}
+                  />
+                </Col>
+                <Col xs={24} md={24}>
+                  <Row justify={"center"} className={"gx-mt-3"}>
+                    <Col xs={24} md={18}>
+                      <Card>
+                        <Row>
+                          <Col span={24}>
+                            <Input name={"number"} onChange={handleCardNumberChange} placeholder="Kart Numarası" onFocus={handleFocusChange} style={{marginBottom: 15}} />
+                          </Col>
+                        </Row>
+                        <Row>
+                          <Col span={24}>
+                            <Input name={"name"} onChange={handleCardNameChange} placeholder="İsim Soyisim" onFocus={handleFocusChange} style={{marginBottom: 15}} />
+                          </Col>
+                        </Row>
+                        <Row gutter={[10, 10]}>
+                          <Col span={16}>
+                            <Input name={"expiry"} onChange={handleExpiryChange} placeholder="MM / YY" onFocus={handleFocusChange} style={{marginBottom: 15}} />
+                          </Col>
+                          <Col span={8}>
+                            <Input name={"cvc"} onChange={handleCvcChange} placeholder="CVC" onFocus={handleFocusChange} style={{marginBottom: 15}} />
+                          </Col>
+                        </Row>
+                        <Row>
+                          <Col span={24}>
+                            <Button className={"btn- btn-primary"} block onClick={handlePayment}>Hemen Öde</Button>
+                          </Col>
+                        </Row>
+                      </Card>
+                    </Col>
+                  </Row>
+                </Col>
+              </Row>
             </Col>
           </Row>
-
-          <Row gutter={[10, 10]} align={"top"} justify={"center"}>
-            <Col span={4} />
-            <Col span={8}>
-              <p style={{marginBottom: 5}}>Kredi Miktarı:</p>
-              <InputNumber keyboard={true} min={0} max={100} style={{width: '50%'}} placeholder={"Miktar"} onChange={onChange} />
-            </Col>
-            <Col span={8}>
-              <p style={{marginBottom: 0}}>Ödenecek Tutar:</p>
-              <h3>
-                <b>{value} $ ({value} dolar)</b>
-              </h3>
-            </Col>
-            <Col span={4} />
-          </Row>
-
-          <div className={"gx-mt-5"}>
-            <Row gutter={[30]} justify={"center"} align={"middle"} className={"payment-details"}>
-              <Col xs={24} md={9}>
-                <Cards
-                  cvc={cvc}
-                  expiry={expiry}
-                  focused={focus}
-                  name={cardName}
-                  number={cardNumber}
-                  callback={handleCallback}
-                  style={{marginBottom: 30}}
-                />
-              </Col>
-              <Col xs={24} md={6}>
-                <Card>
-                  <Row>
-                    <Col span={24}>
-                      <Input name={"number"} onChange={handleCardNumberChange} placeholder="Kart Numarası" onFocus={handleFocusChange} style={{marginBottom: 15}} />
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col span={24}>
-                      <Input name={"name"} onChange={handleCardNameChange} placeholder="İsim Soyisim" onFocus={handleFocusChange} style={{marginBottom: 15}} />
-                    </Col>
-                  </Row>
-                  <Row gutter={[10, 10]}>
-                    <Col span={16}>
-                      <Input name={"expiry"} onChange={handleExpiryChange} placeholder="MM / YY" onFocus={handleFocusChange} style={{marginBottom: 15}} />
-                    </Col>
-                    <Col span={8}>
-                      <Input name={"cvc"} onChange={handleCvcChange} placeholder="CVC" onFocus={handleFocusChange} style={{marginBottom: 15}} />
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col span={24}>
-                      <Button className={"btn- btn-primary"} block onClick={handlePayment}>Hemen Üye Ol!</Button>
-                    </Col>
-                  </Row>
-                </Card>
-              </Col>
-              <Col md={6} />
-            </Row>
-          </div>
         </Card>
       </div>
     </Spin>

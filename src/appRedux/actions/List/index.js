@@ -77,7 +77,6 @@ export const postSearchAdvanced = (data, network) => {
 
         axios.post(`${API_URL}/${network}/search/${id}`, data, axiosConfig).then((response) => {
           dispatch(postSearchAdvancedSuccess(response.data.data));
-          //console.log(response.data.data);
         }).catch((error) => {
           dispatch(postSearchAdvancedFailed(error.response));
         });
