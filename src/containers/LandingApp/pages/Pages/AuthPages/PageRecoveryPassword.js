@@ -1,6 +1,6 @@
 // React Basic and Bootstrap
-import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useParams } from "react-router-dom";
 import {
   Container,
   Row,
@@ -11,6 +11,7 @@ import {
   Card,
   CardBody,
 } from "reactstrap";
+import {Result, Spin} from "antd";
 import { AvForm, AvField } from "availity-reactstrap-validation";
 
 //Import Icons
@@ -18,12 +19,70 @@ import FeatherIcon from "feather-icons-react";
 
 // import images
 import recoveryimg from "../../../assets/images/user/recovery.png";
+import {postResetPassword, getResetPassword} from "../../../../../appRedux/actions";
+import {connect} from 'react-redux';
 
-class PageRecoveryPassword extends Component {
-  render() {
+const PageRecoveryPassword = (props) => {
+  let params = useParams();
+  const {getResetPassword, error, postResetPassword, user, loading, isRecoveryPassword} = props;
+  const [password, setPassword] = useState('');
+  const [isMatch, setIsMatch] = useState(false);
+
+  function handlePasswordChange(e) {
+    setPassword(e.target.value);
+  }
+
+  function handleClick() {
+    let data = {
+      "password": password
+    }
+
+    postResetPassword(data, user.resetPasswordToken);
+  }
+
+  useEffect(() => {
+    getResetPassword(params.id);
+
+  }, [])
+
+  if(isRecoveryPassword) {
     return (
+      <Spin spinning={loading}>
+        <Result
+          status="success"
+          title="Parolanız Güncellendi!"
+          subTitle="Yeni parolanızla hemen giriş yapabilirsiniz."
+          extra={[
+            <Link to={"/login"} className={"btn btn-primary"} key="console">
+              Giriş
+            </Link>,
+          ]}
+        />
+      </Spin>
+    )
+  }
+
+  if(isMatch === true) {
+    return (
+      <Spin spinning={loading}>
+        <Result
+          status="warning"
+          title="Link Hatalı ve Süresi Dolmuş!"
+          subTitle="Lütfen mailinize gönderilen linke tıklayınız. Eğer parolanızı hatırlıyorsanız hemen giriş yapabilirsiniz."
+          extra={[
+            <Link to={"/login"} className={"btn btn-primary"} key="console">
+              Giriş
+            </Link>,
+          ]}
+        />
+      </Spin>
+    )
+  }
+
+  return (
+    <Spin spinning={loading}>
       <React.Fragment>
-        <div className="back-to-home rounded d-none d-sm-block">
+        <div className="back-to-home rounded d-sm-block">
           <Link to="/" className="btn btn-icon btn-soft-primary">
             <i>
               <FeatherIcon icon="home" className="icons" />
@@ -45,67 +104,102 @@ class PageRecoveryPassword extends Component {
               <Col lg="5" md="6" className="mt-4 mt-sm-0 pt-2 pt-sm-0">
                 <Card className="login_page shadow rounded border-0">
                   <CardBody>
-                    <h4 className="card-title text-center">Recover Account</h4>
+                    <h4 className="card-title text-center">Parolamı Güncelle</h4>
                     <AvForm className="login-form mt-4">
                       <Row>
                         <Col lg="12">
                           <p className="text-muted">
-                            Please enter your email address. You will receive a
-                            link to create a new password via email.
+                            Parolanızı Buradan Güncelleyebilirsiniz.
                           </p>
+                        </Col>
+                        <Col lg="12">
                           <FormGroup className="position-relative">
-                            <Label for="email">
-                              Email address{" "}
+                            <Label htmlFor="password">
+                              Yeni Parola
                               <span className="text-danger">*</span>
                             </Label>
                             <div className="position-relative">
-                            <i>
-                              <FeatherIcon
-                                icon="mail"
-                                className="fea icon-sm icons"
-                              />
-                            </i>
+                              <i>
+                                <FeatherIcon
+                                  icon="lock"
+                                  className="fea icon-sm icons"
+                                />
+                              </i>
                             </div>
                             <AvField
-                              type="text"
+                              type="password"
                               className="form-control pl-5"
-                              name="email"
-                              id="email"
-                              placeholder="Enter Your Email Address"
+                              name="password"
+                              id="password"
+                              onChange={handlePasswordChange}
+                              placeholder="Parola Giriniz"
                               required
                               errorMessage=""
                               validate={{
                                 required: {
                                   value: true,
-                                  errorMessage: "Please enter your email",
+                                  errorMessage: "Lütfen parolanızı giriniz.",
                                 },
-                                pattern: {
-                                  value:
-                                    "^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$",
-                                  errorMessage: "E-Mail is not valid!",
+                                minLength: {
+                                  value: 6,
+                                  errorMessage:
+                                    "Your password must be between 6 and 8 characters",
+                                },
+                                maxLength: {
+                                  value: 16,
+                                  errorMessage:
+                                    "Your password must be between 6 and 8 characters",
                                 },
                               }}
                             />
                           </FormGroup>
                         </Col>
                         <Col lg="12">
-                          <Button color="primary" block>
-                            Send
+                          <FormGroup className="position-relative">
+                            <Label htmlFor="password">
+                              Yeni Parola Tekrar
+                              <span className="text-danger">*</span>
+                            </Label>
+                            <div className="position-relative">
+                              <i>
+                                <FeatherIcon
+                                  icon="lock"
+                                  className="fea icon-sm icons"
+                                />
+                              </i>
+                            </div>
+                            <AvField
+                              type="password"
+                              className="form-control pl-5"
+                              name="password"
+                              id="password"
+                              placeholder="Parola Giriniz"
+                              required
+                              errorMessage=""
+                              validate={{
+                                required: {
+                                  value: true,
+                                  errorMessage: "Lütfen parolanızı giriniz.",
+                                },
+                                minLength: {
+                                  value: 6,
+                                  errorMessage:
+                                    "Your password must be between 6 and 8 characters",
+                                },
+                                maxLength: {
+                                  value: 16,
+                                  errorMessage:
+                                    "Your password must be between 6 and 8 characters",
+                                },
+                              }}
+                            />
+                          </FormGroup>
+                        </Col>
+                        <Col lg="12">
+                          <Button color="primary" block onClick={handleClick}>
+                            Güncelle
                           </Button>
                         </Col>
-                        <div className="mx-auto">
-                          <p className="mb-0 mt-3">
-                            <small className="text-dark mr-2">
-                              Remember your password ?
-                            </small>{" "}
-                            <Link
-                              to="auth-login"
-                              className="text-dark font-weight-bold"
-                            >
-                              Sign in
-                            </Link>
-                          </p>
-                        </div>
                       </Row>
                     </AvForm>
                   </CardBody>
@@ -115,7 +209,17 @@ class PageRecoveryPassword extends Component {
           </Container>
         </section>
       </React.Fragment>
-    );
+    </Spin>
+  );
+}
+
+const mapStateToProps = (state) => {
+  return {
+    loading: state.auth.loading,
+    error: state.auth.error,
+    isRecoveryPassword: state.auth.isRecoveryPassword,
+    user: state.auth.user
   }
 }
-export default PageRecoveryPassword;
+
+export default connect(mapStateToProps, {postResetPassword, getResetPassword})(PageRecoveryPassword);

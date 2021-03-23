@@ -1,7 +1,7 @@
 // React Basic and Bootstrap
-import React, { Component } from "react";
-import { Container, Row, Col } from "reactstrap";
-import { Link } from "react-router-dom";
+import React, {Component} from "react";
+import {Container, Row, Col} from "reactstrap";
+import {Link} from "react-router-dom";
 
 //Import Containers
 import ReviewsSlider from "../../components/Shared/ReviewsSlider";
@@ -76,55 +76,39 @@ class Client extends Component {
       ],
     };
   }
+
   render() {
     return (
       <React.Fragment>
-        <Container className="mt-100 mt-60">
-          <Row className="justify-content-center">
-            <Col xs={12} className="text-center">
-              <div className="section-title mb-4 pb-2">
-                <h4 className="title mb-4">
-                  Whats Our Clients Said About{" "}
-                  <span className="text-primary">Landrick</span> Project
-                </h4>
-                <p className="text-muted para-desc mx-auto mb-0">
-                  Start working with{" "}
-                  <span className="text-primary font-weight-bold">
-                    Landrick
-                  </span>{" "}
-                  that can provide everything you need to generate awareness,
-                  drive traffic, connect.
-                </p>
-              </div>
-            </Col>
-          </Row>
-
-          {/* clients slider */}
-          <ReviewsSlider reviews={this.state.reviews} colClass="mt-4" />
-        </Container>
-
         <Container className="pb-lg-4 mb-md-5 mb-4 mt-100 mt-60">
           <Row className="justify-content-center">
             <Col xs="12" className="text-center">
               <div className="section-title">
                 <h4 className="title mb-4">
-                  See everything about your employee at one place.
+                  İhtiyacınız olan herşeyi ücretsiz denemek ister misiniz?
                 </h4>
                 <p className="text-muted para-desc mx-auto mb-0">
-                  Start working with{" "}
+                  Sizde{" "}
                   <span className="text-primary font-weight-bold">
-                    Landrick
+                    infpromo
                   </span>{" "}
-                  that can provide everything you need to generate awareness,
-                  drive traffic, connect.
+                  ile Türkiye'de ki tüm Influencer etkileşim oranlarını ve detaylı etkileşim raporlarını{" "}
+                  <span className="text-primary font-weight-bold">
+                    ücretsiz
+                  </span>{" "}
+                  ve{" "}
+                  <span className="text-primary font-weight-bold">
+                    hızlıca
+                  </span>{" "}
+                  deneyebilirsiniz.
                 </p>
 
                 <div className="mt-4">
-                  <Link to="#" className="btn btn-primary mt-2 mr-2">
-                    Get Started Now
+                  <Link to={'/register'} className="btn btn-primary mt-2 mr-2">
+                    Ücretsiz Dene
                   </Link>
-                  <Link to="#" className="btn btn-outline-primary mt-2">
-                    Free Trial
+                  <Link to={'login'} className="btn btn-outline-primary mt-2">
+                    Giriş Yap
                   </Link>
                 </div>
               </div>

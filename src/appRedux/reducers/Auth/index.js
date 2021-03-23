@@ -6,6 +6,15 @@ import {
   REGISTER_USER_REQUEST,
   REGISTER_USER_SUCCESS,
   LOGOUT_USER_SUCCESS,
+  FORGET_PASSWORD_REQUEST,
+  FORGET_PASSWORD_SUCCESS,
+  FORGET_PASSWORD_FAILED,
+  FETCH_RESET_PASSWORD_REQUEST,
+  FETCH_RESET_PASSWORD_SUCCESS,
+  FETCH_RESET_PASSWORD_FAILED,
+  POST_RESET_PASSWORD_REQUEST,
+  POST_RESET_PASSWORD_SUCCESS,
+  POST_RESET_PASSWORD_FAILED,
   LOGGED_IN,
   NOT_LOGGED_IN,
 } from "../../../constants/ActionTypes";
@@ -19,6 +28,8 @@ const initialState = {
   error: null,
   message: '',
   isCreated: false,
+  isResetPassword: false,
+  isRecoveryPassword: false
 };
 
 const AuthReducer = (state = initialState, action) => {
@@ -65,6 +76,60 @@ const AuthReducer = (state = initialState, action) => {
         loading: false,
         error: 'Geçersiz Kullanıcı',
         user: {}
+      };
+    case FORGET_PASSWORD_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        error: null
+      };
+    case FORGET_PASSWORD_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        isResetPassword: action.payload
+      };
+    case FORGET_PASSWORD_FAILED:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    case FETCH_RESET_PASSWORD_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      };
+    case FETCH_RESET_PASSWORD_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        user: action.payload
+      };
+    case FETCH_RESET_PASSWORD_FAILED:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    case POST_RESET_PASSWORD_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        error: null
+      };
+    case POST_RESET_PASSWORD_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        isRecoveryPassword: action.payload
+      };
+    case POST_RESET_PASSWORD_FAILED:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
       };
     case LOGOUT_USER_SUCCESS:
       return {

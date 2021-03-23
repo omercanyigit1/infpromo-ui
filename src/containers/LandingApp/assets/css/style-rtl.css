@@ -5003,7 +5003,7 @@ p {
 @media (max-width: 768px) {
   .cover-user .container-fluid .padding-less {
     position: relative !important;
-    height: 400px !important;
+    height: 220px !important;
   }
 }
 
@@ -5039,7 +5039,7 @@ p {
     text-align: left !important;
   }
   .cover-user .cover-my-30 {
-    margin: 30px 0;
+    margin: 10px 0;
   }
 }
 

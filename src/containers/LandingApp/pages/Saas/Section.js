@@ -24,7 +24,7 @@ class Section extends Component {
               <Col lg="12" className="text-center mt-0 mt-md-5 pt-0 pt-md-5">
                 <div className="title-heading margin-top-100">
                   <h1 className="heading mb-3">
-                    Türkiye' nin en büyük İnfluencer veri platformu
+                    Türkiye' nin en büyük Influencer veri platformu
                   </h1>
                   <p className="para-desc mx-auto text-muted">
                     1$ ' dan başlayan fiyatlar ile 25.000'den fazla influencer' ın verisini görebilir, analiz edebilir

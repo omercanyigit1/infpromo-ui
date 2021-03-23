@@ -61,25 +61,25 @@ class Index extends Component {
       {
         id: 1,
         icon: "uil uil-airplay h1 text-primary",
-        title: "Easy To Use",
+        title: "Kolay Kullanım",
         description:
-          "Nisi aenean vulputate eleifend tellus vitae eleifend enim a Aliquam eleifend aenean elementum semper. ",
+          "Geniş filtre özelliğimizle Türkiye'de ki Tüm influencer ağına erişebilirsiniz.",
         imgUrl: user,
       },
       {
         id: 2,
         icon: "uil uil-calendar-alt h1 text-primary",
-        title: "Daily Reports",
+        title: "Detaylı Rapor",
         description:
-          "Allegedly, a Latin scholar established the origin of the established text by compiling unusual word.",
+          "Influencer etkileşimi hakkında detaylı rapor edinebilirsiniz.",
         imgUrl: calendar,
       },
       {
         id: 3,
         icon: "uil uil-clock h1 text-primary",
-        title: "Real Time Zone",
+        title: "Gerçek ve Güncel Veriler",
         description:
-          "It seems that only fragments of the original text remain in only fragments the Lorem Ipsum texts used today.",
+          "Verilerin hepsi influencerların güncel olan verileridir.",
         imgUrl: sandClock,
       },
     ];

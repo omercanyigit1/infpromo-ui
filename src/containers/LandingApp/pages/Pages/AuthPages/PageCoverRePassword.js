@@ -1,5 +1,5 @@
 // React Basic and Bootstrap
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
   Container,
@@ -11,7 +11,10 @@ import {
   Card,
   CardBody,
 } from "reactstrap";
+import {Alert, Result, Spin} from "antd";
 import { AvForm, AvField } from "availity-reactstrap-validation";
+import {postForgetPassword} from "../../../../../appRedux/actions";
+import {connect} from 'react-redux';
 
 //Import Icons
 import FeatherIcon from "feather-icons-react";
@@ -19,11 +22,49 @@ import FeatherIcon from "feather-icons-react";
 // import images
 import user03 from "../../../assets/images/user/03.jpg";
 
-class PageCoverRePassword extends Component {
-  render() {
+const PageCoverRePassword = (props) => {
+  const {postForgetPassword, loading, error, isResetPassword} = props;
+  const [email, setEmail] = useState('');
+
+  function handleEmailChange(e) {
+    setEmail(e.target.value);
+  }
+
+  function handleClick() {
+    let data = {
+      "email": email
+    }
+
+    if(!error) {
+      postForgetPassword(data);
+    }
+  }
+
+  useEffect(() => {
+
+  }, [isResetPassword])
+
+  if(isResetPassword) {
     return (
+      <Spin spinning={loading}>
+        <Result
+          status="success"
+          title="Mail Gönderildi!"
+          subTitle="Girdiğiniz Email adresinize gelen linke tıklayarak parolanızı güncelleyebilirsiniz."
+          extra={[
+            <Link to={"/"} className={"btn btn-primary"} key="console">
+              Anasayfa
+            </Link>,
+          ]}
+        />
+      </Spin>
+    )
+  }
+
+  return (
+    <Spin spinning={loading}>
       <React.Fragment>
-        <div className="back-to-home rounded d-none d-sm-block">
+        <div className="back-to-home rounded d-sm-block">
           <Link to="/" className="btn btn-icon btn-soft-primary">
             <i>
               <FeatherIcon icon="home" className="icons" />
@@ -46,6 +87,14 @@ class PageCoverRePassword extends Component {
                           <h4 className="card-title text-center">
                             Parolamı Unuttum !
                           </h4>
+                          {error &&
+                          <Alert
+                            message="Hata!"
+                            description={`${error}`}
+                            type="error"
+                            closable
+                          />
+                          }
                           <AvForm className="login-form mt-4">
                             <Row>
                               <Col lg="12">
@@ -58,12 +107,12 @@ class PageCoverRePassword extends Component {
                                     <span className="text-danger">*</span>
                                   </Label>
                                   <div className="position-relative">
-                                  <i>
-                                    <FeatherIcon
-                                      icon="mail"
-                                      className="fea icon-sm icons"
-                                    />
-                                  </i>
+                                    <i>
+                                      <FeatherIcon
+                                        icon="mail"
+                                        className="fea icon-sm icons"
+                                      />
+                                    </i>
                                   </div>
                                   <AvField
                                     type="text"
@@ -71,6 +120,7 @@ class PageCoverRePassword extends Component {
                                     name="email"
                                     id="email"
                                     placeholder="Email Yazınız..."
+                                    onChange={handleEmailChange}
                                     required
                                     errorMessage=""
                                     validate={{
@@ -88,7 +138,7 @@ class PageCoverRePassword extends Component {
                                 </FormGroup>
                               </Col>
                               <Col lg="12">
-                                <Button color="primary" block>
+                                <Button color="primary" block onClick={handleClick}>
                                   Gönder
                                 </Button>
                               </Col>
@@ -123,7 +173,16 @@ class PageCoverRePassword extends Component {
           </Container>
         </section>
       </React.Fragment>
-    );
+    </Spin>
+  );
+}
+
+const mapStateToProps = (state) => {
+  return {
+    loading: state.auth.loading,
+    error: state.auth.error,
+    isResetPassword: state.auth.isResetPassword
   }
 }
-export default PageCoverRePassword;
+
+export default connect(mapStateToProps, {postForgetPassword})(PageCoverRePassword);

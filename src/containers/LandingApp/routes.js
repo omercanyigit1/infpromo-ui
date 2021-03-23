@@ -106,7 +106,7 @@ const routes = [
   },
 
   {
-    path: "/auth-re-password",
+    path: "/reset-password/:id",
     component: PageRecoveryPassword,
     isWithoutLayout: true,
   },

@@ -13,6 +13,41 @@ body {
   font-weight: bold;
 }
 
+.menu-extras {
+  display: none;
+}
+
+.back-to-home {
+  z-index: 10;
+}
+
+@media only screen and (max-width: 768px) {
+
+  .features {
+    min-height: 215px;
+  }
+}
+
+@media only screen and (min-width: 320px) {
+  .buy-button {
+    transform: scale(.9);
+  }
+
+  .text-center-mobile {
+    text-align: center;
+  }
+}
+
+@media only screen and (min-width: 992px) {
+  .buy-button {
+    transform: scale(1);
+  }
+
+  .text-center-mobile {
+    text-align: inherit;
+  }
+}
+
 //Import Dark RTL mode
 // @import './assets/scss2/style-dark-rtl.scss';
 

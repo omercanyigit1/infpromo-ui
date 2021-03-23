@@ -1,6 +1,6 @@
-import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import { Container, Row, Col, Form, Input, Label } from "reactstrap";
+import React, {Component} from "react";
+import {Link} from "react-router-dom";
+import {Container, Row, Col, Form, Input, Label} from "reactstrap";
 
 //Import Icons
 import FeatherIcon from "feather-icons-react";
@@ -22,21 +22,21 @@ class Footer extends Component {
     super(props);
     this.state = {
       grid1: [
-        { title: "About us", link: "/page-aboutus" },
-        { title: "Services", link: "/page-services" },
-        { title: "Team", link: "/page-team" },
-        { title: "Pricing", link: "/page-pricing" },
-        { title: "Project", link: "/page-work" },
-        { title: "Careers", link: "/page-jobs" },
-        { title: "Blog", link: "/page-blog" },
-        { title: "Login", link: "/page-cover-login" },
+        {title: "About us", link: "/page-aboutus"},
+        {title: "Services", link: "/page-services"},
+        {title: "Team", link: "/page-team"},
+        {title: "Pricing", link: "/page-pricing"},
+        {title: "Project", link: "/page-work"},
+        {title: "Careers", link: "/page-jobs"},
+        {title: "Blog", link: "/page-blog"},
+        {title: "Login", link: "/page-cover-login"},
       ],
       grid2: [
-        { title: "Terms of Services", link: "/page-terms" },
-        { title: "Privacy Policy", link: "/page-privacy" },
-        { title: "Documentation", link: "/documentation" },
-        { title: "Changelog", link: "/changelog" },
-        { title: "Components", link: "/components" },
+        {title: "Terms of Services", link: "/page-terms"},
+        {title: "Privacy Policy", link: "/page-privacy"},
+        {title: "Documentation", link: "/documentation"},
+        {title: "Changelog", link: "/changelog"},
+        {title: "Components", link: "/components"},
       ],
     };
   }
@@ -44,7 +44,7 @@ class Footer extends Component {
   render() {
     return (
       <React.Fragment>
-        <footer className={this.props.isLight ? "footer bg-light" : "footer footer-border"}>
+        <footer className={this.props.isLight ? "footer bg-light" : "footer footer-border"} style={{paddingBottom: 0, paddingTop: 50}}>
           <Container>
             <Row>
               <Col
@@ -61,49 +61,18 @@ class Footer extends Component {
                   />
                 </Link>
                 <p className={this.props.isLight ? "mt-4 text-muted" : "mt-4"}>
-                  Start working with Landrick that can provide everything you
-                  need to generate awareness, drive traffic, connect.
+                  Esentepe, Yüzbaşı Kaya Aldogan Sk. Caddesi D:4 No:4, 34394 Şişli / İstanbul
                 </p>
                 <ul className="list-unstyled social-icon social mb-0 mt-4">
                   <li className="list-inline-item ml-1">
-                    <Link to="" className="rounded">
-                      <i>
-                        <FeatherIcon
-                          icon="facebook"
-                          className="fea icon-sm fea-social"
-                        />
-                      </i>
-                    </Link>
-                  </li>
-                  <li className="list-inline-item ml-1">
-                    <Link to="" className="rounded">
+                    <a href={'https://www.instagram.com/infpromo/'} target="_blank" className="rounded">
                       <i>
                         <FeatherIcon
                           icon="instagram"
                           className="fea icon-sm fea-social"
                         />
                       </i>
-                    </Link>
-                  </li>
-                  <li className="list-inline-item ml-1">
-                    <Link to="" className="rounded">
-                      <i>
-                        <FeatherIcon
-                          icon="twitter"
-                          className="fea icon-sm fea-social"
-                        />
-                      </i>
-                    </Link>
-                  </li>
-                  <li className="list-inline-item ml-1">
-                    <Link to="" className="rounded">
-                      <i>
-                        <FeatherIcon
-                          icon="linkedin"
-                          className="fea icon-sm fea-social"
-                        />
-                      </i>
-                    </Link>
+                    </a>
                   </li>
                 </ul>
               </Col>
@@ -112,73 +81,23 @@ class Footer extends Component {
                 lg="2"
                 md="4"
                 xs="12"
-                className="mt-4 mt-sm-0 pt-2 pt-sm-0"
+                className="mt-4 mt-sm-0 pt-2 pt-sm-0 d-xs-none d-md-block"
                 name="footercolumn"
-              >
-                <h5
-                  className={
-                    this.props.isLight
-                      ? "text-dark footer-head"
-                      : "text-light footer-head"
-                  }
-                >
-                  Company
-                </h5>
-                <ul className="list-unstyled footer-list mt-4">
-                  {this.state.grid1.map((grid, key) => (
-                    <li key={key}>
-                      <Link
-                        to={grid.link}
-                        className={
-                          this.props.isLight ? "text-muted" : "text-foot"
-                        }
-                      >
-                        <i className="mdi mdi-chevron-right mr-1"></i>{" "}
-                        {grid.title}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </Col>
+              />
 
               <Col
                 lg="3"
                 md="4"
                 xs="12"
-                className="mt-4 mt-sm-0 pt-2 pt-sm-0"
+                className="mt-4 mt-sm-0 pt-2 pt-sm-0 d-xs-none d-md-block"
                 name="footercolumn"
-              >
-                <h5
-                  className={
-                    this.props.isLight
-                      ? "text-dark footer-head"
-                      : "text-light footer-head"
-                  }
-                >
-                  Usefull Links
-                </h5>
-                <ul className="list-unstyled footer-list mt-4">
-                  {this.state.grid2.map((grid, key) => (
-                    <li key={key}>
-                      <Link
-                        to={grid.link}
-                        className={
-                          this.props.isLight ? "text-muted" : "text-foot"
-                        }
-                      >
-                        <i className="mdi mdi-chevron-right mr-1"></i>
-                        {grid.title}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </Col>
+              />
 
               <Col
                 lg="3"
                 md="4"
                 xs="12"
-                className="mt-4 mt-sm-0 pt-2 pt-sm-0"
+                className="mt-4 mt-sm-0 pt-2 pt-sm-0 text-md-right"
                 name="footercolumn"
               >
                 <h5
@@ -188,61 +107,13 @@ class Footer extends Component {
                       : "text-light footer-head"
                   }
                 >
-                  Newsletter
+                  Bilgi için
                 </h5>
                 <p className="mt-4">
-                  Sign up and receive the latest tips via email.
+                  <a href="mailto:info@infpromo.com">
+                    info@infpromo.com
+                  </a>
                 </p>
-                <Form>
-                  <Row>
-                    <Col lg="12">
-                      <div
-                        className={
-                          this.props.isLight
-                            ? "foot-subscribe foot-white form-group position-relative"
-                            : "foot-subscribe form-group position-relative"
-                        }
-                      >
-                        <Label
-                          className={this.props.isLight ? "text-muted" : ""}
-                        >
-                          Write your email{" "}
-                          <span className="text-danger">*</span>
-                        </Label>
-                        <i>
-                          <div className="position-relative">
-                            <FeatherIcon
-                              icon="mail"
-                              className="fea icon-sm icons"
-                            />
-                          </div>
-                        </i>
-                        <Input
-                          type="email"
-                          name="email"
-                          id="emailsubscribe"
-                          className={
-                            this.props.isLight
-                              ? "form-control bg-light border pl-5 rounded"
-                              : "form-control pl-5 rounded"
-                          }
-                          placeholder="Your email : "
-                          required
-                        />
-                      </div>
-                    </Col>
-                    <Col lg="12">
-                      <Input
-                        type="submit"
-                        id="submitsubscribefooter"
-                        name="send"
-                        className="btn btn-soft-primary btn-block"
-                        readOnly
-                        value="Subscribe"
-                      />
-                    </Col>
-                  </Row>
-                </Form>
               </Col>
             </Row>
           </Container>

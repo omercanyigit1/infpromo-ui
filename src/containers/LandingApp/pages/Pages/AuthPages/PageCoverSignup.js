@@ -81,7 +81,7 @@ const PageCoverSignup = (props) => {
   return (
     <Spin spinning={loading}>
       <React.Fragment>
-        <div className="back-to-home rounded d-none d-sm-block">
+        <div className="back-to-home rounded d-sm-block">
           <Link to="/" className="btn btn-icon btn-soft-primary">
             <i>
               <FeatherIcon icon="home" className="icons"/>

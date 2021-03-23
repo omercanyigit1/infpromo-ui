@@ -14,7 +14,7 @@ class Feature extends Component {
         <Row>
           {this.props.featureArray.map((feat, i) => {
             return (
-              <Col md={4} xs={12} key={i} name="featurebox">
+              <Col md={4} xs={12} key={i} name="featurebox" className={"text-center-mobile"}>
                 <div
                   className={
                     this.props.isCenter
