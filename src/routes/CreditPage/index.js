@@ -39,14 +39,14 @@ const CreditPage = (props) => {
     setFocus(e.target.name);
   }
 
-  function onChange(value) {
-    setValue(value);
+  function onChange(e) {
+    setValue(e.target.value);
   }
 
   function handlePayment() {
 
     let data = {
-      "credit": value
+      "credit": parseInt(value)
     }
 
     postPayment(data);
@@ -81,7 +81,7 @@ const CreditPage = (props) => {
               <Row>
                 <Col span={24}>
                   <p style={{marginBottom: 10}}><b>Kredi Miktarı:</b></p>
-                  <InputNumber keyboard={true} min={0} max={100} style={{width: '50%'}} placeholder={"Miktar"} onChange={onChange} />
+                  <Input style={{width: '50%'}} placeholder={"Miktar"} onChange={onChange} />
                 </Col>
                 <Col span={24}>
                   {value &&
