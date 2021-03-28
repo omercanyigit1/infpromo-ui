@@ -1,55 +1,55 @@
 {
   "interests": [
     {
-      "name": "Clothes, Shoes, Handbags & Accessories",
+      "name": "Kıyafet, Ayakkabı, Çanta & Aksesuar",
       "id": 13
     },
     {
-      "name": "Friends, Family & Relationships",
+      "name": "Arkadaşlar, Aile & İlişkiler",
       "id": 1708
     },
     {
-      "name": "Camera & Photography",
+      "name": "Kamera & Fotoğraf",
       "id": 11
     },
     {
-      "name": "Restaurants, Food & Grocery",
+      "name": "Restoran, Yiyecek & İçecek",
       "id": 139
     },
     {
-      "name": "Travel, Tourism & Aviation",
+      "name": "Gezi, Turizm & Havacılık",
       "id": 43
     },
     {
-      "name": "Toys, Children & Baby",
+      "name": "Oyuncak, Çocuk & Bebek",
       "id": 190
     },
     {
-      "name": "Beauty & Cosmetics",
+      "name": "Güzellik & Kozmetik",
       "id": 80
     },
     {
-      "name": "Music",
+      "name": "Müzik",
       "id": 3
     },
     {
-      "name": "Television & Film",
+      "name": "Televizyon & Sinema",
       "id": 1
     },
     {
-      "name": "Electronics & Computers",
+      "name": "Elektronik & Bilgisayar",
       "id": 25
     },
     {
-      "name": "Sports",
+      "name": "Spor",
       "id": 21
     },
     {
-      "name": "Art & Design",
+      "name": "Sanat & Dizayn",
       "id": 36
     },
     {
-      "name": "Cars & Motorbikes",
+      "name": "Araba & Motosiklet",
       "id": 1826
     },
     {
@@ -57,31 +57,36 @@
       "id": 196
     },
     {
-      "name": "Pets",
+      "name": "Evcil hayvan",
       "id": 673
     },
     {
-      "name": "Shopping & Retail",
+      "name": "Alışveriş & Perakende",
       "id": 7
     },
     {
-      "name": "Coffee, Tea & Beverages",
+      "name": "Kahve, Çay & İçecek",
       "id": 9
     },
     {
-      "name": "Healthy Lifestyle",
+      "name": "Sağlıklı yaşam",
       "id": 798
     },
     {
-      "name": "Activewear",
+      "name": "Spor giyim",
       "id": 33
     },
     {
-      "name": "Luxury Goods",
+      "name": "Lüks Ürünler",
       "id": 1500
     }
   ],
   "languages": [
+    {
+      "code": "tr",
+      "name": "Turkish",
+      "count": 21741207
+    },
     {
       "code": "en",
       "name": "English",

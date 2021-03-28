@@ -1,11 +1,14 @@
 import React, {useState, useEffect} from "react";
-import {Radio, Card, Select, Row, Col, Tooltip, Input, Spin, Button, message, Pagination} from 'antd';
+import {Radio, Card, Select, Row, Col, Tooltip, Input, Spin, Button, message, Pagination, List, Avatar, Skeleton} from 'antd';
 import {InfoCircleOutlined, SortDescendingOutlined} from '@ant-design/icons';
 import debounce from 'lodash/debounce';
 import CardList from "./components/CardList";
+import CardListTable from "./components/CardListTable";
 import {connect} from 'react-redux';
-import {postSearchAdvanced, postGeneratePdf, isLoggedIn} from "../../appRedux/actions";
+import {postSearchAdvanced, postPagination, postSearchUserName, postGeneratePdf, isLoggedIn} from "../../appRedux/actions";
 import data from './../../constants/data.json';
+import {PDFDownloadLink, PDFViewer} from '@react-pdf/renderer';
+import PdfDocument from "./components/PdfDocument";
 
 const {Option} = Select;
 
@@ -24,53 +27,6 @@ for (let i = 1; i < 21; i++) {
   rate.push(<Option key={i.toString(21) + i} value={i}>≥ {i} %</Option>);
 }
 
-function DebounceSelect({fetchOptions, debounceTimeout = 800, ...props}) {
-  const [fetching, setFetching] = React.useState(false);
-  const [options, setOptions] = React.useState([]);
-  const fetchRef = React.useRef(0);
-  const debounceFetcher = React.useMemo(() => {
-    const loadOptions = (value) => {
-      fetchRef.current += 1;
-      const fetchId = fetchRef.current;
-      setOptions([]);
-      setFetching(true);
-      fetchOptions(value).then((newOptions) => {
-        if (fetchId !== fetchRef.current) {
-          // for fetch callback order
-          return;
-        }
-
-        setOptions(newOptions);
-        setFetching(false);
-      });
-    };
-
-    return debounce(loadOptions, debounceTimeout);
-  }, [fetchOptions, debounceTimeout]);
-  return (
-    <Select
-      labelInValue
-      filterOption={false}
-      onSearch={debounceFetcher}
-      notFoundContent={fetching ? <Spin size="small"/> : null}
-      {...props}
-      options={options}
-    />
-  );
-} // Usage of DebounceSelect
-
-async function fetchUserList(username) {
-  console.log('fetching user', username);
-  return fetch('https://randomuser.me/api/?results=5')
-    .then((response) => response.json())
-    .then((body) =>
-      body.results.map((user) => ({
-        label: `${user.name.first} ${user.name.last}`,
-        value: user.login.username,
-      })),
-    );
-}
-
 const CardTitle = ({title, subTitle}) => {
   return (
     <div>
@@ -83,26 +39,40 @@ const CardTitle = ({title, subTitle}) => {
 }
 
 const SamplePage = (props) => {
-  const [value, setValue] = useState([]);
+  const [value, setValue] = useState('');
   const [network, setNetwork] = useState('instagram');
   const [followersFrom, setFollowersFrom] = useState(20000);
-  const [followersTo, setFollowersTo] = useState(1000000);
+  const [followersTo, setFollowersTo] = useState(10000000);
   const [gender, setGender] = useState('');
   const [interest, setInterests] = useState([]);
-  const [language, setLanguages] = useState('en');
+  const [relevance, setRelevance] = useState([]);
+  const [language, setLanguages] = useState('tr');
   const [engagementRate, setEngagementRate] = useState(0);
   const [contactDetails, setContactDetails] = useState(false);
+  const [showLoading, setShowLoading] = useState(false);
   const [page, setPage] = useState(1);
+  const [spanName, setSpanName] = useState('');
+  const [selectedItem, setSelectedItem] = useState({});
 
   const {
     searchList,
     postSearchAdvanced,
+    postPagination,
+    postSearchUserName,
+    directs,
     loading,
     total,
     postGeneratePdf,
-    pdfUrl,
+    reportData,
+    reportDataLoading,
+    showSorting,
+    reportId,
     user
   } = props;
+
+  useEffect(() => {
+
+  }, [total, reportDataLoading, directs, showLoading, reportData, reportId, postGeneratePdf]);
 
   function handleNetworkChange(e) {
     setNetwork(e.target.value);
@@ -125,7 +95,6 @@ const SamplePage = (props) => {
   }
 
   function handleLanguagesChange(value) {
-    setLanguages(value);
     //console.log(value);
   }
 
@@ -141,10 +110,6 @@ const SamplePage = (props) => {
     console.log(`selected ${value}`);
   }
 
-  function handlePage(value) {
-    setPage(value);
-  }
-
   function handleFilter() {
 
     let data = {
@@ -155,7 +120,7 @@ const SamplePage = (props) => {
       "page": page,
       "filter": {
         "influencer": {
-          "location": [148838],
+          "location": [174737],
           "followers": {
             "min": parseInt(followersFrom),
             "max": parseInt(followersTo)
@@ -174,18 +139,97 @@ const SamplePage = (props) => {
     }
   }
 
-  function handleGeneratePdf(id) {
+  function handleFilterUserName() {
+
+    let data = {
+      "sort": {
+        "field": "followers",
+        "direction": "desc"
+      },
+      "page": 0,
+      "filter": {
+        "influencer": {
+          "relevance": [value]
+        }
+      }
+    }
+
+    if (user.credit < 1) {
+      message.error(`Yetersiz Bakiye`);
+    } else {
+      postSearchUserName(data, network);
+    }
+  }
+
+  function handlePagination() {
+
+    let data = {
+      "sort": {
+        "field": "followers",
+        "direction": "desc"
+      },
+      "page": page,
+      "filter": {
+        "influencer": {
+          "location": [174737],
+          "followers": {
+            "min": parseInt(followersFrom),
+            "max": parseInt(followersTo)
+          },
+          "engagementRate": parseInt(engagementRate),
+          "language": language,
+          "gender": gender
+        }
+      }
+    }
+
+    if (user.credit < 1) {
+      message.error(`Yetersiz Bakiye`);
+    } else {
+      postPagination(data, network);
+    }
+  }
+
+  function handleValue(e) {
+    setValue(e.target.value);
+  }
+
+  function renderSwitch(param) {
+    switch(param.length) {
+      case 4:
+        return `${param.substring(0, 1)},${param.substring(1, 2)}K`;
+      case 5:
+        return `${param.substring(0, 2)},${param.substring(2, 3)}K`;
+      case 6:
+        return `${param.substring(0, 3)},${param.substring(3, 4)}K`;
+      case 7:
+        return `${param.substring(0, 1)},${param.substring(1, 2)}M`;
+      case 8:
+        return `${param.substring(0, 2)},${param.substring(2, 3)}M`;
+      case 9:
+        return `${param.substring(0, 4)},${param.substring(3, 4)}M`;
+      default:
+        return `${param}`;
+    }
+  }
+
+  function handleGeneratePdf(id, selected) {
+    setSelectedItem(selected);
+
+    const item = document.getElementsByClassName(`list-item-btn-${id}`)[0];
+    const span = item.children[0];
 
     if (user.credit < 2) {
       message.error(`Yetersiz Bakiye`);
     } else {
       postGeneratePdf(id, network);
+      if(reportDataLoading === false) {
+        span.innerHTML = 'Hazırlanıyor...';
+      } else {
+        span.innerHTML = 'Rapor Hazır';
+      }
     }
   }
-
-  useEffect(() => {
-
-  }, [searchList, total, pdfUrl]);
 
   return (
     <Spin spinning={loading}>
@@ -428,47 +472,40 @@ const SamplePage = (props) => {
               </div>
             </Col>
           </Row>
-          {/**
-           <Card type="inner" title="Influencer Kullanıcı Adı" extra={null}>
-           <div>
-           <Row>
-           <Col xs={24} md={24}>
-           <Row gutter={[10, 10]}>
-           <Col span={24}>
-           <DebounceSelect
-           mode="multiple"
-           value={value}
-           placeholder="Select users"
-           fetchOptions={fetchUserList}
-           onChange={(newValue) => {
-                          setValue(newValue);
-                        }}
-           style={{
+          <Card type="inner" title="Kullanıcı Adına Göre Arama" extra={null}>
+            <div>
+              <Row>
+                <Col xs={24} md={24}>
+                  <Row gutter={[10, 10]}>
+                    <Col span={24}>
+                      <Input
+                        value={value}
+                        placeholder="Kullanıcı Adı İle Arama Yapabilirsiniz. ( @username )"
+                        onChange={handleValue}
+                        style={{
                           width: '100%',
                         }}
-           />
-           </Col>
-           </Row>
-           </Col>
-           </Row>
+                      />
+                    </Col>
+                  </Row>
+                </Col>
+              </Row>
 
-           <Row>
-           <Col xs={24} sm={24}>
-           <div style={{textAlign: 'right'}} className={"gx-mt-3"}>
-           <Button className="btn btn-primary">
-           Arama
-           </Button>
-           </div>
-           </Col>
-           </Row>
-           </div>
-           </Card>
-           **/}
+              <Row>
+                <Col xs={24} sm={24}>
+                  <div style={{textAlign: 'right'}} className={"gx-mt-3"} onClick={handleFilterUserName}>
+                    <Button className="btn btn-primary">
+                      Arama
+                    </Button>
+                  </div>
+                </Col>
+              </Row>
+            </div>
+          </Card>
         </Card>
-
         <div>
           {
-            searchList &&
+            showSorting &&
             <div className={"list-header-item"}>
               <Row>
                 <Col span={24}>
@@ -504,20 +541,113 @@ const SamplePage = (props) => {
             </div>
           }
           {
-            searchList && searchList.map((item) => {
+            searchList &&
+            <div>
+              <Row>
+                <Col span={24}>
+                  <List
+                    className="list-item gx-mt-2"
+                    loading={loading}
+                    itemLayout="horizontal"
+                    dataSource={searchList}
+                    column={4}
+                    renderItem={item => (
+                      <List.Item
+                        actions={[
+                          <Button className={`btn btn-secondary list-item-btn-${item.userId}`} onClick={() => {
+                            handleGeneratePdf(item.userId, item);
+                          }}>
+                            <span>Rapor Al (2 Kredi)</span>
+                          </Button>] }
+
+                        className={`list-item-${item.userId}`}
+                      >
+                        <Skeleton loading={loading}>
+                          <Row style={{width: '100%'}} gutter={[0, 0]}>
+                            <Col md={12}>
+                              <List.Item.Meta
+                                className={"list-meta-item"}
+                                avatar={<Avatar size={50} src={`${item.profile.picture}`}/>}
+                                title={<h6 className={"gx-mb-0"}>{item.profile.fullname}</h6>}
+                                description={<a href={`${item.profile.url}`} target={"_blank"} rel="noreferrer">@{item.profile.username}</a>}
+                              />
+                            </Col>
+                            <Col md={5}>
+                              <List.Item.Meta
+                                title={<h5 className={"gx-mb-0"}>
+                                  {renderSwitch(item.profile.followers.toString())}
+                                </h5>}
+                                description={
+                                  <p className="text-muted" style={{fontSize: 14, marginBottom: 0}}>
+                                    Takipçi
+                                  </p>
+                                }
+                              />
+                            </Col>
+                            <Col md={7}>
+                              <List.Item.Meta
+                                title={<h5 className={"gx-mb-0"}>
+                                  {item.profile.engagements.toString().substring(0, 3)}k
+                                  ({parseFloat(parseFloat(item.profile.engagementRate) * 100).toFixed(2)} %)
+                                </h5>}
+                                description={
+                                  <p className="gx-text-grey" style={{fontSize: 14, marginBottom: 0}}>
+                                    Etkileşimler ve Oranı
+                                  </p>
+                                }
+                              />
+                            </Col>
+                          </Row>
+                        </Skeleton>
+                      </List.Item>
+                    )}
+                  />
+                </Col>
+              </Row>
+            </div>
+
+
+          }
+          {/**
+           searchList && searchList.map((item, index) => {
               return (
                 <CardList key={item.userId}
                           url={item.profile.url}
                           avatar={item.profile.picture}
                           name={item.profile.fullname}
                           userName={item.profile.username}
-                          follower={item.profile.followers}
-                          engagement={item.profile.engagements}
-                          engagementRate={parseFloat(item.profile.engagementRate).toFixed(1)}
-                          onClick={() => {
-                            handleGeneratePdf(item.userId)
-                          }}
-                          pdfUrl={pdfUrl}
+                          follower={item.profile.followers.toString()}
+                          engagement={`${item.profile.engagements}`}
+                          engagementRate={parseFloat(item.profile.engagementRate)}
+                          pdfUrl={'/'}
+                          reportDataLoading={reportDataLoading}
+                          data={reportData}
+                          credit={user.credit}
+                          userId={item.userId}
+                          network={network}
+                          documentFile={<PdfDocument data={reportData}/>}
+                />
+              )
+            })
+           **/}
+          {
+            directs && directs.map((item, index) => {
+              return (
+                <CardList key={index}
+                          url={item.profile.url}
+                          avatar={item.profile.picture}
+                          name={item.profile.fullname}
+                          userName={item.profile.username}
+                          follower={item.profile.followers.toString()}
+                          engagement={`${item.profile.engagements}`}
+                          engagementRate={parseFloat(item.profile.engagementRate)}
+                          pdfUrl={'/'}
+                          reportDataLoading={reportDataLoading}
+                          data={reportData}
+                          credit={user.credit}
+                          userId={item.userId}
+                          network={network}
+                          documentFile={<PdfDocument data={reportData}/>}
                 />
               )
             })
@@ -527,7 +657,12 @@ const SamplePage = (props) => {
           <h3>Lütfen Filtreleme Seçeneğini kullanın!</h3>
           }
         </div>
-        <Pagination current={page} pageSize={50} total={total} onChange={handlePage} showSizeChanger={false} />
+        {showSorting &&
+        <Pagination current={page} pageSize={50} total={total} onChange={(value) => {
+          setPage(value);
+          handlePagination();
+        }} showSizeChanger={false}
+                    style={{marginTop: 15}}/>}
       </div>
     </Spin>
   );
@@ -537,11 +672,21 @@ const mapStateToProps = (state) => {
   return {
     loading: state.list.loading,
     searchList: state.list.searchList,
-    pdfUrl: state.list.pdfUrl,
+    reportData: state.list.reportData,
+    directs: state.list.directs,
+    reportDataLoading: state.list.reportDataLoading,
+    showSorting: state.list.showSorting,
+    reportId: state.list.reportId,
     total: state.list.total,
     error: state.list.error,
     user: state.user.user
   }
 }
 
-export default connect(mapStateToProps, {postSearchAdvanced, postGeneratePdf, isLoggedIn})(SamplePage);
+export default connect(mapStateToProps, {
+  postSearchAdvanced,
+  postSearchUserName,
+  postPagination,
+  postGeneratePdf,
+  isLoggedIn
+})(SamplePage);
