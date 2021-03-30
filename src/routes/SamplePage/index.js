@@ -73,7 +73,6 @@ const SamplePage = (props) => {
   const [contactDetails, setContactDetails] = useState(false);
   const [showLoading, setShowLoading] = useState(false);
   const [page, setPage] = useState(1);
-  const [spanName, setSpanName] = useState('');
   const [selectedItem, setSelectedItem] = useState({});
   const [isModalShow, setIsModalShow] = useState(false);
   const [userId, setUserId] = useState('');

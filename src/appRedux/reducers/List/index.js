@@ -15,7 +15,6 @@ import {
   NOT_LOGGED_IN,
 } from "../../../constants/ActionTypes";
 import data from './data.json';
-import _ from "lodash";
 
 const initialState = {
   loading: false,

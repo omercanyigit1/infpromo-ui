@@ -1,63 +1,54 @@
 import React from 'react';
-import { Document, Page, Text, View, StyleSheet, Font, Image } from '@react-pdf/renderer';
+import {Document, Page, Text, View, StyleSheet, Font, Image, Link} from '@react-pdf/renderer';
+import logo from './../../../assets/images/infpromo-logo-black.png'
 
 // Create styles
 const styles = StyleSheet.create({
-  title: {
-    margin: 20,
-    fontSize: 25,
-    textAlign: 'center',
-    backgroundColor: '#e4e4e4',
-    textTransform: 'uppercase',
-    fontFamily: 'Oswald',
+  page: {
+    fontFamily: 'Helvetica',
+    fontSize: 11,
+    paddingTop: 30,
+    paddingLeft: 15,
+    paddingRight: 15,
+    lineHeight: 1.5,
+    flexDirection: 'column',
   },
-  body: {
-    flexGrow: 1,
+  logoCenter: {
+    width: 70,
+    height: 70,
+    marginLeft: 'auto',
+    marginRight: 'auto'
+  },
+  logo: {
+    width: 110,
+    marginBottom: 30
   },
   row: {
-    flexGrow: 1,
     flexDirection: 'row',
+  },
+  column: {
+    flexDirection: 'column',
+  },
+  box: {
+    width: 240,
+    height: 120,
+    backgroundColor: '#ddd',
+    border: '1px solid #ff0000',
+    alignItems: 'center',
+    justifyContent: 'space-between'
+  },
+  between: {
+    justifyContent: 'space-between'
   },
   center: {
     alignItems: 'center',
-    justifyContent: 'center'
-  },
-  block: {
-    flexGrow: 1,
-  },
-  text: {
-    width: '60%',
-    margin: 10,
-    textAlign: 'justify',
-  },
-  textItalic: {
-    width: '60%',
-    margin: 10,
-    fontStyle: 'italic',
-    textAlign: 'justify',
-  },
-  fill1: {
-    width: '40%',
-    backgroundColor: '#e14427',
-  },
-  fill2: {
-    flexGrow: 2,
-    backgroundColor: '#e6672d',
-  },
-  fill3: {
-    flexGrow: 2,
-    backgroundColor: '#e78632',
-  },
-  fill4: {
-    flexGrow: 2,
-    backgroundColor: '#e29e37',
-  },
+  }
 });
 
 // Create Document Component
 const PdfDocument = ({data}) => {
 
-  if(data === null) {
+  if (data === null) {
     return (
       <Document>
         <Page size="A4" style={styles.page}>
@@ -72,44 +63,28 @@ const PdfDocument = ({data}) => {
   return (
     <Document>
       <Page size="A4" style={styles.page}>
-        <View style={styles.body}>
-          <View style={styles.row}>
-            <View style={styles.column}>
-              <Image src={data.profile.picture} />
-              <Text style={styles.text}>
-                <Text>{data.profile.fullname}</Text>
-                <Text>@{data.profile.username}</Text>
-              </Text>
-            </View>
-          </View>
-          <View style={styles.row}>
-            <View style={styles.fill2} />
-            <Text style={styles.textItalic}>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-              ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-              aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum.
+        <View style={[styles.row, styles.between, styles.center]}>
+          <Image style={styles.logo} src={logo}/>
+        </View>
+        <View style={[styles.column, {alignItems: 'center', justifyContent: 'center'}]}>
+          <Image style={[styles.logoCenter, {marginBottom: 20}]} src={data.profile.picture}/>
+          <Text style={{fontSize: 20}}>{data.profile.fullname}</Text>
+          <Link style={{marginBottom: 10}} src={data.profile.url} target={"_blank"}>{data.profile.username}</Link>
+        </View>
+        <View style={styles.row}>
+          <View style={[styles.box, styles.column]}>
+            <Text>
+              {data.profile.followers}
             </Text>
           </View>
-          <View style={styles.row}>
-            <Text style={styles.text}>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-              ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-              aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum.
+          <View style={[styles.box, styles.column]}>
+            <Text>
+              {data.profile.engagements}
             </Text>
-            <View style={styles.fill3} />
           </View>
-          <View style={styles.row}>
-            <View style={styles.fill4} />
-            <Text style={styles.textItalic}>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-              ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-              aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum.
+          <View style={[styles.box, styles.column]}>
+            <Text>
+              {data.profile.engagementRate}
             </Text>
           </View>
         </View>
