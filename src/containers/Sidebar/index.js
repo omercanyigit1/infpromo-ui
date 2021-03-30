@@ -1,9 +1,10 @@
 import React, {useEffect, useState} from "react";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch, useSelector, connect} from "react-redux";
 import {Drawer, Layout} from "antd";
-
+import _ from 'lodash'
 import SidebarContent from "./SidebarContent";
 import {toggleCollapsedSideNav, updateWindowWidth} from "appRedux/actions/Setting";
+import {getUser, isLoggedIn, postLogout} from '../../appRedux/actions';
 import {
   NAV_STYLE_DRAWER,
   NAV_STYLE_FIXED,
@@ -16,7 +17,8 @@ import {
 
 const {Sider} = Layout;
 
-const Sidebar = () => {
+const Sidebar = (props) => {
+  const {postLogout, credit, user, getUser, creditLoaded} = props;
 
   const dispatch = useDispatch();
   let [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -25,13 +27,21 @@ const Sidebar = () => {
   const {navCollapsed, width} = useSelector(({common}) => common);
 
 
+  function handleLogout() {
+    postLogout();
+  }
+
   const onToggleCollapsedNav = () => {
     dispatch(toggleCollapsedSideNav(!navCollapsed));
   };
 
   useEffect(()=>{
+    if(_.isEmpty(user)) {
+      getUser();
+    }
+
     setSidebarCollapsed(navStyle===NAV_STYLE_MINI_SIDEBAR)
-  },[navStyle])
+  },[navStyle, credit, creditLoaded])
 
   useEffect(() => {
     window.addEventListener('resize', () => {
@@ -74,8 +84,20 @@ const Sidebar = () => {
             visible={navCollapsed}>
             <SidebarContent sidebarCollapsed={sidebarCollapsed} setSidebarCollapsed={setSidebarCollapsed}/>
           </Drawer> :
-          <SidebarContent sidebarCollapsed={sidebarCollapsed} setSidebarCollapsed={setSidebarCollapsed}/>
+          <SidebarContent sidebarCollapsed={sidebarCollapsed} setSidebarCollapsed={setSidebarCollapsed} user={user} creditLoaded={creditLoaded} credit={credit} postLogout={handleLogout}/>
       }
     </Sider>)
 };
-export default Sidebar;
+
+const mapStateToProps = (state) => {
+  return {
+    loading: state.user.loading,
+    isLogged: state.auth.isLogged,
+    user: state.user.user,
+    error: state.list.error,
+    credit: state.list.credit,
+    creditLoaded: state.user.creditLoaded
+  }
+}
+
+export default connect(mapStateToProps, {getUser, isLoggedIn, postLogout})(Sidebar);

@@ -13,12 +13,11 @@ import {
   THEME_TYPE_LITE
 } from "../../constants/ThemeSetting";
 //import IntlMessages from "../../util/IntlMessages";
-import {useSelector, connect} from "react-redux";
-import {getUser, isLoggedIn, postLogout} from '../../appRedux/actions';
+import {useSelector} from "react-redux";
 
 const SidebarContent = (props) => {
 
-  const {sidebarCollapsed, setSidebarCollapsed, user, getUser, credit, creditLoaded, postLogout} = props;
+  const {sidebarCollapsed, setSidebarCollapsed, user, postLogout, credit, creditLoaded} = props;
 
   let {navStyle, themeType} = useSelector(({settings}) => settings);
   let {pathname} = useSelector(({common}) => common);
@@ -30,15 +29,6 @@ const SidebarContent = (props) => {
     return "";
   };
 
-  function handleLogout() {
-    postLogout();
-  }
-
-  useEffect(() => {
-    getUser();
-
-  }, [credit, creditLoaded, getUser])
-
   const selectedKeys = pathname.substr(1);
   const defaultOpenKeys = selectedKeys.split('/')[1];
   return (
@@ -46,7 +36,7 @@ const SidebarContent = (props) => {
       <SidebarLogo sidebarCollapsed={sidebarCollapsed} setSidebarCollapsed={setSidebarCollapsed}/>
       <div className="gx-sidebar-content">
         <div className={`gx-sidebar-notifications ${getNoHeaderClass(navStyle)}`}>
-          <UserProfile name={user.name} surName={user.surName}/>
+          {user && <UserProfile name={user.name} surName={user.surName}/>}
         </div>
         <CustomScrollbars className="gx-layout-sider-scrollbar">
           <Menu
@@ -84,8 +74,8 @@ const SidebarContent = (props) => {
         </CustomScrollbars>
 
         <div className={"sidebar-bottom"}>
-          <p>Kredim: {user.credit}</p>
-          <Button type={"link"} icon={<LogoutOutlined/>} style={{width: '100%', textAlign: 'left', color: '#fff', marginBottom: 15}} onClick={handleLogout}>
+          {(credit === null) ? <p>Kredim: {user.credit}</p> : <p>Kredim: {(creditLoaded === null) ? credit : creditLoaded}</p>}
+          <Button type={"link"} icon={<LogoutOutlined/>} style={{width: '100%', textAlign: 'left', color: '#fff', marginBottom: 15}} onClick={postLogout}>
             Çıkış
           </Button>
         </div>
@@ -94,16 +84,5 @@ const SidebarContent = (props) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    loading: state.user.loading,
-    isLogged: state.auth.isLogged,
-    user: state.user.user,
-    error: state.list.error,
-    credit: state.list.credit,
-    creditLoaded: state.user.credit
-  }
-}
-
-export default connect(mapStateToProps, {getUser, isLoggedIn, postLogout})(SidebarContent);
+export default SidebarContent;
 

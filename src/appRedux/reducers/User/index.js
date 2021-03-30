@@ -20,7 +20,7 @@ const initialState = {
   message: '',
   user: {},
   isPayment: false,
-  credit: null
+  creditLoaded: null
 };
 
 const UserReducer = (state = initialState, action) => {
@@ -52,14 +52,13 @@ const UserReducer = (state = initialState, action) => {
         ...state,
         loading: true,
         error: null,
-        credit: null
       };
     case POST_PAYMENT_SUCCESS:
       return {
         ...state,
         loading: false,
         isPayment: action.payload.isPayment,
-        credit: action.payload.credit
+        creditLoaded: action.payload.credit
       };
     case POST_PAYMENT_FAILED:
       return {

@@ -1,14 +1,36 @@
 import React, {useState, useEffect} from "react";
-import {Radio, Card, Select, Row, Col, Tooltip, Input, Spin, Button, message, Pagination, List, Avatar, Skeleton} from 'antd';
+import {
+  Radio,
+  Card,
+  Select,
+  Row,
+  Col,
+  Tooltip,
+  Input,
+  Spin,
+  Button,
+  message,
+  Pagination,
+  List,
+  Avatar,
+  Skeleton,
+  Modal
+} from 'antd';
 import {InfoCircleOutlined, SortDescendingOutlined} from '@ant-design/icons';
 import debounce from 'lodash/debounce';
 import CardList from "./components/CardList";
-import CardListTable from "./components/CardListTable";
 import {connect} from 'react-redux';
-import {postSearchAdvanced, postPagination, postSearchUserName, postGeneratePdf, isLoggedIn} from "../../appRedux/actions";
+import {
+  postSearchAdvanced,
+  postPagination,
+  postSearchUserName,
+  postGeneratePdf,
+  isLoggedIn
+} from "../../appRedux/actions";
 import data from './../../constants/data.json';
 import {PDFDownloadLink, PDFViewer} from '@react-pdf/renderer';
 import PdfDocument from "./components/PdfDocument";
+import report from './../../assets/images/instagram-report.pdf';
 
 const {Option} = Select;
 
@@ -53,6 +75,9 @@ const SamplePage = (props) => {
   const [page, setPage] = useState(1);
   const [spanName, setSpanName] = useState('');
   const [selectedItem, setSelectedItem] = useState({});
+  const [isModalShow, setIsModalShow] = useState(false);
+  const [userId, setUserId] = useState('');
+  const [isPdfButtonShow, setIsPdfButtonShow] = useState(false);
 
   const {
     searchList,
@@ -72,7 +97,7 @@ const SamplePage = (props) => {
 
   useEffect(() => {
 
-  }, [total, reportDataLoading, directs, showLoading, reportData, reportId, postGeneratePdf]);
+  }, [total, directs, showLoading, reportId]);
 
   function handleNetworkChange(e) {
     setNetwork(e.target.value);
@@ -111,6 +136,8 @@ const SamplePage = (props) => {
   }
 
   function handleFilter() {
+
+    console.log("clicked!!!");
 
     let data = {
       "sort": {
@@ -195,7 +222,7 @@ const SamplePage = (props) => {
   }
 
   function renderSwitch(param) {
-    switch(param.length) {
+    switch (param.length) {
       case 4:
         return `${param.substring(0, 1)},${param.substring(1, 2)}K`;
       case 5:
@@ -213,23 +240,33 @@ const SamplePage = (props) => {
     }
   }
 
-  function handleGeneratePdf(id, selected) {
-    setSelectedItem(selected);
+  function showModal(item) {
+    setIsModalShow(true);
+    setUserId(item.userId);
+    setSelectedItem(item.profile.fullname);
+  }
 
-    const item = document.getElementsByClassName(`list-item-btn-${id}`)[0];
-    const span = item.children[0];
+  function handleModalOk() {
+
+    setTimeout(() => {
+      setIsPdfButtonShow(true);
+    }, 1000)
 
     if (user.credit < 2) {
       message.error(`Yetersiz Bakiye`);
     } else {
-      postGeneratePdf(id, network);
-      if(reportDataLoading === false) {
-        span.innerHTML = 'Hazırlanıyor...';
-      } else {
-        span.innerHTML = 'Rapor Hazır';
-      }
+      postGeneratePdf(userId, network);
     }
+
+    setIsModalShow(true);
   }
+
+  function handleModalCancel() {
+    setIsModalShow(false);
+    setIsPdfButtonShow(false);
+  }
+
+  console.log("selected userId: ", userId);
 
   return (
     <Spin spinning={loading}>
@@ -555,10 +592,10 @@ const SamplePage = (props) => {
                       <List.Item
                         actions={[
                           <Button className={`btn btn-secondary list-item-btn-${item.userId}`} onClick={() => {
-                            handleGeneratePdf(item.userId, item);
+                            showModal(item);
                           }}>
-                            <span>Rapor Al (2 Kredi)</span>
-                          </Button>] }
+                            <span>Detaylı Rapor Al</span>
+                          </Button>, <a href={report} target={"_blank"}>Rapor Örneği</a>]}
 
                         className={`list-item-${item.userId}`}
                       >
@@ -568,15 +605,16 @@ const SamplePage = (props) => {
                               <List.Item.Meta
                                 className={"list-meta-item"}
                                 avatar={<Avatar size={50} src={`${item.profile.picture}`}/>}
-                                title={<h6 className={"gx-mb-0"}>{item.profile.fullname}</h6>}
-                                description={<a href={`${item.profile.url}`} target={"_blank"} rel="noreferrer">@{item.profile.username}</a>}
+                                title={<p className={"gx-mb-0"}>{item.profile.fullname}</p>}
+                                description={<a href={`${item.profile.url}`} target={"_blank"}
+                                                rel="noreferrer">@{item.profile.username}</a>}
                               />
                             </Col>
                             <Col md={5}>
                               <List.Item.Meta
-                                title={<h5 className={"gx-mb-0"}>
+                                title={<p className={"gx-mb-0"}>
                                   {renderSwitch(item.profile.followers.toString())}
-                                </h5>}
+                                </p>}
                                 description={
                                   <p className="text-muted" style={{fontSize: 14, marginBottom: 0}}>
                                     Takipçi
@@ -586,10 +624,10 @@ const SamplePage = (props) => {
                             </Col>
                             <Col md={7}>
                               <List.Item.Meta
-                                title={<h5 className={"gx-mb-0"}>
+                                title={<p className={"gx-mb-0"}>
                                   {item.profile.engagements.toString().substring(0, 3)}k
                                   ({parseFloat(parseFloat(item.profile.engagementRate) * 100).toFixed(2)} %)
-                                </h5>}
+                                </p>}
                                 description={
                                   <p className="gx-text-grey" style={{fontSize: 14, marginBottom: 0}}>
                                     Etkileşimler ve Oranı
@@ -605,31 +643,7 @@ const SamplePage = (props) => {
                 </Col>
               </Row>
             </div>
-
-
           }
-          {/**
-           searchList && searchList.map((item, index) => {
-              return (
-                <CardList key={item.userId}
-                          url={item.profile.url}
-                          avatar={item.profile.picture}
-                          name={item.profile.fullname}
-                          userName={item.profile.username}
-                          follower={item.profile.followers.toString()}
-                          engagement={`${item.profile.engagements}`}
-                          engagementRate={parseFloat(item.profile.engagementRate)}
-                          pdfUrl={'/'}
-                          reportDataLoading={reportDataLoading}
-                          data={reportData}
-                          credit={user.credit}
-                          userId={item.userId}
-                          network={network}
-                          documentFile={<PdfDocument data={reportData}/>}
-                />
-              )
-            })
-           **/}
           {
             directs && directs.map((item, index) => {
               return (
@@ -663,6 +677,36 @@ const SamplePage = (props) => {
           handlePagination();
         }} showSizeChanger={false}
                     style={{marginTop: 15}}/>}
+        <Modal
+          title="Rapor Al"
+          visible={isModalShow}
+          onOk={handleModalOk}
+          onCancel={handleModalCancel}
+          okText="Rapor Al (2 Kredi)"
+          okButtonProps={{ disabled: isPdfButtonShow, loading: reportDataLoading }}
+          cancelButtonProps={{ disabled: isPdfButtonShow }}
+          cancelText="Vazgeç"
+        >
+          <p className={"text-muted"}>
+            Sizde <b>{selectedItem && selectedItem}</b> <br/> hakkında detaylı rapor oluşturabilirsiniz.
+          </p>
+          <p className={"text-muted"}>Oluşturacağınız bu rapor ile Influencer hakkında daha detaylı bilgi edinebilir, takipçileri hakkında daha fazla bilgi edinebilir ve aylara göre etkileşim oranında ki farkları inceleyebilirsiniz.</p>
+          <p className={"text-muted"}>Bu raporun bir örneğini aşağıda ki linkten  inceleyebilirsiniz.</p>
+          <p className={"text-muted"}>
+            <a href={report} target={"_blank"}>
+              Örnek Rapor
+            </a>
+          </p>
+
+          {isPdfButtonShow &&
+          <div>
+            <span className={"text-muted"} style={{marginRight: 15}}>Oluşturulan Rapor: </span>
+            <PDFDownloadLink className={"btn btn-primary"} document={<PdfDocument data={reportData}/>} filename={`detailed-report.pdf`}>
+              {({blob, url, loading, error}) => (loading ? <span>Hazırlanıyor</span> : <span>Rapor Hazır (indir)</span>)}
+            </PDFDownloadLink>
+          </div>
+          }
+        </Modal>
       </div>
     </Spin>
   );

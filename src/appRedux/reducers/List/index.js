@@ -15,6 +15,7 @@ import {
   NOT_LOGGED_IN,
 } from "../../../constants/ActionTypes";
 import data from './data.json';
+import _ from "lodash";
 
 const initialState = {
   loading: false,
@@ -36,10 +37,10 @@ const ListReducer = (state = initialState, action) => {
         ...state,
         loading: true,
         error: null,
-        credit: null,
         showSorting: false,
       };
     case SEARCH_ADVANCED_SUCCESS:
+
       return {
         ...state,
         loading: false,
@@ -106,17 +107,12 @@ const ListReducer = (state = initialState, action) => {
     case SEARCH_GENERATE_PDF_REQUEST:
       return {
         ...state,
-        error: null,
-        credit: null,
         reportDataLoading: true,
-        reportId: null
       };
     case SEARCH_GENERATE_PDF_SUCCESS:
       return {
         ...state,
         reportDataLoading: false,
-        error: null,
-        reportId: action.payload.pdfBody.profile,
         reportData: action.payload.pdfBody.profile,
         credit: action.payload.credit
       };
