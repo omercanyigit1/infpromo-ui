@@ -4,9 +4,9 @@ import {
   FETCH_USER_SUCCESS,
   LOGGED_IN,
   NOT_LOGGED_IN,
-  POST_PAYMENT_REQUEST,
-  POST_PAYMENT_SUCCESS,
-  POST_PAYMENT_FAILED,
+  POST_TICKET_REQUEST,
+  POST_TICKET_SUCCESS,
+  POST_TICKET_FAILED,
   UPDATE_USER_FAILED,
   UPDATE_USER_REQUEST,
   UPDATE_USER_SUCCESS
@@ -20,7 +20,8 @@ const initialState = {
   message: '',
   user: {},
   isPayment: false,
-  creditLoaded: null
+  creditLoaded: null,
+  isTicketSend: false
 };
 
 const UserReducer = (state = initialState, action) => {
@@ -66,6 +67,26 @@ const UserReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         error: 'Kullanıcı Güncellenemedi...',
+      };
+    case POST_TICKET_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        error: null,
+        isTicketSend: false
+      };
+    case POST_TICKET_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        isTicketSend: true
+      };
+    case POST_TICKET_FAILED:
+      return {
+        ...state,
+        loading: false,
+        error: 'Invalid User',
+        isTicketSend: false
       };
     case LOGGED_IN:
       return {

@@ -15,7 +15,7 @@ const NextApp = (props) => {
   return (
     <Provider store={store}>
       <ConnectedRouter history={history}>
-        <WrapperApp />
+        <WrapperApp history={history} />
       </ConnectedRouter>
     </Provider>
   )

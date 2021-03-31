@@ -86,8 +86,9 @@ const MainApp = (props) => {
         <Content className={`gx-layout-content ${getContainerClass(navStyle)}`}>
           <App match={match}/>
           <Footer>
-            <div className="gx-layout-footer-content">
-              {footerText}
+            <div className="gx-layout-footer-content" style={{display: 'flex', justifyContent: 'space-between'}}>
+              <span>{footerText}</span>
+              <div>Destek: <a href="mailto:info@infpromo.com">info@infpromo.com</a></div>
             </div>
           </Footer>
         </Content>

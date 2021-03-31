@@ -1,6 +1,6 @@
 import React, {useEffect} from "react";
 import {Menu, Button} from "antd";
-import {Link} from "react-router-dom";
+import {Link, useHistory, useLocation} from "react-router-dom";
 import {LogoutOutlined} from '@ant-design/icons';
 
 import CustomScrollbars from "util/CustomScrollbars";
@@ -16,6 +16,8 @@ import {
 import {useSelector} from "react-redux";
 
 const SidebarContent = (props) => {
+  let history = useHistory();
+  let location = useLocation();
 
   const {sidebarCollapsed, setSidebarCollapsed, user, postLogout, credit} = props;
 
@@ -31,6 +33,9 @@ const SidebarContent = (props) => {
 
   const selectedKeys = pathname.substr(1);
   const defaultOpenKeys = selectedKeys.split('/')[1];
+
+  console.log(location)
+
   return (
     <>
       <SidebarLogo sidebarCollapsed={sidebarCollapsed} setSidebarCollapsed={setSidebarCollapsed}/>
@@ -69,7 +74,14 @@ const SidebarContent = (props) => {
                 </span>
               </Link>
             </Menu.Item>
-
+            <Menu.Item key={"support"}>
+              <Link to="/support">
+                <i className="icon icon-ticket-new"/>
+                <span>
+                  Canlı Destek
+                </span>
+              </Link>
+            </Menu.Item>
           </Menu>
         </CustomScrollbars>
 

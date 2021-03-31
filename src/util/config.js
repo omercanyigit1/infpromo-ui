@@ -1,3 +1,3 @@
 module.exports = {
-  footerText: 'Copyright Infpromo © 2021',
+  footerText: '© 2020-21 Infpromo',
 }

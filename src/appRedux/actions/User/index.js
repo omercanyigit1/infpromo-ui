@@ -8,6 +8,9 @@ import {
   UPDATE_USER_REQUEST,
   UPDATE_USER_SUCCESS,
   UPDATE_USER_FAILED,
+  POST_TICKET_REQUEST,
+  POST_TICKET_SUCCESS,
+  POST_TICKET_FAILED,
   API_URL,
 } from "../../../constants/ActionTypes";
 import axios from 'axios';
@@ -73,6 +76,20 @@ export const updateUserFailed = error => ({
 
 export const updateUserSuccess = (data) => ({
   type: UPDATE_USER_SUCCESS,
+  payload: data,
+});
+
+export const postTicketRequest = () => ({
+  type: POST_TICKET_REQUEST
+});
+
+export const postTicketFailed = error => ({
+  type: POST_TICKET_FAILED,
+  payload: error
+});
+
+export const postTicketSuccess = (data) => ({
+  type: POST_TICKET_SUCCESS,
   payload: data,
 });
 
@@ -152,6 +169,33 @@ export const updateUser = (data) => {
           dispatch(updateUserSuccess(response.data));
         }).catch((error) => {
           dispatch(updateUserFailed(error.response));
+        });
+      });
+    });
+  };
+};
+
+export const postTicket = (data) => {
+
+  return dispatch => {
+
+    _retrieveDataId().then((id) => {
+      _retrieveData().then((token) => {
+
+        const axiosConfig = {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': "application/json",
+          }
+        };
+
+        dispatch(postTicketRequest());
+
+        axios.post(`${API_URL}/users/ticket`,data, axiosConfig).then((response) => {
+          dispatch(postTicketSuccess(response.data.data));
+          //console.log(response.data.data);
+        }).catch((error) => {
+          dispatch(postTicketFailed(error.response));
         });
       });
     });

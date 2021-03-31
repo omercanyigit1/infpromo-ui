@@ -1,4 +1,4 @@
-//export const API_URL = "https://infpromo-backend-dasg3.ondigitalocean.app";
+//export const API_URL = "https://infpromo-backend-plxkq.ondigitalocean.app";
 export const API_URL = "http://localhost:8000";
 
 // Customizer const
@@ -40,6 +40,10 @@ export const POST_RESET_PASSWORD_FAILED = 'POST_RESET_PASSWORD_FAILED';
 export const REGISTER_USER_REQUEST = 'REGISTER_USER_REQUEST';
 export const REGISTER_USER_SUCCESS = 'REGISTER_USER_SUCCESS';
 export const REGISTER_USER_FAILED = 'REGISTER_USER_FAILED';
+
+export const POST_TICKET_REQUEST = 'POST_TICKET_REQUEST';
+export const POST_TICKET_SUCCESS = 'POST_TICKET_SUCCESS';
+export const POST_TICKET_FAILED = 'POST_TICKET_FAILED';
 
 export const FETCH_USER_REQUEST = 'FETCH_USER_REQUEST';
 export const FETCH_USER_SUCCESS = 'FETCH_USER_SUCCESS';
