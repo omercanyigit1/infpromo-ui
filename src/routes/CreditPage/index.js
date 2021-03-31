@@ -164,7 +164,7 @@ const mapStateToProps = (state) => {
     loading: state.user.loading,
     error: state.user.error,
     user: state.user.user,
-    isPayment: state.user.isPayment
+    isPayment: state.list.isPayment
   }
 }
 

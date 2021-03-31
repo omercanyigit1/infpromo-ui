@@ -265,8 +265,6 @@ const SamplePage = (props) => {
     setIsPdfButtonShow(false);
   }
 
-  console.log("selected userId: ", userId);
-
   return (
     <Spin spinning={loading}>
       <div>
@@ -585,6 +583,9 @@ const SamplePage = (props) => {
                     className="list-item gx-mt-2"
                     loading={loading}
                     itemLayout="horizontal"
+                    locale={{emptyText: 'Veri Yok'}}
+                    bordered={true}
+                    size={'large'}
                     dataSource={searchList}
                     column={4}
                     renderItem={item => (
@@ -600,13 +601,12 @@ const SamplePage = (props) => {
                       >
                         <Skeleton loading={loading}>
                           <Row style={{width: '100%'}} gutter={[0, 0]}>
-                            <Col md={12}>
+                            <Col sm={12} md={12}>
                               <List.Item.Meta
                                 className={"list-meta-item"}
                                 avatar={<Avatar size={50} src={`${item.profile.picture}`}/>}
                                 title={<p className={"gx-mb-0"}>{item.profile.fullname}</p>}
-                                description={<a href={`${item.profile.url}`} target={"_blank"}
-                                                rel="noreferrer">@{item.profile.username}</a>}
+                                description={<a href={`${item.profile.url}`} target={"_blank"} rel="noreferrer">@{item.profile.username}</a>}
                               />
                             </Col>
                             <Col md={5}>

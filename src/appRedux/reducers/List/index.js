@@ -12,7 +12,7 @@ import {
   POST_PAGINATION_SUCCESS,
   POST_PAGINATION_FAILED,
   LOGGED_IN,
-  NOT_LOGGED_IN,
+  NOT_LOGGED_IN, POST_PAYMENT_REQUEST, POST_PAYMENT_SUCCESS, POST_PAYMENT_FAILED,
 } from "../../../constants/ActionTypes";
 import data from './data.json';
 
@@ -121,6 +121,26 @@ const ListReducer = (state = initialState, action) => {
         loading: false,
         isLogged: false,
         error: action.payload.data.message,
+      };
+    case POST_PAYMENT_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      };
+    case POST_PAYMENT_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        isPayment: action.payload.isPayment,
+        credit: action.payload.credit
+      };
+    case POST_PAYMENT_FAILED:
+      return {
+        ...state,
+        loading: false,
+        error: 'Invalid User',
+        isPayment: false,
       };
     case LOGGED_IN:
       return {

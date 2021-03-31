@@ -1,5 +1,5 @@
 import React from 'react';
-import {Document, Page, Text, View, StyleSheet, Font, Image, Link} from '@react-pdf/renderer';
+import {Document, Page, Text, View, StyleSheet, Image, Link} from '@react-pdf/renderer';
 import logo from './../../../assets/images/infpromo-logo-black.png'
 
 // Create styles
@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
   box: {
-    width: 240,
+    width: '33.3%',
     height: 120,
     backgroundColor: '#ddd',
     border: '1px solid #ff0000',

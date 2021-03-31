@@ -17,7 +17,7 @@ import {useSelector} from "react-redux";
 
 const SidebarContent = (props) => {
 
-  const {sidebarCollapsed, setSidebarCollapsed, user, postLogout, credit, creditLoaded} = props;
+  const {sidebarCollapsed, setSidebarCollapsed, user, postLogout, credit} = props;
 
   let {navStyle, themeType} = useSelector(({settings}) => settings);
   let {pathname} = useSelector(({common}) => common);
@@ -74,7 +74,7 @@ const SidebarContent = (props) => {
         </CustomScrollbars>
 
         <div className={"sidebar-bottom"}>
-          {(credit === null) ? <p>Kredim: {user.credit}</p> : <p>Kredim: {(creditLoaded === null) ? credit : creditLoaded}</p>}
+          {(credit === null) ? <p>Kredim: {user.credit}</p> : <p>Kredim: {credit}</p>}
           <Button type={"link"} icon={<LogoutOutlined/>} style={{width: '100%', textAlign: 'left', color: '#fff', marginBottom: 15}} onClick={postLogout}>
             Çıkış
           </Button>

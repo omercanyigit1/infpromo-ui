@@ -4,7 +4,6 @@ import {Container, Row, Col} from "reactstrap";
 import {Link} from "react-router-dom";
 
 //Import Containers
-import ReviewsSlider from "../../components/Shared/ReviewsSlider";
 
 //Import Images
 import img1 from "../../assets/images/client/01.jpg";

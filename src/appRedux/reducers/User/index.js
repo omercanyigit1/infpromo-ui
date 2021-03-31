@@ -47,26 +47,6 @@ const UserReducer = (state = initialState, action) => {
         error: 'Invalid User',
         user: {}
       };
-    case POST_PAYMENT_REQUEST:
-      return {
-        ...state,
-        loading: true,
-        error: null,
-      };
-    case POST_PAYMENT_SUCCESS:
-      return {
-        ...state,
-        loading: false,
-        isPayment: action.payload.isPayment,
-        creditLoaded: action.payload.credit
-      };
-    case POST_PAYMENT_FAILED:
-      return {
-        ...state,
-        loading: false,
-        error: 'Invalid User',
-        isPayment: false,
-      };
     case UPDATE_USER_REQUEST:
       return {
         ...state,

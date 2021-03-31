@@ -18,14 +18,13 @@ import {
 const {Sider} = Layout;
 
 const Sidebar = (props) => {
-  const {postLogout, credit, user, getUser, creditLoaded} = props;
+  const {postLogout, credit, user, getUser} = props;
 
   const dispatch = useDispatch();
   let [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   const {themeType, navStyle} = useSelector(({settings}) => settings);
   const {navCollapsed, width} = useSelector(({common}) => common);
-
 
   function handleLogout() {
     postLogout();
@@ -41,7 +40,7 @@ const Sidebar = (props) => {
     }
 
     setSidebarCollapsed(navStyle===NAV_STYLE_MINI_SIDEBAR)
-  },[navStyle, credit, creditLoaded])
+  },[navStyle, credit])
 
   useEffect(() => {
     window.addEventListener('resize', () => {
@@ -84,7 +83,7 @@ const Sidebar = (props) => {
             visible={navCollapsed}>
             <SidebarContent sidebarCollapsed={sidebarCollapsed} setSidebarCollapsed={setSidebarCollapsed}/>
           </Drawer> :
-          <SidebarContent sidebarCollapsed={sidebarCollapsed} setSidebarCollapsed={setSidebarCollapsed} user={user} creditLoaded={creditLoaded} credit={credit} postLogout={handleLogout}/>
+          <SidebarContent sidebarCollapsed={sidebarCollapsed} setSidebarCollapsed={setSidebarCollapsed} user={user} credit={credit} postLogout={handleLogout}/>
       }
     </Sider>)
 };
@@ -96,7 +95,6 @@ const mapStateToProps = (state) => {
     user: state.user.user,
     error: state.list.error,
     credit: state.list.credit,
-    creditLoaded: state.user.creditLoaded
   }
 }
 
