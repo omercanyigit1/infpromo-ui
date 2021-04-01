@@ -3,8 +3,9 @@ import Layout from "./components/Layout";
 import {
   Route,
   Switch,
-  BrowserRouter as Router,
+  Router,
   withRouter,
+  HashRouter
 } from "react-router-dom";
 import {isLoggedIn} from "../../appRedux/actions";
 import {connect} from 'react-redux';
@@ -53,7 +54,7 @@ class LandingApp extends Component {
 
     return (
       <React.Fragment>
-        <Router>
+        <HashRouter>
           <Suspense fallback={this.Loader()}>
             <Switch>
               {routes.map((route, idx) =>
@@ -75,7 +76,7 @@ class LandingApp extends Component {
               )}
             </Switch>
           </Suspense>
-        </Router>
+        </HashRouter>
       </React.Fragment>
     );
   }

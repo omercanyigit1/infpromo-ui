@@ -1,11 +1,15 @@
 import React, {useEffect} from "react";
 import {isLoggedIn} from "./appRedux/actions";
-import {Route, Switch} from "react-router-dom";
+import {Route, Switch, HashRouter, useLocation} from "react-router-dom";
 import App from "./containers/App";
 import LandingApp from "./containers/LandingApp";
 import {connect} from "react-redux";
 
 const WrapperApp = (props) => {
+  let location = useLocation();
+
+  //console.log("location: ", location);
+
   const {isLoggedIn, isLogged, history} = props;
 
   console.log("history: ", history);
@@ -14,15 +18,15 @@ const WrapperApp = (props) => {
     isLoggedIn();
 
     if(isLogged === false) {
-      if(window.location.pathname === '/search' || window.location.pathname === '/account' || window.location.pathname === '/credit' || window.location.pathname === '/support') {
-        history.push('/');
+      if(location.hash === '#/search' || location.hash === '#/account' || location.hash === '#/credit' || location.hash === '#/support') {
+        history.push('#/');
         history.go(0);
       }
     }
 
     if(isLogged === true) {
-      if(window.location.pathname === '/login' || window.location.pathname === '/register' || window.location.pathname === '/forget-password') {
-        history.push('/search');
+      if(location.hash === '#/login' || location.hash === '#/register' || location.hash === '#/forget-password') {
+        history.push('#/search');
       }
     }
 
@@ -30,17 +34,21 @@ const WrapperApp = (props) => {
 
   if(isLogged) {
     return (
-      <Switch>
-        <Route path="/" component={App} />
-      </Switch>
+      <HashRouter>
+        <Switch>
+          <Route path="/" component={App} />
+        </Switch>
+      </HashRouter>
     )
   }
 
   if(!isLogged) {
     return (
-      <Switch>
-        <Route path={`/`} component={LandingApp} />
-      </Switch>
+      <HashRouter>
+        <Switch>
+          <Route path={`/`} component={LandingApp} />
+        </Switch>
+      </HashRouter>
     )
   }
 }

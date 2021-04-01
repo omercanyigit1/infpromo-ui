@@ -16,7 +16,6 @@ import {
 import {useSelector} from "react-redux";
 
 const SidebarContent = (props) => {
-  let history = useHistory();
   let location = useLocation();
 
   const {sidebarCollapsed, setSidebarCollapsed, user, postLogout, credit} = props;
@@ -31,10 +30,8 @@ const SidebarContent = (props) => {
     return "";
   };
 
-  const selectedKeys = pathname.substr(1);
+  const selectedKeys = location.pathname.substr(1);
   const defaultOpenKeys = selectedKeys.split('/')[1];
-
-  console.log(location)
 
   return (
     <>
@@ -50,7 +47,7 @@ const SidebarContent = (props) => {
             theme={themeType === THEME_TYPE_LITE ? 'lite' : 'dark'}
             mode="inline">
 
-            <Menu.Item key="search">
+            <Menu.Item key={"search"}>
               <Link to="/search">
                 <i className="icon icon-search"/>
                 <span>
