@@ -112,7 +112,7 @@ export const getUser = () => {
         axios.get(`${API_URL}/users/${id}`, axiosConfig).then((response) => {
           dispatch(getUserSuccess(response.data.data));
         }).catch((error) => {
-          getUserFailed(error.response)
+          getUserFailed(error.response.data)
         });
       });
     })
@@ -138,9 +138,8 @@ export const postPayment = (data) => {
 
         axios.post(`${API_URL}/credit/user/${id}`,data, axiosConfig).then((response) => {
           dispatch(postPaymentSuccess(response.data.data));
-          //console.log(response.data.data);
         }).catch((error) => {
-          dispatch(postPaymentFailed(error.response));
+          dispatch(postPaymentFailed(error.response.data));
         });
       });
     });
@@ -168,7 +167,7 @@ export const updateUser = (data) => {
         axios.patch(`${API_URL}/users/${id}`,data, axiosConfig).then((response) => {
           dispatch(updateUserSuccess(response.data));
         }).catch((error) => {
-          dispatch(updateUserFailed(error.response));
+          dispatch(updateUserFailed(error.response.data));
         });
       });
     });
@@ -193,9 +192,8 @@ export const postTicket = (data) => {
 
         axios.post(`${API_URL}/users/ticket`,data, axiosConfig).then((response) => {
           dispatch(postTicketSuccess(response.data.data));
-          //console.log(response.data.data);
-        }).catch((error) => {
-          dispatch(postTicketFailed(error.response));
+        }).catch((e) => {
+          dispatch(postTicketFailed(e.response.data));
         });
       });
     });

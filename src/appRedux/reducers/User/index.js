@@ -17,6 +17,9 @@ const initialState = {
   isLogged: false,
   loading: false,
   error: null,
+  errorGetUser: null,
+  errorUpdateUser: null,
+  errorTicket: null,
   message: '',
   user: {},
   isPayment: false,
@@ -31,7 +34,7 @@ const UserReducer = (state = initialState, action) => {
         ...state,
         loading: true,
         isLogged: false,
-        error: null
+        errorGetUser: null
       };
     case FETCH_USER_SUCCESS:
       return {
@@ -45,14 +48,14 @@ const UserReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         isLogged: false,
-        error: 'Invalid User',
+        errorGetUser: action.payload.message,
         user: {}
       };
     case UPDATE_USER_REQUEST:
       return {
         ...state,
         loading: true,
-        error: null
+        errorUpdateUser: null
       };
     case UPDATE_USER_SUCCESS:
       const newUser = _.extend({}, state.user, action.payload.data.userPublic);
@@ -66,13 +69,13 @@ const UserReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        error: 'Kullanıcı Güncellenemedi...',
+        errorUpdateUser: action.payload.message
       };
     case POST_TICKET_REQUEST:
       return {
         ...state,
         loading: true,
-        error: null,
+        errorTicket: null,
         isTicketSend: false
       };
     case POST_TICKET_SUCCESS:
@@ -85,7 +88,7 @@ const UserReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        error: 'Invalid User',
+        errorTicket: action.payload.message,
         isTicketSend: false
       };
     case LOGGED_IN:

@@ -111,7 +111,7 @@ export const postSearchAdvanced = (data, network) => {
         axios.post(`${API_URL}/${network}/search/${id}`, data, axiosConfig).then((response) => {
           dispatch(postSearchAdvancedSuccess(response.data.data));
         }).catch((error) => {
-          dispatch(postSearchAdvancedFailed(error.response));
+          dispatch(postSearchAdvancedFailed(error.response.data));
         });
       });
     });
@@ -137,7 +137,7 @@ export const postPagination = (data, network) => {
         axios.post(`${API_URL}/${network}/search/${id}`, data, axiosConfig).then((response) => {
           dispatch(postPaginationSuccess(response.data.data));
         }).catch((error) => {
-          dispatch(postPaginationFailed(error.response));
+          dispatch(postPaginationFailed(error.response.data));
         });
       });
     });
@@ -163,7 +163,7 @@ export const postSearchUserName = (data, network) => {
         axios.post(`${API_URL}/${network}/search/${id}`, data, axiosConfig).then((response) => {
           dispatch(postSearchUserNameSuccess(response.data.data));
         }).catch((error) => {
-          dispatch(postSearchUserNameFailed(error.response));
+          dispatch(postSearchUserNameFailed(error.response.data));
         });
       });
     });
@@ -188,7 +188,7 @@ export const postGeneratePdf = (userId, network) => {
         axios.get(`${API_URL}/${network}/profile/${userId}/report/${id}`, axiosConfig).then((response) => {
           dispatch(postGeneratePdfSuccess(response.data.data));
         }).catch((error) => {
-          dispatch(postGeneratePdfFailed(error.response));
+          dispatch(postGeneratePdfFailed(error.response.data));
         });
       });
     });

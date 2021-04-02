@@ -24,6 +24,7 @@ const WrapperApp = (props) => {
       }
     }
 
+
     if(isLogged === true) {
       if(location.hash === '#/login' || location.hash === '#/register' || location.hash === '#/forget-password') {
         history.push('#/search');

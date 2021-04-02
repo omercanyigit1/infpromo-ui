@@ -16,7 +16,7 @@ const formItemLayout = {
 
 const AccountPage = (props) => {
   const [form] = Form.useForm();
-  const {user, loading, updateUser, error} = props;
+  const {user, loading, updateUser, errorUpdateUser} = props;
   const [name, setName] = useState(user.name);
   const [surName, setSurName] = useState(user.surName);
   const [email, setEmail] = useState(user.email);
@@ -65,7 +65,7 @@ const AccountPage = (props) => {
       updateUser(newData);
     }
 
-    if(!error) {
+    if(!errorUpdateUser) {
       notification['success']({
         message: 'Başarılı',
         description:
@@ -146,7 +146,7 @@ const AccountPage = (props) => {
 const mapStateToProps = (state) => {
   return {
     loading: state.user.loading,
-    error: state.user.error,
+    errorUpdateUser: state.user.errorUpdateUser,
     user: state.user.user
   }
 }

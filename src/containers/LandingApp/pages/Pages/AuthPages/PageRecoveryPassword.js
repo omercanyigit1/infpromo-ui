@@ -24,7 +24,7 @@ import {connect} from 'react-redux';
 
 const PageRecoveryPassword = (props) => {
   let params = useParams();
-  const {getResetPassword, error, postResetPassword, user, loading, isRecoveryPassword} = props;
+  const {getResetPassword, postResetPassword, user, loading, isRecoveryPassword} = props;
   const [password, setPassword] = useState('');
   const [isMatch, setIsMatch] = useState(false);
 
@@ -216,7 +216,8 @@ const PageRecoveryPassword = (props) => {
 const mapStateToProps = (state) => {
   return {
     loading: state.auth.loading,
-    error: state.auth.error,
+    errorGetRecovery: state.auth.errorGetRecovery,
+    errorRecovery: state.auth.errorRecovery,
     isRecoveryPassword: state.auth.isRecoveryPassword,
     user: state.auth.user
   }

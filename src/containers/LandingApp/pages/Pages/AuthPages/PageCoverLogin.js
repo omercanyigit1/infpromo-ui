@@ -34,7 +34,7 @@ const PageCoverLogin = (props) => {
   const [, forceUpdate] = useState();
 
   //props
-  const {postLoginUser, isLogged, isLoggedIn, user, error} = props;
+  const {postLoginUser, isLogged, isLoggedIn, user, errorLogin} = props;
 
   function handleEmailChange(e) {
     setEmail(e.target.value);
@@ -57,7 +57,7 @@ const PageCoverLogin = (props) => {
   useEffect(() => {
     forceUpdate({});
 
-  }, [email, password, isLoggedIn, isLogged, user, error]);
+  }, [email, password, isLoggedIn, isLogged, user, errorLogin]);
 
   return (
     <React.Fragment>
@@ -82,10 +82,10 @@ const PageCoverLogin = (props) => {
                     >
                       <CardBody className="p-0">
                         <h4 className="card-title text-center">Giriş</h4>
-                        {error &&
+                        {errorLogin &&
                         <Alert
                           message="Hata!"
-                          description={`${error}`}
+                          description={`${errorLogin}`}
                           type="error"
                           closable
                         />
@@ -248,7 +248,7 @@ const mapStateToProps = (state) => {
     user: state.user.user,
     token: state.auth.token,
     loading: state.auth.loading,
-    error: state.auth.error,
+    errorLogin: state.auth.errorLogin,
     formLoading: state.auth.formLoading,
     isLogged: state.auth.isLogged
   }

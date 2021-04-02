@@ -17,7 +17,7 @@ const formItemLayout = {
 
 const SupportPage = (props) => {
   const [form] = Form.useForm();
-  const {user, loading, postTicket, error, isTicketSend} = props;
+  const {user, loading, postTicket, errorTicket, isTicketSend} = props;
   const [subject, setSubject] = useState('');
   const [message, setMessage] = useState('');
 
@@ -42,7 +42,7 @@ const SupportPage = (props) => {
 
     postTicket(newData);
 
-    if(!error) {
+    if(!errorTicket) {
       notification['success']({
         message: 'Başarılı',
         description:
@@ -122,7 +122,7 @@ const SupportPage = (props) => {
                       <Row gutter={[10, 10]}>
                         <Col md={24}>
                           <Form.Item style={{textAlign: 'right'}}>
-                            <Button className={"btn btn-primary"} htmlType={"submit"}>Gönder</Button>
+                            <Button className={"btn btn-primary"} htmlType={"submit"} disabled={!subject || !message}>Gönder</Button>
                           </Form.Item>
                         </Col>
                       </Row>
@@ -143,7 +143,7 @@ const SupportPage = (props) => {
 const mapStateToProps = (state) => {
   return {
     loading: state.user.loading,
-    error: state.user.error,
+    errorTicket: state.user.errorTicket,
     user: state.user.user,
     isTicketSend: state.user.isTicketSend
   }

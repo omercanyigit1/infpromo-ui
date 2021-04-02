@@ -11,7 +11,7 @@ import {
   Card,
   CardBody,
 } from "reactstrap";
-import {Alert, Result, Spin} from "antd";
+import {Alert, notification, Result, Spin} from "antd";
 import { AvForm, AvField } from "availity-reactstrap-validation";
 import {postForgetPassword} from "../../../../../appRedux/actions";
 import {connect} from 'react-redux';
@@ -23,7 +23,7 @@ import FeatherIcon from "feather-icons-react";
 import user03 from "../../../assets/images/user/03.jpg";
 
 const PageCoverRePassword = (props) => {
-  const {postForgetPassword, loading, error, isResetPassword} = props;
+  const {postForgetPassword, loading, errorForget, isResetPassword} = props;
   const [email, setEmail] = useState('');
 
   function handleEmailChange(e) {
@@ -35,8 +35,14 @@ const PageCoverRePassword = (props) => {
       "email": email
     }
 
-    if(!error) {
+    if(!errorForget) {
       postForgetPassword(data);
+    } else {
+      notification['error']({
+        message: 'Başarısız',
+        description: `${errorForget}`
+          ,
+      });
     }
   }
 
@@ -87,14 +93,6 @@ const PageCoverRePassword = (props) => {
                           <h4 className="card-title text-center">
                             Parolamı Unuttum !
                           </h4>
-                          {error &&
-                          <Alert
-                            message="Hata!"
-                            description={`${error}`}
-                            type="error"
-                            closable
-                          />
-                          }
                           <AvForm className="login-form mt-4">
                             <Row>
                               <Col lg="12">
@@ -180,7 +178,7 @@ const PageCoverRePassword = (props) => {
 const mapStateToProps = (state) => {
   return {
     loading: state.auth.loading,
-    error: state.auth.error,
+    errorForget: state.auth.errorForget,
     isResetPassword: state.auth.isResetPassword
   }
 }

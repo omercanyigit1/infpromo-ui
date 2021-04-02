@@ -127,22 +127,19 @@ export const postRegisterUser = (user) => {
     axios.post(`${API_URL}/users/register`, user).then((response) => {
       dispatch(postRegisterUserSuccess(response.data.data));
     }).catch((e) => {
-      dispatch(postRegisterUserFailed(e))
+      dispatch(postRegisterUserFailed(e.response.data))
     })
   }
 };
 
 export const postForgetPassword = (user) => {
 
-  console.log(user);
-
   return dispatch => {
     dispatch(postForgetPasswordRequest());
     axios.post(`${API_URL}/users/forget-password`, user).then((response) => {
       dispatch(postForgetPasswordSuccess(response.data));
     }).catch((e) => {
-      //dispatch(postForgetPasswordFailed(e.response.data));
-      console.log(e);
+      dispatch(postForgetPasswordFailed(e.response.data));
     })
   }
 };

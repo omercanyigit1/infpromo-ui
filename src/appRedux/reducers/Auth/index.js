@@ -26,6 +26,11 @@ const initialState = {
   isLogged: false,
   loading: false,
   error: null,
+  errorLogin: null,
+  errorForget: null,
+  errorRegister: null,
+  errorRecovery: null,
+  errorGetRecovery: null,
   message: '',
   isCreated: false,
   isResetPassword: false,
@@ -39,7 +44,7 @@ const AuthReducer = (state = initialState, action) => {
         ...state,
         loading: true,
         isLogged: false,
-        error: null
+        errorLogin: null
       };
     case LOGIN_USER_SUCCESS:
       return {
@@ -55,14 +60,14 @@ const AuthReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         isLogged: false,
-        error: action.payload.message,
+        errorLogin: action.payload.message,
         user: {}
       };
     case REGISTER_USER_REQUEST:
       return {
         ...state,
         loading: true,
-        error: null
+        errorRegister: null
       };
     case REGISTER_USER_SUCCESS:
       return {
@@ -74,14 +79,14 @@ const AuthReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        error: 'Geçersiz Kullanıcı',
+        errorRegister: action.payload.message,
         user: {}
       };
     case FORGET_PASSWORD_REQUEST:
       return {
         ...state,
         loading: true,
-        error: null
+        errorForget: null
       };
     case FORGET_PASSWORD_SUCCESS:
       return {
@@ -93,13 +98,13 @@ const AuthReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        error: action.payload,
+        errorForget: action.payload.message,
       };
     case FETCH_RESET_PASSWORD_REQUEST:
       return {
         ...state,
         loading: true,
-        error: null,
+        errorGetRecovery: null,
       };
     case FETCH_RESET_PASSWORD_SUCCESS:
       return {
@@ -111,13 +116,13 @@ const AuthReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        error: action.payload,
+        errorGetRecovery: action.payload.message,
       };
     case POST_RESET_PASSWORD_REQUEST:
       return {
         ...state,
         loading: true,
-        error: null
+        errorRecovery: null
       };
     case POST_RESET_PASSWORD_SUCCESS:
       return {
@@ -129,7 +134,7 @@ const AuthReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        error: action.payload,
+        errorRecovery: action.payload.message,
       };
     case LOGOUT_USER_SUCCESS:
       return {

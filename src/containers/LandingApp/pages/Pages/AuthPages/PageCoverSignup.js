@@ -12,7 +12,7 @@ import {
   CardBody,
 } from "reactstrap";
 import {AvForm, AvField} from "availity-reactstrap-validation";
-import {Spin, Result, Button} from 'antd';
+import {Spin, Result, Button, Alert} from 'antd';
 import {connect} from 'react-redux';
 import {postRegisterUser, isLoggedIn} from '../../../../../appRedux/actions/';
 
@@ -24,7 +24,7 @@ import user02 from "../../../assets/images/user/02.jpg";
 
 const PageCoverSignup = (props) => {
 
-  const {postRegisterUser, isLoggedIn, loading, error, isCreated} = props;
+  const {postRegisterUser, isLoggedIn, loading, errorRegister, isCreated} = props;
 
   //states
   const [name, setName] = useState('');
@@ -47,7 +47,7 @@ const PageCoverSignup = (props) => {
 
   useEffect(() => {
 
-  }, [email, password, name, surName, isLoggedIn, isCreated, error]);
+  }, [email, password, name, surName, isLoggedIn, isCreated, errorRegister]);
 
   const handleSubmit = () => {
 
@@ -101,6 +101,14 @@ const PageCoverSignup = (props) => {
                       >
                         <CardBody className="p-0">
                           <h4 className="card-title text-center">Üye Ol</h4>
+                          {errorRegister &&
+                          <Alert
+                            message="Hata!"
+                            description={`${errorRegister}`}
+                            type="error"
+                            closable
+                          />
+                          }
                           <AvForm className="login-form mt-4">
                             <Row>
                               <Col md="6">
@@ -352,7 +360,7 @@ const mapStateToProps = (state) => {
 
   return {
     loading: state.auth.loading,
-    error: state.auth.error,
+    errorRegister: state.auth.errorRegister,
     isCreated: state.auth.isCreated,
     isLogged: state.auth.isLogged
   }

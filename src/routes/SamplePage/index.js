@@ -562,14 +562,17 @@ const SamplePage = (props) => {
                 </Col>
               </Row>
               <Row>
-                <Col xs={12} md={9}>
-                  <p style={{marginBottom: 0}}><b>{total}</b> adet influencer bulundu.</p>
+                <Col xs={12} md={7}>
+                  <p style={{marginBottom: 0, textAlign: "left"}}><b>{total}</b> adet influencer bulundu.</p>
                 </Col>
-                <Col xs={12} md={4}>
-                  <p style={{marginBottom: 0}}>Takipçi Oranı</p>
+                <Col xs={12} md={5}>
+                  <p style={{marginBottom: 0, textAlign: "center"}}>Takipçi Oranı</p>
                 </Col>
-                <Col xs={12} md={11}>
-                  <p style={{marginBottom: 0}}>Etkileşim (Etkileşim Oranı %)</p>
+                <Col xs={12} md={6}>
+                  <p style={{marginBottom: 0, textAlign: "left"}}>Etkileşim (Etkileşim Oranı %)</p>
+                </Col>
+                <Col xs={12} md={5}>
+                  <p style={{marginBottom: 0}} />
                 </Col>
               </Row>
             </div>
@@ -605,13 +608,14 @@ const SamplePage = (props) => {
                               <List.Item.Meta
                                 className={"list-meta-item"}
                                 avatar={<Avatar size={50} src={`${item.profile.picture}`}/>}
-                                title={<p className={"gx-mb-0"}>{item.profile.fullname}</p>}
+                                title={<p className={"gx-mb-0 list-item-header"}>{item.profile.fullname}</p>}
                                 description={<a href={`${item.profile.url}`} target={"_blank"} rel="noreferrer">@{item.profile.username}</a>}
                               />
                             </Col>
                             <Col md={5}>
                               <List.Item.Meta
-                                title={<p className={"gx-mb-0"}>
+                                className={"gx-text-center"}
+                                title={<p className={"gx-mb-0 list-item-header"}>
                                   {renderSwitch(item.profile.followers.toString())}
                                 </p>}
                                 description={
@@ -623,7 +627,7 @@ const SamplePage = (props) => {
                             </Col>
                             <Col md={7}>
                               <List.Item.Meta
-                                title={<p className={"gx-mb-0"}>
+                                title={<p className={"gx-mb-0 list-item-header"}>
                                   {item.profile.engagements.toString().substring(0, 3)}k
                                   ({parseFloat(parseFloat(item.profile.engagementRate) * 100).toFixed(2)} %)
                                 </p>}
@@ -687,7 +691,7 @@ const SamplePage = (props) => {
           cancelText="Vazgeç"
         >
           <p className={"text-muted"}>
-            Sizde <b>{selectedItem && selectedItem}</b> <br/> hakkında detaylı rapor oluşturabilirsiniz.
+            Siz de <b>{selectedItem && selectedItem}</b> <br/> hakkında detaylı rapor oluşturabilirsiniz.
           </p>
           <p className={"text-muted"}>Oluşturacağınız bu rapor ile Influencer hakkında daha detaylı bilgi edinebilir, takipçileri hakkında daha fazla bilgi edinebilir ve aylara göre etkileşim oranında ki farkları inceleyebilirsiniz.</p>
           <p className={"text-muted"}>Bu raporun bir örneğini aşağıda ki linkten  inceleyebilirsiniz.</p>
@@ -701,7 +705,7 @@ const SamplePage = (props) => {
           <div>
             <span className={"text-muted"} style={{marginRight: 15}}>Oluşturulan Rapor: </span>
             <PDFDownloadLink className={"btn btn-primary"} document={<PdfDocument data={reportData}/>} filename={`detailed-report.pdf`}>
-              {({blob, url, loading, error}) => (loading ? <span>Hazırlanıyor</span> : <span>Rapor Hazır (indir)</span>)}
+              {({blob, url, loading, error}) => (loading ? <span>Hazırlanıyor</span> : <span>Rapor Hazır</span>)}
             </PDFDownloadLink>
           </div>
           }
