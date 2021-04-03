@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {Link} from "react-router-dom";
-import {Container, Row, Col, Form, Input, Label} from "reactstrap";
+import {Container, Row, Col} from "reactstrap";
 
 //Import Icons
 import FeatherIcon from "feather-icons-react";
@@ -21,23 +21,7 @@ class Footer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      grid1: [
-        {title: "About us", link: "/page-aboutus"},
-        {title: "Services", link: "/page-services"},
-        {title: "Team", link: "/page-team"},
-        {title: "Pricing", link: "/page-pricing"},
-        {title: "Project", link: "/page-work"},
-        {title: "Careers", link: "/page-jobs"},
-        {title: "Blog", link: "/page-blog"},
-        {title: "Login", link: "/page-cover-login"},
-      ],
-      grid2: [
-        {title: "Terms of Services", link: "/page-terms"},
-        {title: "Privacy Policy", link: "/page-privacy"},
-        {title: "Documentation", link: "/documentation"},
-        {title: "Changelog", link: "/changelog"},
-        {title: "Components", link: "/components"},
-      ],
+
     };
   }
 
@@ -134,39 +118,9 @@ class Footer extends Component {
                   <li className="list-inline-item mr-1">
                     <Link to="">
                       <img
-                        src={americanEx}
-                        className="avatar avatar-ex-sm"
-                        title="American Express"
-                        alt=""
-                      />
-                    </Link>
-                  </li>
-                  <li className="list-inline-item mr-1">
-                    <Link to="">
-                      <img
-                        src={discover}
-                        className="avatar avatar-ex-sm"
-                        title="Discover"
-                        alt=""
-                      />
-                    </Link>
-                  </li>
-                  <li className="list-inline-item mr-1">
-                    <Link to="">
-                      <img
                         src={masterCard}
                         className="avatar avatar-ex-sm"
                         title="Master Card"
-                        alt=""
-                      />
-                    </Link>
-                  </li>
-                  <li className="list-inline-item mr-1">
-                    <Link to="">
-                      <img
-                        src={paypal}
-                        className="avatar avatar-ex-sm"
-                        title="Paypal"
                         alt=""
                       />
                     </Link>

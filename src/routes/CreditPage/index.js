@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Card, Input, InputNumber, Row, Col, Button, Spin, Alert} from 'antd';
+import {Card, Input, Row, Col, Button, Spin, Alert} from 'antd';
 import 'react-credit-cards/es/styles-compiled.css';
 import Cards from 'react-credit-cards';
 import {postPayment, isLoggedIn} from '../../appRedux/actions/';
@@ -70,20 +70,20 @@ const CreditPage = (props) => {
         <Card title={"Hızlıca Kredi Yükleyin"}>
           {isPayment &&
             <Row>
-              <Col span={6}>
+              <Col xs={24} md={6}>
                 <Alert message="Krediniz başarı ile yüklendi." type="success" closable />
               </Col>
             </Row>
           }
 
           <Row gutter={[10, 10]} align={"middle"} justify={"center"}>
-            <Col span={14}>
+            <Col xs={24} md={14}>
               <Row>
-                <Col span={24}>
+                <Col xs={24} md={24}>
                   <p style={{marginBottom: 10}}><b>Kredi Miktarı:</b></p>
-                  <Input style={{width: '50%'}} placeholder={"Miktar"} onChange={onChange} />
+                  <Input className={"credit-input"} style={{width: '50%'}} placeholder={"Miktar"} onChange={onChange} />
                 </Col>
-                <Col span={24}>
+                <Col xs={24} md={24}>
                   {value &&
                   <div className={"gx-mt-4 gx-pb-3"}>
                     <h5>{value} Arama / {value / 2} Raporlama
@@ -98,13 +98,13 @@ const CreditPage = (props) => {
                   }
                 </Col>
                 <Col span={24}>
-                  <h3 className={"gx-mt-5 gx-text-right"}>
+                  <h3 className={"gx-mt-5 credit-page-margin gx-text-right"}>
                     <b>Tutar: {value} $ ({value} dolar)</b>
                   </h3>
                 </Col>
               </Row>
             </Col>
-            <Col span={10}>
+            <Col xs={24} md={10}>
               <Row gutter={[30]} justify={"center"} align={"middle"} className={"payment-details"}>
                 <Col xs={24} md={24}>
                   <Cards

@@ -21,26 +21,6 @@ const PageRecoveryPassword = React.lazy(() =>
 
 const Saas = React.lazy(() => import("./pages/Saas/index"));
 
-const PageMembers = React.lazy(() =>
-  import("./pages/Pages/Account/PageMembers")
-);
-const PageWorks = React.lazy(() => import("./pages/Pages/Account/PageWorks"));
-const PageMessages = React.lazy(() => import("./pages/Pages/Account/PageMessages"));
-
-//Account
-const PageProfile = React.lazy(() =>
-  import("./pages/Pages/Account/PageProfile")
-);
-const PageProfileEdit = React.lazy(() =>
-  import("./pages/Pages/Account/PageProfileEdit")
-);
-const PagePayments = React.lazy(() =>
-  import("./pages/Pages/Account/PagePayments")
-);
-const PageInvoice = React.lazy(() =>
-  import("./pages/Pages/Account/PageInvoice")
-);
-
 //Blog
 const PageBlog = React.lazy(() => import("./pages/Pages/Blog/PageBlog"));
 const PageBlogDetail = React.lazy(() =>
@@ -59,38 +39,8 @@ const PageBlogListSidebar = React.lazy(() =>
   import("./pages/Pages/Blog/PageBlogListSidebar")
 );
 
-//Email
-const EmailAlert = React.lazy(() =>
-  import("./pages/Pages/EmailTemplate/EmailAlert")
-);
-const EmailPasswordReset = React.lazy(() =>
-  import("./pages/Pages/EmailTemplate/EmailPasswordReset")
-);
-const EmailConfirmation = React.lazy(() =>
-  import("./pages/Pages/EmailTemplate/EmailConfirmation")
-);
-const EmailInvoice = React.lazy(() =>
-  import("./pages/Pages/EmailTemplate/EmailInvoice")
-);
-
 const routes = [
   //routes without Layout
-
-
-  //Email Pages
-  { path: "/email-alert", component: EmailAlert, isWithoutLayout: true },
-  {
-    path: "/email-password-reset",
-    component: EmailPasswordReset,
-    isWithoutLayout: true,
-  },
-  {
-    path: "/email-confirmation",
-    component: EmailConfirmation,
-    isWithoutLayout: true,
-  },
-  { path: "/email-invoice", component: EmailInvoice, isWithoutLayout: true },
-
 
   //User Pages
   {
@@ -115,16 +65,6 @@ const routes = [
     component: PageCoverRePassword,
     isWithoutLayout: true,
   },
-
-  //Page Profile
-  { path: "/page-profile", component: PageProfile },
-  { path: "/page-members", component: PageMembers },
-  { path: "/page-works", component: PageWorks },
-  { path: "/page-messages", component: PageMessages },
-  { path: "/page-profile-edit", component: PageProfileEdit },
-  { path: "/page-payments", component: PagePayments },
-  { path: "/page-invoice", component: PageInvoice },
-
 
   //Page Blog
   { path: "/page-blog-grid", component: PageBlog },

@@ -11,10 +11,6 @@ import FeatherIcon from "feather-icons-react";
 const NavbarPage = React.lazy(() => import("./NavbarPage"));
 const Footer = React.lazy(() => import("./Footer"));
 
-const FooterWithoutMenuLightSocialOnly = React.lazy(() =>
-  import("./FooterWithoutMenuLightSocialOnly")
-);
-
 const CustomDot = () => {
   return (
     <i>
@@ -44,34 +40,7 @@ class Layout extends Component {
           <NavbarPage />
 
           {this.props.children}
-          {(() => {
-            if (
-              this.props.location.pathname === "/index-marketing" ||
-              this.props.location.pathname === "/index-digital-agency" ||
-              this.props.location.pathname === "/index-modern-business" ||
-              this.props.location.pathname === "/index-services" ||
-              this.props.location.pathname === "/index-job"
-            ) {
-              return <Footer isLight={true} />;
-            } else if (
-              this.props.location.pathname === "/index-portfolio"
-            ) {
-              return (
-                <FooterWithoutMenuLightSocialOnly className="border-0 bg-light text-dark" />
-              );
-            } else if (
-              this.props.location.pathname === "/index-personal" ||
-              this.props.location.pathname === "/helpcenter-overview" ||
-              this.props.location.pathname === '/helpcenter-guides' ||
-              this.props.location.pathname === '/helpcenter-support-request' ||
-              this.props.location.pathname === "/page-invoice"
-            ) {
-              return <FooterWithoutMenuLightSocialOnly class="" />;
-            } else {
-              return <Footer />;
-            }
-          })()}
-
+          <Footer />
           {/* <div className="btn btn-icon btn-soft-primary back-to-top"> */}
           {/* scrollup button */}
           <ScrollUpButton

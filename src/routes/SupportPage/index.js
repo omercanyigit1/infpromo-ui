@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Card, Input, Spin, Button, Row, Col, Form, notification, Result} from 'antd';
 import {connect} from 'react-redux';
 import {postTicket, isLoggedIn} from "../../appRedux/actions";
-import {Link} from "react-router-dom";
+//import {Link} from "react-router-dom";
 
 const formItemLayout = {
   labelCol: {
@@ -97,7 +97,7 @@ const SupportPage = (props) => {
         <Card title={`Destek Ekibine Mesaj`}>
           <div>
             <Row align={"middle"} justify={"center"}>
-              <Col span={14}>
+              <Col xs={24} md={14}>
                 <Form
                   form={form}
                   name="register"
@@ -106,21 +106,21 @@ const SupportPage = (props) => {
                   {...formItemLayout}
                 >
                   <Row gutter={[20, 20]}>
-                    <Col md={24}>
+                    <Col xs={24} md={24}>
                       <Row gutter={[10, 10]}>
-                        <Col md={24}>
+                        <Col xs={24} md={24}>
                           <Form.Item name="subject" label="Konu Başlığı" style={{marginBottom: 5}}>
                             <Input onChange={handleSubjectChange} placeholder={"Danışmak istediğiniz konuyu buraya yazabilirsiniz."} />
                           </Form.Item>
                         </Col>
-                        <Col md={24}>
+                        <Col xs={24} md={24}>
                           <Form.Item name="message" label="Mesajınız">
                             <Input.TextArea onChange={handleMessageChange} rows={6} placeholder={"Danışmak istediğiniz mesajı buraya yazabilirsiniz."} />
                           </Form.Item>
                         </Col>
                       </Row>
                       <Row gutter={[10, 10]}>
-                        <Col md={24}>
+                        <Col xs={24} md={24}>
                           <Form.Item style={{textAlign: 'right'}}>
                             <Button className={"btn btn-primary"} htmlType={"submit"} disabled={!subject || !message}>Gönder</Button>
                           </Form.Item>

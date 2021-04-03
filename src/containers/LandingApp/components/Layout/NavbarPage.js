@@ -9,13 +9,7 @@ class NavbarPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      navItems: [
-        { id: 1, idnm: "home", navheading: "Home" },
-        { id: 3, idnm: "service", navheading: "Feature" },
-        { id: 3, idnm: "testimonial", navheading: "Review" },
-        { id: 4, idnm: "pricing", navheading: "Price" },
-        { id: 6, idnm: "contact", navheading: "Contact" },
-      ],
+      navItems: [],
       isOpen: false,
     };
     this.toggleLine = this.toggleLine.bind(this);
@@ -26,9 +20,6 @@ class NavbarPage extends Component {
   }
 
   render() {
-    /**let targetId = this.state.navItems.map((item) => {
-      return item.idnm;
-    });**/
     return (
       <React.Fragment>
         <header id="topnav" className="defaultscroll sticky">
@@ -38,41 +29,26 @@ class NavbarPage extends Component {
                 <img src={logodark} height="24" alt="" />
               </Link>
             </div>
-            <div className="buy-button">
-              <Link
-                to="/login"
-                className="btn btn-secondary"
-              >
-                Giriş Yap
-              </Link>
-            </div>
-
-            <div className="buy-button">
-              <Link
-                to="/register"
-                className="btn btn-primary"
-              >
-                Ücretsiz Dene!
-              </Link>
-            </div>
-
-            <div className="menu-extras">
-              <div className="menu-item">
+            <div className={"mobile-buy-buttons"}>
+              <div className="buy-button">
                 <Link
-                  to="#"
-                  onClick={this.toggleLine}
-                  className={
-                    this.state.isOpen ? "navbar-toggle open" : "navbar-toggle"
-                  }
+                  to="/login"
+                  className="btn btn-secondary"
                 >
-                  <div className="lines">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                  </div>
+                  Giriş Yap
+                </Link>
+              </div>
+
+              <div className="buy-button">
+                <Link
+                  to="/register"
+                  className="btn btn-primary"
+                >
+                  Ücretsiz Dene!
                 </Link>
               </div>
             </div>
+
           </Container>
         </header>
       </React.Fragment>

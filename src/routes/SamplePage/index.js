@@ -14,7 +14,8 @@ import {
   List,
   Avatar,
   Skeleton,
-  Modal
+  Modal,
+  Collapse, Space
 } from 'antd';
 import {InfoCircleOutlined, SortDescendingOutlined} from '@ant-design/icons';
 import debounce from 'lodash/debounce';
@@ -33,6 +34,8 @@ import PdfDocument from "./components/PdfDocument";
 import report from './../../assets/images/instagram-report.pdf';
 
 const {Option} = Select;
+
+const {Panel} = Collapse;
 
 const interests = [];
 for (let i = 0; i < data.interests.length; i++) {
@@ -285,258 +288,262 @@ const SamplePage = (props) => {
           </Radio.Group>
         </div>
 
-        <Card className={"gx-mt-3"} title={
-          <CardTitle title={"Influencer Filtresi"}
-                     subTitle={"Aramanızı daraltmak için takipçi sayısı ve kitle filtreleri ile başlamayı deneyin ya da kullanıcı adına göre arama yapın."}/>}
-              extra={null} style={{width: '100%'}}>
-          <Card type="inner" title="Influencer Özellikleri" extra={null}>
-            <div>
-              <Row>
-                <Col xs={24} md={8}>
-                  <Row gutter={[10, 10]}>
-                    <Col span={24}>
-                      <label>
-                        <b>Takipçi Sayısı:</b>
-                      </label>
+        <Space direction="vertical" style={{width: '100%'}} className={"gx-mt-3"}>
+          <Collapse collapsible="header" defaultActiveKey={['1']}>
+            <Panel header={
+              <CardTitle title={"Influencer Filtresi"} subTitle={"Aramanızı daraltmak için takipçi sayısı ve kitle filtreleri ile başlamayı deneyin ya da kullanıcı adına göre arama yapın."}/>} key="1">
+              <Card type="inner" title={"Influencer Özellikleri"} extra={null} style={{marginTop: 10}}>
+                <div>
+                  <Row>
+                    <Col xs={24} md={8}>
+                      <Row gutter={[10, 10]}>
+                        <Col span={24}>
+                          <label>
+                            <b>Takipçi Sayısı:</b>
+                          </label>
+                        </Col>
+                        <Col span={12}>
+                          <Select allowClear placeholder={"min"} style={{width: '100%'}}
+                                  onChange={handleFollowerFromChange}>
+                            <Option value="25000">25.000</Option>
+                            <Option value="50000">50.000</Option>
+                            <Option value="75000">75.000</Option>
+                            <Option value="100000">100.000</Option>
+                            <Option value="150000">150.000</Option>
+                            <Option value="200000">200.000</Option>
+                            <Option value="300000">300.000</Option>
+                            <Option value="500000">500.000</Option>
+                            <Option value="1000000">1.000.000</Option>
+                          </Select>
+                        </Col>
+                        <Col span={12}>
+                          <Select allowClear placeholder={"max"} style={{width: '100%'}}
+                                  onChange={handleFollowerToChange}>
+                            <Option value="25000">25.000</Option>
+                            <Option value="50000">50.000</Option>
+                            <Option value="75000">75.000</Option>
+                            <Option value="100000">100.000</Option>
+                            <Option value="150000">150.000</Option>
+                            <Option value="200000">200.000</Option>
+                            <Option value="300000">300.000</Option>
+                            <Option value="500000">500.000</Option>
+                            <Option value="1000000">1.000.000</Option>
+                            <Option value="1000000+">1.000.000+</Option>
+                          </Select>
+                        </Col>
+                      </Row>
                     </Col>
-                    <Col span={12}>
-                      <Select allowClear placeholder={"min"} style={{width: '100%'}}
-                              onChange={handleFollowerFromChange}>
-                        <Option value="25000">25.000</Option>
-                        <Option value="50000">50.000</Option>
-                        <Option value="75000">75.000</Option>
-                        <Option value="100000">100.000</Option>
-                        <Option value="150000">150.000</Option>
-                        <Option value="200000">200.000</Option>
-                        <Option value="300000">300.000</Option>
-                        <Option value="500000">500.000</Option>
-                        <Option value="1000000">1.000.000</Option>
-                      </Select>
+                    <Col xs={24} md={4}>
+                      <Row gutter={[10, 10]}>
+                        <Col span={24}>
+                          <label>
+                            <b>Cinsiyet:</b>
+                          </label>
+                        </Col>
+                        <Col xs={24} md={24}>
+                          <Select allowClear placeholder={"Seçiniz"} style={{width: '100%'}}
+                                  onChange={handleGenderChange}>
+                            <Option value="FEMALE">Kadın</Option>
+                            <Option value="MALE">Erkek</Option>
+                          </Select>
+                        </Col>
+                      </Row>
                     </Col>
-                    <Col span={12}>
-                      <Select allowClear placeholder={"max"} style={{width: '100%'}}
-                              onChange={handleFollowerToChange}>
-                        <Option value="25000">25.000</Option>
-                        <Option value="50000">50.000</Option>
-                        <Option value="75000">75.000</Option>
-                        <Option value="100000">100.000</Option>
-                        <Option value="150000">150.000</Option>
-                        <Option value="200000">200.000</Option>
-                        <Option value="300000">300.000</Option>
-                        <Option value="500000">500.000</Option>
-                        <Option value="1000000">1.000.000</Option>
-                        <Option value="1000000+">1.000.000+</Option>
-                      </Select>
+                    <Col xs={24} md={8}>
+                      <Row gutter={[10, 10]}>
+                        <Col span={24}>
+                          <label>
+                            <b>İlgi Alanları:</b>
+                          </label>
+                        </Col>
+                        <Col xs={24} md={24}>
+                          <Select
+                            mode="multiple"
+                            allowClear
+                            style={{width: '100%'}}
+                            placeholder="Seçiniz"
+                            onChange={handleInterestsChange}
+                          >
+                            {interests}
+                          </Select>
+                        </Col>
+                      </Row>
                     </Col>
-                  </Row>
-                </Col>
-                <Col xs={24} md={4}>
-                  <Row gutter={[10, 10]}>
-                    <Col span={24}>
-                      <label>
-                        <b>Cinsiyet:</b>
-                      </label>
-                    </Col>
-                    <Col xs={24} md={24}>
-                      <Select allowClear placeholder={"Seçiniz"} style={{width: '100%'}} onChange={handleGenderChange}>
-                        <Option value="FEMALE">Kadın</Option>
-                        <Option value="MALE">Erkek</Option>
-                      </Select>
-                    </Col>
-                  </Row>
-                </Col>
-                <Col xs={24} md={8}>
-                  <Row gutter={[10, 10]}>
-                    <Col span={24}>
-                      <label>
-                        <b>İlgi Alanları:</b>
-                      </label>
-                    </Col>
-                    <Col xs={24} md={24}>
-                      <Select
-                        mode="multiple"
-                        allowClear
-                        style={{width: '100%'}}
-                        placeholder="Seçiniz"
-                        onChange={handleInterestsChange}
-                      >
-                        {interests}
-                      </Select>
-                    </Col>
-                  </Row>
-                </Col>
-                <Col xs={24} md={4}>
-                  <Row gutter={[10, 10]}>
-                    <Col span={24}>
-                      <label>
-                        <b>Dil:</b>
-                      </label>
-                    </Col>
-                    <Col xs={24} md={24}>
-                      <Select allowClear placeholder={"Seçiniz"} style={{width: '100%'}}
-                              onChange={handleLanguagesChange}>
-                        {languages}
-                      </Select>
-                    </Col>
-                  </Row>
-                </Col>
-              </Row>
-            </div>
-            <div className={"gx-mt-4"}>
-              <Row>
-                <Col xs={24} md={6}>
-                  <Row gutter={[10, 10]}>
-                    <Col span={24}>
-                      <label>
-                        <b>Etkileşim Oranı:
-                          <Tooltip title="prompt text">
-                            <InfoCircleOutlined/>
-                          </Tooltip>
-                        </b>
-                      </label>
-                    </Col>
-                    <Col span={24}>
-                      <Select allowClear placeholder={"Seçiniz"} style={{width: '100%'}}
-                              onChange={handleEngagementRateChange}>
-                        {rate}
-                      </Select>
+                    <Col xs={24} md={4}>
+                      <Row gutter={[10, 10]}>
+                        <Col span={24}>
+                          <label>
+                            <b>Dil:</b>
+                          </label>
+                        </Col>
+                        <Col xs={24} md={24}>
+                          <Select allowClear placeholder={"Seçiniz"} style={{width: '100%'}}
+                                  onChange={handleLanguagesChange}>
+                            {languages}
+                          </Select>
+                        </Col>
+                      </Row>
                     </Col>
                   </Row>
-                </Col>
-                <Col xs={24} md={6}>
-                  <Row gutter={[10, 10]}>
-                    <Col span={24}>
-                      <label>
-                        <b>Kontak Bilgileri:</b>
-                      </label>
+                </div>
+                <div className={"gx-mt-4"}>
+                  <Row>
+                    <Col xs={24} md={6}>
+                      <Row gutter={[10, 10]}>
+                        <Col span={24}>
+                          <label>
+                            <b>Etkileşim Oranı:
+                              <Tooltip title="prompt text">
+                                <InfoCircleOutlined/>
+                              </Tooltip>
+                            </b>
+                          </label>
+                        </Col>
+                        <Col span={24}>
+                          <Select allowClear placeholder={"Seçiniz"} style={{width: '100%'}}
+                                  onChange={handleEngagementRateChange}>
+                            {rate}
+                          </Select>
+                        </Col>
+                      </Row>
                     </Col>
-                    <Col span={24}>
-                      <Select allowClear placeholder={"Seçiniz"} style={{width: '100%'}}
-                              onChange={handleContactDetailsChange}>
-                        <Option value={false}>
-                          Yok
-                        </Option>
-                        <Option value={true}>
-                          Var
-                        </Option>
-                      </Select>
-                    </Col>
-                  </Row>
-                </Col>
-              </Row>
-            </div>
-          </Card>
-          <Card type="inner" title="Takipçi Özellikleri" extra={null} style={{marginBottom: 0}}>
-            <div>
-              <Row>
-                <Col xs={24} md={4}>
-                  <Row gutter={[10, 10]}>
-                    <Col span={24}>
-                      <label>
-                        <b>Lokasyon:</b>
-                      </label>
-                    </Col>
-                    <Col xs={24} md={24}>
-                      <Select allowClear placeholder={"Seçiniz"} style={{width: '100%'}}
-                              onChange={handleLanguagesChange}>
-                        {languages}
-                      </Select>
-                    </Col>
-                  </Row>
-                </Col>
-                <Col xs={24} md={4}>
-                  <Row gutter={[10, 10]}>
-                    <Col span={24}>
-                      <label>
-                        <b>Cinsiyet:</b>
-                      </label>
-                    </Col>
-                    <Col xs={24} md={24}>
-                      <Select allowClear placeholder={"Seçiniz"} style={{width: '100%'}} onChange={handleGenderChange}>
-                        <Option value="FEMALE">Kadın</Option>
-                        <Option value="MALE">Erkek</Option>
-                      </Select>
+                    <Col xs={24} md={6}>
+                      <Row gutter={[10, 10]}>
+                        <Col span={24}>
+                          <label>
+                            <b>Kontak Bilgileri:</b>
+                          </label>
+                        </Col>
+                        <Col span={24}>
+                          <Select allowClear placeholder={"Seçiniz"} style={{width: '100%'}}
+                                  onChange={handleContactDetailsChange}>
+                            <Option value={false}>
+                              Yok
+                            </Option>
+                            <Option value={true}>
+                              Var
+                            </Option>
+                          </Select>
+                        </Col>
+                      </Row>
                     </Col>
                   </Row>
-                </Col>
-                <Col xs={24} md={8}>
-                  <Row gutter={[10, 10]}>
-                    <Col span={24}>
-                      <label>
-                        <b>İlgi Alanları:</b>
-                      </label>
+                </div>
+              </Card>
+              <Card type="inner" title="Takipçi Özellkleri" extra={null} style={{marginBottom: 0}}>
+                <div>
+                  <Row>
+                    <Col xs={24} md={4}>
+                      <Row gutter={[10, 10]}>
+                        <Col span={24}>
+                          <label>
+                            <b>Lokasyon:</b>
+                          </label>
+                        </Col>
+                        <Col xs={24} md={24}>
+                          <Select allowClear placeholder={"Seçiniz"} style={{width: '100%'}}
+                                  onChange={handleLanguagesChange}>
+                            {languages}
+                          </Select>
+                        </Col>
+                      </Row>
                     </Col>
-                    <Col xs={24} md={24}>
-                      <Select
-                        mode="multiple"
-                        allowClear
-                        style={{width: '100%'}}
-                        placeholder="Seçiniz"
-                        onChange={handleInterestsChange}
-                      >
-                        {interests}
-                      </Select>
+                    <Col xs={24} md={4}>
+                      <Row gutter={[10, 10]}>
+                        <Col span={24}>
+                          <label>
+                            <b>Cinsiyet:</b>
+                          </label>
+                        </Col>
+                        <Col xs={24} md={24}>
+                          <Select allowClear placeholder={"Seçiniz"} style={{width: '100%'}}
+                                  onChange={handleGenderChange}>
+                            <Option value="FEMALE">Kadın</Option>
+                            <Option value="MALE">Erkek</Option>
+                          </Select>
+                        </Col>
+                      </Row>
+                    </Col>
+                    <Col xs={24} md={8}>
+                      <Row gutter={[10, 10]}>
+                        <Col span={24}>
+                          <label>
+                            <b>İlgi Alanları:</b>
+                          </label>
+                        </Col>
+                        <Col xs={24} md={24}>
+                          <Select
+                            mode="multiple"
+                            allowClear
+                            style={{width: '100%'}}
+                            placeholder="Seçiniz"
+                            onChange={handleInterestsChange}
+                          >
+                            {interests}
+                          </Select>
+                        </Col>
+                      </Row>
+                    </Col>
+                    <Col xs={24} md={4}>
+                      <Row gutter={[10, 10]}>
+                        <Col span={24}>
+                          <label>
+                            <b>Dil:</b>
+                          </label>
+                        </Col>
+                        <Col xs={24} md={24}>
+                          <Select allowClear placeholder={"Seçiniz"} style={{width: '100%'}}
+                                  onChange={handleLanguagesChange}>
+                            {languages}
+                          </Select>
+                        </Col>
+                      </Row>
                     </Col>
                   </Row>
-                </Col>
-                <Col xs={24} md={4}>
-                  <Row gutter={[10, 10]}>
-                    <Col span={24}>
-                      <label>
-                        <b>Dil:</b>
-                      </label>
-                    </Col>
-                    <Col xs={24} md={24}>
-                      <Select allowClear placeholder={"Seçiniz"} style={{width: '100%'}}
-                              onChange={handleLanguagesChange}>
-                        {languages}
-                      </Select>
-                    </Col>
-                  </Row>
-                </Col>
-              </Row>
-            </div>
-          </Card>
-          <Row>
-            <Col xs={24} sm={24}>
-              <div style={{textAlign: 'right'}} className={"gx-mt-3 gx-mb-3"}>
-                <Button className="btn btn-primary" onClick={handleFilter} disabled={loading} loading={loading}>
-                  {user.credit < 1 ? 'Yetersiz Bakiye' : 'Filtrele'}
-                </Button>
-              </div>
-            </Col>
-          </Row>
-          <Card type="inner" title="Kullanıcı Adına Göre Arama" extra={null}>
-            <div>
-              <Row>
-                <Col xs={24} md={24}>
-                  <Row gutter={[10, 10]}>
-                    <Col span={24}>
-                      <Input
-                        value={value}
-                        placeholder="Kullanıcı Adı İle Arama Yapabilirsiniz. ( @username )"
-                        onChange={handleValue}
-                        style={{
-                          width: '100%',
-                        }}
-                      />
-                    </Col>
-                  </Row>
-                </Col>
-              </Row>
-
+                </div>
+              </Card>
               <Row>
                 <Col xs={24} sm={24}>
-                  <div style={{textAlign: 'right'}} className={"gx-mt-3"} onClick={handleFilterUserName}>
-                    <Button className="btn btn-primary">
-                      Arama
+                  <div style={{textAlign: 'right'}} className={"gx-mt-3 gx-mb-3"}>
+                    <Button className="btn btn-primary" onClick={handleFilter} disabled={loading} loading={loading}>
+                      {user.credit < 1 ? 'Yetersiz Bakiye' : 'Filtrele'}
                     </Button>
                   </div>
                 </Col>
               </Row>
-            </div>
-          </Card>
-        </Card>
+              <Card type="inner" title="Kullanıcı Adına Göre Arama" extra={null}>
+                <div>
+                  <Row>
+                    <Col xs={24} md={24}>
+                      <Row gutter={[10, 10]}>
+                        <Col span={24}>
+                          <Input
+                            value={value}
+                            placeholder="Kullanıcı Adı İle Arama Yapabilirsiniz. ( @username )"
+                            onChange={handleValue}
+                            style={{
+                              width: '100%',
+                            }}
+                          />
+                        </Col>
+                      </Row>
+                    </Col>
+                  </Row>
+
+                  <Row>
+                    <Col xs={24} sm={24}>
+                      <div style={{textAlign: 'right'}} className={"gx-mt-3"} onClick={handleFilterUserName}>
+                        <Button className="btn btn-primary">
+                          Arama
+                        </Button>
+                      </div>
+                    </Col>
+                  </Row>
+                </div>
+              </Card>
+            </Panel>
+          </Collapse>
+        </Space>
         <div>
           {
             showSorting &&
@@ -562,17 +569,17 @@ const SamplePage = (props) => {
                 </Col>
               </Row>
               <Row>
-                <Col xs={12} md={7}>
+                <Col xs={24} md={7}>
                   <p style={{marginBottom: 0, textAlign: "left"}}><b>{total}</b> adet influencer bulundu.</p>
                 </Col>
                 <Col xs={12} md={5}>
-                  <p style={{marginBottom: 0, textAlign: "center"}}>Takipçi Oranı</p>
+                  <p style={{marginBottom: 0, textAlign: "center"}} className={"hide-on-mobile"}>Takipçi Oranı</p>
                 </Col>
                 <Col xs={12} md={6}>
-                  <p style={{marginBottom: 0, textAlign: "left"}}>Etkileşim (Etkileşim Oranı %)</p>
+                  <p style={{marginBottom: 0, textAlign: "left"}} className={"hide-on-mobile"}>Etkileşim (Etkileşim Oranı %)</p>
                 </Col>
                 <Col xs={12} md={5}>
-                  <p style={{marginBottom: 0}} />
+                  <p style={{marginBottom: 0}}/>
                 </Col>
               </Row>
             </div>
@@ -598,23 +605,24 @@ const SamplePage = (props) => {
                             showModal(item);
                           }}>
                             <span>Detaylı Rapor Al</span>
-                          </Button>, <a href={report} target={"_blank"}>Rapor Örneği</a>]}
+                          </Button>, <a href={report} target={"_blank"} rel="noreferrer">Rapor Örneği</a>]}
 
                         className={`list-item-${item.userId}`}
                       >
                         <Skeleton loading={loading}>
                           <Row style={{width: '100%'}} gutter={[0, 0]}>
-                            <Col sm={12} md={12}>
+                            <Col xs={24} sm={12} md={12}>
                               <List.Item.Meta
                                 className={"list-meta-item"}
                                 avatar={<Avatar size={50} src={`${item.profile.picture}`}/>}
                                 title={<p className={"gx-mb-0 list-item-header"}>{item.profile.fullname}</p>}
-                                description={<a href={`${item.profile.url}`} target={"_blank"} rel="noreferrer">@{item.profile.username}</a>}
+                                description={<a href={`${item.profile.url}`} target={"_blank"}
+                                                rel="noreferrer">@{item.profile.username}</a>}
                               />
                             </Col>
-                            <Col md={5}>
+                            <Col xs={12} sm={5} md={5}>
                               <List.Item.Meta
-                                className={"gx-text-center"}
+                                className={"gx-text-center list-mobile-margin"}
                                 title={<p className={"gx-mb-0 list-item-header"}>
                                   {renderSwitch(item.profile.followers.toString())}
                                 </p>}
@@ -625,8 +633,9 @@ const SamplePage = (props) => {
                                 }
                               />
                             </Col>
-                            <Col md={7}>
+                            <Col xs={12} sm={7} md={7}>
                               <List.Item.Meta
+                                className={"list-mobile-margin"}
                                 title={<p className={"gx-mb-0 list-item-header"}>
                                   {item.profile.engagements.toString().substring(0, 3)}k
                                   ({parseFloat(parseFloat(item.profile.engagementRate) * 100).toFixed(2)} %)
@@ -686,17 +695,19 @@ const SamplePage = (props) => {
           onOk={handleModalOk}
           onCancel={handleModalCancel}
           okText="Rapor Al (2 Kredi)"
-          okButtonProps={{ disabled: isPdfButtonShow, loading: reportDataLoading }}
-          cancelButtonProps={{ disabled: isPdfButtonShow }}
+          okButtonProps={{disabled: isPdfButtonShow, loading: reportDataLoading}}
+          cancelButtonProps={{disabled: isPdfButtonShow}}
           cancelText="Vazgeç"
         >
           <p className={"text-muted"}>
             Siz de <b>{selectedItem && selectedItem}</b> <br/> hakkında detaylı rapor oluşturabilirsiniz.
           </p>
-          <p className={"text-muted"}>Oluşturacağınız bu rapor ile Influencer hakkında daha detaylı bilgi edinebilir, takipçileri hakkında daha fazla bilgi edinebilir ve aylara göre etkileşim oranında ki farkları inceleyebilirsiniz.</p>
-          <p className={"text-muted"}>Bu raporun bir örneğini aşağıda ki linkten  inceleyebilirsiniz.</p>
+          <p className={"text-muted"}>Oluşturacağınız bu rapor ile Influencer hakkında daha detaylı bilgi edinebilir,
+            takipçileri hakkında daha fazla bilgi edinebilir ve aylara göre etkileşim oranında ki farkları
+            inceleyebilirsiniz.</p>
+          <p className={"text-muted"}>Bu raporun bir örneğini aşağıda ki linkten inceleyebilirsiniz.</p>
           <p className={"text-muted"}>
-            <a href={report} target={"_blank"}>
+            <a href={report} target={"_blank"} rel="noreferrer">
               Örnek Rapor
             </a>
           </p>
@@ -704,7 +715,8 @@ const SamplePage = (props) => {
           {isPdfButtonShow &&
           <div>
             <span className={"text-muted"} style={{marginRight: 15}}>Oluşturulan Rapor: </span>
-            <PDFDownloadLink className={"btn btn-primary"} document={<PdfDocument data={reportData}/>} filename={`detailed-report.pdf`}>
+            <PDFDownloadLink className={"btn btn-primary"} document={<PdfDocument data={reportData}/>}
+                             filename={`detailed-report.pdf`}>
               {({blob, url, loading, error}) => (loading ? <span>Hazırlanıyor</span> : <span>Rapor Hazır</span>)}
             </PDFDownloadLink>
           </div>

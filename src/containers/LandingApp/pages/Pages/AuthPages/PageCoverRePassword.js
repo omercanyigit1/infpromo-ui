@@ -41,14 +41,14 @@ const PageCoverRePassword = (props) => {
       notification['error']({
         message: 'Başarısız',
         description: `${errorForget}`
-          ,
+        ,
       });
     }
   }
 
   useEffect(() => {
 
-  }, [isResetPassword])
+  }, [isResetPassword, errorForget])
 
   if(isResetPassword) {
     return (
@@ -70,6 +70,7 @@ const PageCoverRePassword = (props) => {
   return (
     <Spin spinning={loading}>
       <React.Fragment>
+
         <div className="back-to-home rounded d-sm-block">
           <Link to="/" className="btn btn-icon btn-soft-primary">
             <i>
@@ -93,7 +94,7 @@ const PageCoverRePassword = (props) => {
                           <h4 className="card-title text-center">
                             Parolamı Unuttum !
                           </h4>
-                          <AvForm className="login-form mt-4">
+                          <AvForm className="login-form mt-4" onSubmit={handleClick}>
                             <Row>
                               <Col lg="12">
                                 <p className="text-muted">
@@ -136,7 +137,7 @@ const PageCoverRePassword = (props) => {
                                 </FormGroup>
                               </Col>
                               <Col lg="12">
-                                <Button color="primary" block onClick={handleClick}>
+                                <Button color="primary" block>
                                   Gönder
                                 </Button>
                               </Col>

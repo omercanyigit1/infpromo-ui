@@ -8,11 +8,7 @@ import {connect} from "react-redux";
 const WrapperApp = (props) => {
   let location = useLocation();
 
-  //console.log("location: ", location);
-
   const {isLoggedIn, isLogged, history} = props;
-
-  console.log("history: ", history);
 
   useEffect(() => {
     isLoggedIn();

@@ -21,14 +21,96 @@ body {
   z-index: 10;
 }
 
+.ant-collapse {
+  background-color: #fff;
+}
+
+.ant-collapse > .ant-collapse-item > .ant-collapse-header {
+  padding-top: 15px;
+  padding-bottom: 15px;
+  font-size: 16px;
+}
+
 @media only screen and (max-width: 768px) {
+
+  .gx-mt-5.credit-page-margin.gx-text-right {
+    margin-top: 0 !important;
+    text-align: left !important;
+    font-size: 25px !important;
+  }
+
+  .credit-input {
+    width: 100% !important;
+  }
+
+  .gx-drawer-sidebar-dark .gx-layout-sider-header {
+    box-shadow: none;
+    background-color: inherit;
+  }
+
+  .title-heading {
+    margin-top: 2rem;
+  }
+
+  .gx-no-header-horizontal .gx-linebar {
+    background-color: #fff;
+  }
+
+  .hide-on-mobile {
+    display: none;
+  }
+
+  .list-mobile-margin {
+    margin-top: 15px;
+    margin-bottom: 5px;
+  }
+
+  .ant-list-item-action {
+    width: 100%;
+    margin: 10px auto;
+    text-align: center;
+  }
+
+  .ant-list-bordered.ant-list-lg .ant-list-item {
+    padding: 20px 0 5px 0;
+  }
+
+  .ant-list-item {
+
+    .ant-row {
+      margin: 0;
+    }
+  }
 
   .features {
     min-height: 215px;
   }
+
+  .mobile-buy-buttons {
+    float: right;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+
+  .mobile-buy-buttons {
+    display: flex;
+    flex-direction: row-reverse;
+    transform: scale(.8);
+    justify-content: flex-end;
+    float: none;
+  }
 }
 
 @media only screen and (min-width: 320px) {
+
+  #topnav {
+
+    .buy-button {
+      display: block;
+    }
+  }
+
   .buy-button {
     transform: scale(.9);
   }

@@ -1,8 +1,8 @@
 import React, {useRef} from 'react';
-import {Document, Page, Text, View, StyleSheet, Image, Link, PDFViewer} from '@react-pdf/renderer';
+import {Document, Page, Text, View, StyleSheet, Image, Link} from '@react-pdf/renderer';
 import logo from './../../../assets/images/infpromo-logo-black.png'
 import moment from 'moment';
-import { Doughnut, Line } from 'react-chartjs-2';
+import { Line } from 'react-chartjs-2';
 
 function renderSwitch(param) {
   switch (param.length) {

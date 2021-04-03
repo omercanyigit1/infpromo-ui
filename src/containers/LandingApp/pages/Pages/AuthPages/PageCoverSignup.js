@@ -322,7 +322,7 @@ const PageCoverSignup = (props) => {
                                 </FormGroup>
                               </Col>
                               <Col md="12" className="mb-0">
-                                <Button className={"btn btn-primary"} block onClick={handleSubmit} loading={loading}>
+                                <Button className={"btn btn-primary"} block onClick={handleSubmit} disabled={!email || !password || !name || !surName} loading={loading}>
                                   Üye Ol
                                 </Button>
                               </Col>

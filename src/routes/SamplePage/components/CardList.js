@@ -60,7 +60,7 @@ const CardList = ({avatar, name, userName, follower, url, engagement, engagement
                 <Button className="btn btn-secondary" onClick={onClick}>
                   <span>Detaylı Rapor Al</span>
                 </Button>
-                <a href={`${report}`} target={"_blank"}>Rapor Örneği</a>
+                <a href={`${report}`} target={"_blank"} rel="noreferrer">Rapor Örneği</a>
               </Space>
             </div>
           </div>

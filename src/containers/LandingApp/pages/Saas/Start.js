@@ -1,11 +1,11 @@
 // React Basic and Bootstrap
 import React, { Component } from "react";
 import { Container, Row, Col } from "reactstrap";
-import { Link } from "react-router-dom";
 
 // Import images
-import saas1 from "../../assets/images/saas/classic02.png";
-import appDevelopmentSVG from "../../assets/images/illustrator/app_development_SVG.svg";
+import saas1 from "../../assets/images/saas/infpromo-filter-image.png";
+import saas2 from "../../assets/images/saas/report-review.png";
+import report from './../../../../assets/images/instagram-report.pdf';
 
 //Import Components
 import SectionTitleLeft from "../../components/Shared/SectionTitleLeft";
@@ -15,12 +15,20 @@ class Start extends Component {
     super(props);
     this.state = {
       features: [
-        { title: "Digital Marketing Solutions for Tomorrow" },
-        { title: "Create your own skin to match your brand" },
+        { title: "Tiktok, Youtube ve Instagram platformlarında arama yapabilme" },
+        { title: "20+ filtreleme seçeneği" },
+        { title: "Kullanıcı adı ile arama" },
+        { title: "Takipçi özelliklerine göre arama" },
+        { title: "Influencer 'ın ilgi alanlarına göre arama" },
+        { title: "Kolay kullanım" },
       ],
       features2: [
-        { title: "Digital Marketing Solutions for Tomorrow" },
-        { title: "Create your own skin to match your brand" },
+        { title: "Son 7 aya sahip etkileşim grafiği" },
+        { title: "Detaylı takipçi sayısı grafiği" },
+        { title: "Influencer' ın en çok kullandığı taglar (#hastags)" },
+        { title: "Takipçilerin lokasyon bilgisi" },
+        { title: "Takipçilerin yaş aralığı ve cinsiyetleri hakkında oranlar" },
+        { title: "Influencer 'ın en çok etkileşim içinde olduğu hesaplar" },
       ],
     };
   }
@@ -36,14 +44,11 @@ class Start extends Component {
             <Col lg={6} md={6} className="mt-4 mt-sm-0 pt-2 pt-sm-0">
               <div className="section-title ml-lg-5">
                 <SectionTitleLeft
-                  title="Great Product Analytics With Real Problem"
-                  desc="Due to its widespread use as filler text for layouts, non-readability is of great importance: human perception is tuned to recognize certain patterns and repetitions in texts. If the distribution of letters visual impact."
+                  title="Bir çok özelliğe sahip kolay filtreleme"
+                  desc="Infpromo nun sizlere sunduğu çeşitli filtreme özellikleriyle, en uygun influencer ile çalışma imkanını daha hızlı edinebilirsiniz."
                   features={this.state.features}
                   class=""
                 />
-                <Link to="#" className="mt-3 h6 text-primary">
-                  Find Out More <i className="mdi mdi-chevron-right"></i>
-                </Link>
               </div>
             </Col>
           </Row>
@@ -59,19 +64,19 @@ class Start extends Component {
             >
               <div className="section-title mr-lg-5">
                 <SectionTitleLeft
-                  title="Get Notified About Importent Email"
-                  desc="This prevents repetitive patterns from impairing the overall visual impression and facilitates the comparison of different typefaces. Furthermore, it is advantageous when the dummy text is relatively realistic."
+                  title="Detaylı Rapor Analizi"
+                  desc="Yalnızca 2$ ödeyerek hedeflediğiniz Influencer hakkında detaylı rapor edinebilirsiniz. Bu rapor içerisinde;"
                   features={this.state.features2}
                   class=""
                 />
-                <Link to="#" className="mt-3 h6 text-primary">
-                  Find Out More <i className="mdi mdi-chevron-right"></i>
-                </Link>
+                <a href={report} target={"_blank"} rel="noreferrer" className="mt-3 h6 text-primary">
+                  Rapor Örneği <i className="mdi mdi-chevron-right" />
+                </a>
               </div>
             </Col>
 
             <Col lg="5" md={{ size: 6, order: 2 }} xs={{ order: 1 }}>
-              <img src={appDevelopmentSVG} alt="" />
+              <img src={saas2} className="img-fluid shadow rounded" alt="" />
             </Col>
           </Row>
         </Container>

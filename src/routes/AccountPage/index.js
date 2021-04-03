@@ -95,7 +95,7 @@ const AccountPage = (props) => {
         <Card title={`Bilgilerim`}>
           <div>
             <Row align={"middle"} justify={"center"}>
-              <Col span={16}>
+              <Col xs={24} md={16}>
                 <Form
                   form={form}
                   name="register"
@@ -104,14 +104,14 @@ const AccountPage = (props) => {
                   {...formItemLayout}
                 >
                   <Row gutter={[20, 20]}>
-                    <Col md={12}>
+                    <Col xs={24} md={12}>
                       <Row gutter={[10, 10]}>
-                        <Col md={12}>
+                        <Col xs={24} md={12}>
                           <Form.Item name="name" label="İsim" initialValue={user.name}>
                             <Input onChange={handleNameChange}  />
                           </Form.Item>
                         </Col>
-                        <Col md={12}>
+                        <Col xs={24} md={12}>
                           <Form.Item name="surName" label="Soyisim" initialValue={user.surName}>
                             <Input onChange={handleSurNameChange}  />
                           </Form.Item>
@@ -121,7 +121,7 @@ const AccountPage = (props) => {
                         <Input onChange={handleEmailChange}  />
                       </Form.Item>
                     </Col>
-                    <Col md={12}>
+                    <Col xs={24} md={12}>
                       <Form.Item name="password" label="Yeni Parola">
                         <Input.Password placeholder={"Yeni parolanızı giriniz"} onChange={handlePasswordChange}  />
                       </Form.Item>

@@ -81,7 +81,7 @@ const Sidebar = (props) => {
             closable={false}
             onClose={onToggleCollapsedNav}
             visible={navCollapsed}>
-            <SidebarContent sidebarCollapsed={sidebarCollapsed} setSidebarCollapsed={setSidebarCollapsed}/>
+            <SidebarContent sidebarCollapsed={sidebarCollapsed} setSidebarCollapsed={setSidebarCollapsed} user={user} credit={credit} postLogout={handleLogout}/>
           </Drawer> :
           <SidebarContent sidebarCollapsed={sidebarCollapsed} setSidebarCollapsed={setSidebarCollapsed} user={user} credit={credit} postLogout={handleLogout}/>
       }

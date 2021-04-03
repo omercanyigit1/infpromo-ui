@@ -1,6 +1,6 @@
-import React, {useEffect} from "react";
+import React from "react";
 import {Menu, Button} from "antd";
-import {Link, useHistory, useLocation} from "react-router-dom";
+import {Link, useLocation} from "react-router-dom";
 import {LogoutOutlined} from '@ant-design/icons';
 
 import CustomScrollbars from "util/CustomScrollbars";
@@ -21,7 +21,7 @@ const SidebarContent = (props) => {
   const {sidebarCollapsed, setSidebarCollapsed, user, postLogout, credit} = props;
 
   let {navStyle, themeType} = useSelector(({settings}) => settings);
-  let {pathname} = useSelector(({common}) => common);
+  //let {pathname} = useSelector(({common}) => common);
 
   const getNoHeaderClass = (navStyle) => {
     if (navStyle === NAV_STYLE_NO_HEADER_MINI_SIDEBAR || navStyle === NAV_STYLE_NO_HEADER_EXPANDED_SIDEBAR) {

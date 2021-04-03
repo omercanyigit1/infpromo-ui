@@ -91,7 +91,7 @@ const PageCoverLogin = (props) => {
                         />
                         }
 
-                        <AvForm className="llogin-form mt-4">
+                        <AvForm className="llogin-form mt-4" onSubmit={onSubmit}>
                           <Row>
                             <Col lg={12}>
                               <FormGroup className="position-relative">
@@ -203,7 +203,7 @@ const PageCoverLogin = (props) => {
                             </Col>
 
                             <Col lg={12} className="mb-0">
-                              <Button color="primary" onClick={onSubmit} block>
+                              <Button color="primary" block>
                                 Giriş Yap
                               </Button>
                             </Col>

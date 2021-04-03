@@ -3,7 +3,6 @@ import Layout from "./components/Layout";
 import {
   Route,
   Switch,
-  Router,
   withRouter,
   HashRouter
 } from "react-router-dom";
