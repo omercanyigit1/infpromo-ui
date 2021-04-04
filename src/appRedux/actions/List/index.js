@@ -187,7 +187,6 @@ export const postGeneratePdf = (userId, network) => {
         };
 
         dispatch(postGeneratePdfRequest());
-
         axios.get(`${API_URL}/${network}/profile/${userId}/report/${id}`, axiosConfig).then((response) => {
           dispatch(postGeneratePdfSuccess(response.data.data));
         }).catch((error) => {

@@ -14,25 +14,21 @@ import {
   List,
   Avatar,
   Skeleton,
-  Modal,
   Collapse,
-  Space
+  Space,
+  Popconfirm
 } from 'antd';
 import {InfoCircleOutlined, SortDescendingOutlined} from '@ant-design/icons';
 import debounce from 'lodash/debounce';
-import CardList from "./components/CardList";
 import {connect} from 'react-redux';
+import {useHistory, Link} from 'react-router-dom';
 import {
   postSearchAdvanced,
   postPagination,
   postSearchUserName,
-  postGeneratePdf,
   isLoggedIn
 } from "../../appRedux/actions";
 import data from './../../constants/data.json';
-import {PDFDownloadLink} from '@react-pdf/renderer';
-import PdfDocument from "./components/PdfDocument";
-import report from './../../assets/images/instagram-report.pdf';
 
 const {Option} = Select;
 
@@ -82,6 +78,8 @@ const CardTitle = ({title, subTitle}) => {
 }
 
 const SamplePage = (props) => {
+  let history = useHistory();
+
   const [value, setValue] = useState('');
   const [network, setNetwork] = useState('instagram');
   const [followersFrom, setFollowersFrom] = useState(20000);
@@ -98,10 +96,6 @@ const SamplePage = (props) => {
   const [hasYoutube, setHasYoutube] = useState(false);
   const [showLoading, setShowLoading] = useState(false);
   const [page, setPage] = useState(1);
-  const [selectedItem, setSelectedItem] = useState({});
-  const [isModalShow, setIsModalShow] = useState(false);
-  const [userId, setUserId] = useState('');
-  const [isPdfButtonShow, setIsPdfButtonShow] = useState(false);
   const [audienceGender, setAudienceGender] = useState('')
   const [audienceInterestsState, setAudienceInterests] = useState('')
   const [audienceLanguagesState, setAudienceLanguages] = useState('')
@@ -115,9 +109,6 @@ const SamplePage = (props) => {
     directs,
     loading,
     total,
-    postGeneratePdf,
-    reportData,
-    reportDataLoading,
     showSorting,
     reportId,
     user
@@ -390,32 +381,6 @@ const SamplePage = (props) => {
       default:
         return `${param}`;
     }
-  }
-
-  function showModal(item) {
-    setIsModalShow(true);
-    setUserId(item.userId);
-    setSelectedItem(item.profile.fullname);
-  }
-
-  function handleModalOk() {
-
-    setTimeout(() => {
-      setIsPdfButtonShow(true);
-    }, 1000)
-
-    if (user.credit < 2) {
-      message.error(`Yetersiz Bakiye`);
-    } else {
-      postGeneratePdf(userId, network);
-    }
-
-    setIsModalShow(true);
-  }
-
-  function handleModalCancel() {
-    setIsModalShow(false);
-    setIsPdfButtonShow(false);
   }
 
   return (
@@ -813,15 +778,12 @@ const SamplePage = (props) => {
                     column={4}
                     renderItem={item => (
                       <List.Item
-                        actions={[
-                          <Button className={`btn btn-secondary list-item-btn-${item.userId}`} onClick={() => {
-                            showModal(item);
-                          }}>
-                            <span>Detaylı Rapor Al</span>
-                          </Button>, <a href={report} target={"_blank"} rel="noreferrer">Rapor Örneği</a>]}
-
+                        key={`list-${item.userId}`}
                         className={`list-item-${item.userId}`}
-                      >
+                        actions={[
+                          <Link to={`/detail/${network}/${item.userId}`} target={"_blank"} className={`btn btn-secondary list-item-btn-${item.userId}`}>
+                            <span>Detay</span>{" "} <span style={{fontSize: 13, marginLeft: 5}}>{" "} (1.5 kredi)</span>
+                          </Link>]}>
                         <Skeleton loading={loading}>
                           <Row style={{width: '100%'}} gutter={[0, 0]}>
                             <Col xs={24} sm={12} md={12}>
@@ -872,21 +834,65 @@ const SamplePage = (props) => {
           {
             directs && directs.map((item, index) => {
               return (
-                <CardList key={index}
-                          url={item.profile.url}
-                          avatar={item.profile.picture}
-                          name={item.profile.fullname}
-                          userName={item.profile.username}
-                          follower={item.profile.followers.toString()}
-                          engagement={`${item.profile.engagements}`}
-                          engagementRate={parseFloat(item.profile.engagementRate)}
-                          pdfUrl={'/'}
-                          reportDataLoading={reportDataLoading}
-                          data={reportData}
-                          credit={user.credit}
-                          userId={item.userId}
-                          network={network}
-                          documentFile={<PdfDocument data={reportData}/>}
+                <List
+                  className="list-item gx-mt-2"
+                  loading={loading}
+                  itemLayout="horizontal"
+                  locale={{emptyText: 'Veri Yok'}}
+                  bordered={true}
+                  size={'large'}
+                  dataSource={searchList}
+                  column={4}
+                  renderItem={item => (
+                    <List.Item
+                      key={`list-${item.userId}`}
+                      className={`list-item-${item.userId}`}
+                      actions={[
+                        <Link href={`/detail/${network}/${item.userId}`} target={"_blank"} className={`btn btn-secondary list-item-btn-${item.userId}`}>
+                          <span>Detay</span>{" "} <span style={{fontSize: 13, marginLeft: 5}}>{" "} (1.5 kredi)</span>
+                        </Link>]}>
+                      <Skeleton loading={loading}>
+                        <Row style={{width: '100%'}} gutter={[0, 0]}>
+                          <Col xs={24} sm={12} md={12}>
+                            <List.Item.Meta
+                              className={"list-meta-item"}
+                              avatar={<Avatar size={50} src={`${item.profile.picture}`}/>}
+                              title={<p className={"gx-mb-0 list-item-header"}>{item.profile.fullname}</p>}
+                              description={<a href={`${item.profile.url}`} target={"_blank"}
+                                              rel="noreferrer">@{item.profile.username}</a>}
+                            />
+                          </Col>
+                          <Col xs={12} sm={5} md={5}>
+                            <List.Item.Meta
+                              className={"gx-text-center list-mobile-margin"}
+                              title={<p className={"gx-mb-0 list-item-header"}>
+                                {renderSwitch(item.profile.followers.toString())}
+                              </p>}
+                              description={
+                                <p className="text-muted" style={{fontSize: 14, marginBottom: 0}}>
+                                  Takipçi
+                                </p>
+                              }
+                            />
+                          </Col>
+                          <Col xs={12} sm={7} md={7}>
+                            <List.Item.Meta
+                              className={"list-mobile-margin"}
+                              title={<p className={"gx-mb-0 list-item-header"}>
+                                {item.profile.engagements.toString().substring(0, 3)}k
+                                ({parseFloat(parseFloat(item.profile.engagementRate) * 100).toFixed(2)} %)
+                              </p>}
+                              description={
+                                <p className="gx-text-grey" style={{fontSize: 14, marginBottom: 0}}>
+                                  Etkileşimler ve Oranı
+                                </p>
+                              }
+                            />
+                          </Col>
+                        </Row>
+                      </Skeleton>
+                    </List.Item>
+                  )}
                 />
               )
             })
@@ -900,40 +906,7 @@ const SamplePage = (props) => {
         <Pagination current={page} pageSize={50} total={total} onChange={(value) => {
           setPage(value);
           handlePagination();
-        }} showSizeChanger={false}
-                    style={{marginTop: 15}}/>}
-        <Modal
-          title="Rapor Al"
-          visible={isModalShow}
-          onOk={handleModalOk}
-          onCancel={handleModalCancel}
-          okText="Rapor Al (2 Kredi)"
-          okButtonProps={{disabled: isPdfButtonShow, loading: reportDataLoading}}
-          cancelButtonProps={{disabled: isPdfButtonShow}}
-          cancelText="Vazgeç"
-        >
-          <p className={"text-muted"}>
-            Siz de <b>{selectedItem && selectedItem}</b> <br/> hakkında detaylı rapor oluşturabilirsiniz.
-          </p>
-          <p className={"text-muted"}>Oluşturacağınız bu rapor ile Influencer hakkında daha detaylı bilgi edinebilir,
-            takipçileri hakkında daha fazla bilgi edinebilir ve aylara göre etkileşim oranında ki farkları
-            inceleyebilirsiniz.</p>
-          <p className={"text-muted"}>Bu raporun bir örneğini aşağıda ki linkten inceleyebilirsiniz.</p>
-          <p className={"text-muted"}>
-            <a href={report} target={"_blank"} rel="noreferrer">
-              Örnek Rapor
-            </a>
-          </p>
-
-          {isPdfButtonShow &&
-          <div>
-            <span className={"text-muted"} style={{marginRight: 15}}>Oluşturulan Rapor: </span>
-            <PDFDownloadLink className={"btn btn-primary"} document={<PdfDocument data={reportData}/>} filename={`detailed-report.pdf`}>
-              {({blob, url, loading, error}) => (loading ? <span>Hazırlanıyor</span> : <span>Rapor Hazır (indir)</span>)}
-            </PDFDownloadLink>
-          </div>
-          }
-        </Modal>
+        }} showSizeChanger={false} style={{marginTop: 15}}/>}
       </div>
     </Spin>
   );
@@ -943,7 +916,6 @@ const mapStateToProps = (state) => {
   return {
     loading: state.list.loading,
     searchList: state.list.searchList,
-    reportData: state.list.reportData,
     directs: state.list.directs,
     reportDataLoading: state.list.reportDataLoading,
     showSorting: state.list.showSorting,
@@ -958,6 +930,5 @@ export default connect(mapStateToProps, {
   postSearchAdvanced,
   postSearchUserName,
   postPagination,
-  postGeneratePdf,
   isLoggedIn
 })(SamplePage);

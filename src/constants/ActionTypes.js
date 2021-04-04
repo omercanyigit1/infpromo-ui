@@ -1,5 +1,5 @@
-//export const API_URL = "https://infpromo-backend-plxkq.ondigitalocean.app";
-export const API_URL = "http://localhost:8000";
+export const API_URL = "https://infpromo-backend-plxkq.ondigitalocean.app";
+//export const API_URL = "http://localhost:8000";
 
 // Customizer const
 export const TOGGLE_COLLAPSED_NAV = 'TOGGLE_COLLAPSE_MENU';
