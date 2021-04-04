@@ -41,11 +41,13 @@ const DetailPage = (props) => {
   const id = params.id;
   const network = params.network;
 
-  const {postGeneratePdf, reportData, loading} = props;
+  const {postGeneratePdf, reportData, loading, user} = props;
 
   useEffect(() => {
 
-    postGeneratePdf(network, id);
+    if(_.isEmpty(user)) {
+      postGeneratePdf(network, id);
+    }
 
   }, [postGeneratePdf])
 
@@ -513,6 +515,7 @@ const DetailPage = (props) => {
 const mapStateToProps = (state) => {
 
   return {
+    user: state.user.user,
     reportData: state.list.reportData,
     loading: state.list.loading,
   }
