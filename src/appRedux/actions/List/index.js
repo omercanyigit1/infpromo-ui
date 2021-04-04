@@ -94,6 +94,9 @@ const _retrieveDataId = async () => {
 
 export const postSearchAdvanced = (data, network) => {
 
+  console.log("data: ", data);
+  console.log("network: ", network);
+
   return dispatch => {
 
     _retrieveDataId().then((id) => {

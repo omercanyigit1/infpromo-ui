@@ -15,7 +15,8 @@ import {
   Avatar,
   Skeleton,
   Modal,
-  Collapse, Space
+  Collapse,
+  Space
 } from 'antd';
 import {InfoCircleOutlined, SortDescendingOutlined} from '@ant-design/icons';
 import debounce from 'lodash/debounce';
@@ -29,13 +30,18 @@ import {
   isLoggedIn
 } from "../../appRedux/actions";
 import data from './../../constants/data.json';
-import {PDFDownloadLink, PDFViewer} from '@react-pdf/renderer';
+import {PDFDownloadLink} from '@react-pdf/renderer';
 import PdfDocument from "./components/PdfDocument";
 import report from './../../assets/images/instagram-report.pdf';
 
 const {Option} = Select;
 
 const {Panel} = Collapse;
+
+const rate = [];
+for (let i = 1; i < 21; i++) {
+  rate.push(<Option key={i.toString(21) + i} value={i}>≥ {i} %</Option>);
+}
 
 const interests = [];
 for (let i = 0; i < data.interests.length; i++) {
@@ -47,9 +53,21 @@ for (let i = 0; i < data.languages.length; i++) {
   languages.push(<Option key={data.languages[i].code} value={data.languages[i].code}>{data.languages[i].name}</Option>);
 }
 
-const rate = [];
-for (let i = 1; i < 21; i++) {
-  rate.push(<Option key={i.toString(21) + i} value={i}>≥ {i} %</Option>);
+const audienceAge = [];
+for (let i = 0; i < data.audienceAge.length; i++) {
+  audienceAge.push(<Option key={data.audienceAge[i]} value={data.audienceAge[i]}>{data.audienceAge[i]}</Option>);
+}
+
+const audienceInterests = [];
+for (let i = 0; i < data.audienceInterests.length; i++) {
+  audienceInterests.push(<Option key={data.audienceInterests[i].id}
+                                 value={data.audienceInterests[i].id}>{data.audienceInterests[i].name}</Option>);
+}
+
+const audienceLanguages = [];
+for (let i = 0; i < data.audienceLanguages.length; i++) {
+  audienceLanguages.push(<Option key={data.audienceLanguages[i].code}
+                                 value={data.audienceLanguages[i].code}>{data.audienceLanguages[i].name}</Option>);
 }
 
 const CardTitle = ({title, subTitle}) => {
@@ -68,18 +86,26 @@ const SamplePage = (props) => {
   const [network, setNetwork] = useState('instagram');
   const [followersFrom, setFollowersFrom] = useState(20000);
   const [followersTo, setFollowersTo] = useState(10000000);
+  const [viewsFrom, setViewsFrom] = useState(20000);
+  const [viewsTo, setViewsTo] = useState(10000000);
   const [gender, setGender] = useState('');
+  const [sortName, setSortName] = useState('followers');
   const [interest, setInterests] = useState([]);
   const [relevance, setRelevance] = useState([]);
   const [language, setLanguages] = useState('tr');
   const [engagementRate, setEngagementRate] = useState(0);
   const [contactDetails, setContactDetails] = useState(false);
+  const [hasYoutube, setHasYoutube] = useState(false);
   const [showLoading, setShowLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [selectedItem, setSelectedItem] = useState({});
   const [isModalShow, setIsModalShow] = useState(false);
   const [userId, setUserId] = useState('');
   const [isPdfButtonShow, setIsPdfButtonShow] = useState(false);
+  const [audienceGender, setAudienceGender] = useState('')
+  const [audienceInterestsState, setAudienceInterests] = useState('')
+  const [audienceLanguagesState, setAudienceLanguages] = useState('')
+  const [audienceAgeState, setAudienceAge] = useState('')
 
   const {
     searchList,
@@ -113,6 +139,14 @@ const SamplePage = (props) => {
     setFollowersTo(value);
   }
 
+  function handleViewsFromChange(value) {
+    setViewsFrom(value);
+  }
+
+  function handleViewsToChange(value) {
+    setViewsTo(value);
+  }
+
   function handleGenderChange(value) {
     setGender(value);
   }
@@ -122,7 +156,7 @@ const SamplePage = (props) => {
   }
 
   function handleLanguagesChange(value) {
-    //console.log(value);
+    setLanguages(value);
   }
 
   function handleEngagementRateChange(value) {
@@ -133,17 +167,34 @@ const SamplePage = (props) => {
     setContactDetails(value);
   }
 
-  function handleSortChange(value) {
-    console.log(`selected ${value}`);
+  function handleHasYoutubeChange(value) {
+    setHasYoutube(value);
   }
 
-  function handleFilter() {
+  function handleAudienceGenderChange(value) {
+    setAudienceGender(value);
+  }
 
-    console.log("clicked!!!");
+  function handleAudienceInterestsChange(value) {
+    setAudienceInterests(value);
+  }
 
+  function handleAudienceLanguagesChange(value) {
+    setAudienceLanguages(value);
+  }
+
+  function handleAudienceAgeChange(value) {
+    setAudienceAge(value);
+  }
+
+  function handleSortChange(value) {
+    setSortName(value);
+  }
+
+  function handleInstagram() {
     let data = {
       "sort": {
-        "field": "followers",
+        "field": `${sortName}`,
         "direction": "desc"
       },
       "page": page,
@@ -154,9 +205,18 @@ const SamplePage = (props) => {
             "min": parseInt(followersFrom),
             "max": parseInt(followersTo)
           },
+          "interests": interest,
+          "hasContactDetails": contactDetails,
+          "hasYoutube": hasYoutube,
           "engagementRate": parseInt(engagementRate),
           "language": language,
           "gender": gender
+        },
+        "audience": {
+          "age": audienceAgeState,
+          "gender": audienceGender,
+          "interests": audienceInterestsState,
+          "language": audienceLanguagesState
         }
       }
     }
@@ -168,11 +228,101 @@ const SamplePage = (props) => {
     }
   }
 
+  function handleYoutube() {
+    let data = {
+      "sort": {
+        "field": `${sortName}`,
+        "direction": "desc"
+      },
+      "page": page,
+      "filter": {
+        "influencer": {
+          "location": [174737],
+          "followers": {
+            "min": parseInt(followersFrom),
+            "max": parseInt(followersTo)
+          },
+          "hasContactDetails": contactDetails,
+          "engagementRate": parseInt(engagementRate),
+          "language": language,
+          "gender": gender,
+          "views": {
+            "min": parseInt(viewsFrom),
+            "max": parseInt(viewsTo)
+          },
+        },
+        "audience": {
+          "age": audienceAgeState,
+          "gender": audienceGender,
+          "language": audienceLanguagesState
+        }
+      }
+    }
+
+    if (user.credit < 1) {
+      message.error(`Yetersiz Bakiye`);
+    } else {
+      postSearchAdvanced(data, network);
+    }
+  }
+
+  function handleTiktok() {
+    let data = {
+      "sort": {
+        "field": `${sortName}`,
+        "direction": "desc"
+      },
+      "page": page,
+      "filter": {
+        "influencer": {
+          "location": [174737],
+          "followers": {
+            "min": parseInt(followersFrom),
+            "max": parseInt(followersTo)
+          },
+          "hasContactDetails": contactDetails,
+          "engagementRate": parseInt(engagementRate),
+          "language": language,
+          "gender": gender,
+          "views": {
+            "min": parseInt(viewsFrom),
+            "max": parseInt(viewsTo)
+          },
+        },
+        "audience": {
+          "age": audienceAgeState,
+          "gender": audienceGender,
+          "language": audienceLanguagesState
+        }
+      }
+    }
+
+    if (user.credit < 1) {
+      message.error(`Yetersiz Bakiye`);
+    } else {
+      postSearchAdvanced(data, network);
+    }
+  }
+
+  function handleFilter() {
+
+    switch (network) {
+      case 'instagram':
+        return handleInstagram();
+      case 'youtube':
+        return handleYoutube();
+      case 'tiktok':
+        return handleTiktok();
+      default:
+        return handleInstagram();
+    }
+  }
+
   function handleFilterUserName() {
 
     let data = {
       "sort": {
-        "field": "followers",
+        "field": `${sortName}`,
         "direction": "desc"
       },
       "page": 0,
@@ -194,7 +344,7 @@ const SamplePage = (props) => {
 
     let data = {
       "sort": {
-        "field": "followers",
+        "field": `${sortName}`,
         "direction": "desc"
       },
       "page": page,
@@ -291,7 +441,9 @@ const SamplePage = (props) => {
         <Space direction="vertical" style={{width: '100%'}} className={"gx-mt-3"}>
           <Collapse collapsible="header" defaultActiveKey={['1']}>
             <Panel header={
-              <CardTitle title={"Influencer Filtresi"} subTitle={"Aramanızı daraltmak için takipçi sayısı ve kitle filtreleri ile başlamayı deneyin ya da kullanıcı adına göre arama yapın."}/>} key="1">
+              <CardTitle title={"Influencer Filtresi"}
+                         subTitle={"Aramanızı daraltmak için takipçi sayısı ve kitle filtreleri ile başlamayı deneyin ya da kullanıcı adına göre arama yapın."}/>}
+                   key="1">
               <Card type="inner" title={"Influencer Özellikleri"} extra={null} style={{marginTop: 10}}>
                 <div>
                   <Row>
@@ -333,6 +485,46 @@ const SamplePage = (props) => {
                         </Col>
                       </Row>
                     </Col>
+                    {network !== 'instagram' &&
+                    <Col xs={24} md={8}>
+                      <Row gutter={[10, 10]}>
+                        <Col span={24}>
+                          <label>
+                            <b>Görüntülenme Sayısı:</b>
+                          </label>
+                        </Col>
+                        <Col span={12}>
+                          <Select allowClear placeholder={"min"} style={{width: '100%'}}
+                                  onChange={handleViewsFromChange}>
+                            <Option value="25000">25.000</Option>
+                            <Option value="50000">50.000</Option>
+                            <Option value="75000">75.000</Option>
+                            <Option value="100000">100.000</Option>
+                            <Option value="150000">150.000</Option>
+                            <Option value="200000">200.000</Option>
+                            <Option value="300000">300.000</Option>
+                            <Option value="500000">500.000</Option>
+                            <Option value="1000000">1.000.000</Option>
+                          </Select>
+                        </Col>
+                        <Col span={12}>
+                          <Select allowClear placeholder={"max"} style={{width: '100%'}}
+                                  onChange={handleViewsToChange}>
+                            <Option value="25000">25.000</Option>
+                            <Option value="50000">50.000</Option>
+                            <Option value="75000">75.000</Option>
+                            <Option value="100000">100.000</Option>
+                            <Option value="150000">150.000</Option>
+                            <Option value="200000">200.000</Option>
+                            <Option value="300000">300.000</Option>
+                            <Option value="500000">500.000</Option>
+                            <Option value="1000000">1.000.000</Option>
+                            <Option value="1000000+">1.000.000+</Option>
+                          </Select>
+                        </Col>
+                      </Row>
+                    </Col>
+                    }
                     <Col xs={24} md={4}>
                       <Row gutter={[10, 10]}>
                         <Col span={24}>
@@ -349,6 +541,7 @@ const SamplePage = (props) => {
                         </Col>
                       </Row>
                     </Col>
+                    {network === 'instagram' &&
                     <Col xs={24} md={8}>
                       <Row gutter={[10, 10]}>
                         <Col span={24}>
@@ -369,6 +562,7 @@ const SamplePage = (props) => {
                         </Col>
                       </Row>
                     </Col>
+                    }
                     <Col xs={24} md={4}>
                       <Row gutter={[10, 10]}>
                         <Col span={24}>
@@ -427,6 +621,28 @@ const SamplePage = (props) => {
                         </Col>
                       </Row>
                     </Col>
+                    {network === 'instagram' &&
+                    <Col xs={24} md={6}>
+                      <Row gutter={[10, 10]}>
+                        <Col span={24}>
+                          <label>
+                            <b>Youtube Hesabı:</b>
+                          </label>
+                        </Col>
+                        <Col span={24}>
+                          <Select allowClear placeholder={"Seçiniz"} style={{width: '100%'}}
+                                  onChange={handleHasYoutubeChange}>
+                            <Option value={false}>
+                              Yok
+                            </Option>
+                            <Option value={true}>
+                              Var
+                            </Option>
+                          </Select>
+                        </Col>
+                      </Row>
+                    </Col>
+                    }
                   </Row>
                 </div>
               </Card>
@@ -437,33 +653,41 @@ const SamplePage = (props) => {
                       <Row gutter={[10, 10]}>
                         <Col span={24}>
                           <label>
-                            <b>Lokasyon:</b>
-                          </label>
-                        </Col>
-                        <Col xs={24} md={24}>
-                          <Select allowClear placeholder={"Seçiniz"} style={{width: '100%'}}
-                                  onChange={handleLanguagesChange}>
-                            {languages}
-                          </Select>
-                        </Col>
-                      </Row>
-                    </Col>
-                    <Col xs={24} md={4}>
-                      <Row gutter={[10, 10]}>
-                        <Col span={24}>
-                          <label>
                             <b>Cinsiyet:</b>
                           </label>
                         </Col>
                         <Col xs={24} md={24}>
                           <Select allowClear placeholder={"Seçiniz"} style={{width: '100%'}}
-                                  onChange={handleGenderChange}>
+                                  onChange={handleAudienceGenderChange}>
                             <Option value="FEMALE">Kadın</Option>
                             <Option value="MALE">Erkek</Option>
                           </Select>
                         </Col>
                       </Row>
                     </Col>
+
+                    <Col xs={24} md={4}>
+                      <Row gutter={[10, 10]}>
+                        <Col span={24}>
+                          <label>
+                            <b>Yaş Aralığı:</b>
+                          </label>
+                        </Col>
+                        <Col xs={24} md={24}>
+                          <Select
+                            mode="multiple"
+                            allowClear
+                            style={{width: '100%'}}
+                            placeholder="Seçiniz"
+                            onChange={handleAudienceAgeChange}
+                          >
+                            {audienceAge}
+                          </Select>
+                        </Col>
+                      </Row>
+                    </Col>
+
+                    {network === 'instagram' &&
                     <Col xs={24} md={8}>
                       <Row gutter={[10, 10]}>
                         <Col span={24}>
@@ -477,13 +701,14 @@ const SamplePage = (props) => {
                             allowClear
                             style={{width: '100%'}}
                             placeholder="Seçiniz"
-                            onChange={handleInterestsChange}
+                            onChange={handleAudienceInterestsChange}
                           >
-                            {interests}
+                            {audienceInterests}
                           </Select>
                         </Col>
                       </Row>
                     </Col>
+                    }
                     <Col xs={24} md={4}>
                       <Row gutter={[10, 10]}>
                         <Col span={24}>
@@ -493,8 +718,8 @@ const SamplePage = (props) => {
                         </Col>
                         <Col xs={24} md={24}>
                           <Select allowClear placeholder={"Seçiniz"} style={{width: '100%'}}
-                                  onChange={handleLanguagesChange}>
-                            {languages}
+                                  onChange={handleAudienceLanguagesChange}>
+                            {audienceLanguages}
                           </Select>
                         </Col>
                       </Row>
@@ -548,38 +773,26 @@ const SamplePage = (props) => {
           {
             showSorting &&
             <div className={"list-header-item"}>
-              <Row>
-                <Col span={24}>
+              <Row align={"middle"}>
+                <Col xs={24} md={24}>
                   <div style={{
                     display: 'flex',
                     alignItems: 'center',
-                    marginBottom: 30,
-                    marginTop: 10
+                    marginBottom: 20
                   }}>
                     <SortDescendingOutlined/>
                     <span style={{marginLeft: 5}}>Sıralama: </span>
-                    <Select defaultValue={"1"} placeholder={"Sıralama"} style={{width: 150, marginLeft: 5}}
+                    <Select defaultValue={"followers"} placeholder={"Sıralama"} style={{width: 150, marginLeft: 5}}
                             onChange={handleSortChange}>
-                      <Option value="1">Seçiniz</Option>
-                      <Option value="2">Takipçi Sayısı</Option>
-                      <Option value="3">Etkileşim Oranı</Option>
+                      <Option value="followers">Takipçi Sayısı</Option>
+                      <Option value="engagements">Etkileşim</Option>
+                      <Option value="engagementsRate">Etkileşim Oranı</Option>
                     </Select>
                     <hr/>
                   </div>
                 </Col>
-              </Row>
-              <Row>
-                <Col xs={24} md={7}>
+                <Col xs={24} md={24}>
                   <p style={{marginBottom: 0, textAlign: "left"}}><b>{total}</b> adet influencer bulundu.</p>
-                </Col>
-                <Col xs={12} md={5}>
-                  <p style={{marginBottom: 0, textAlign: "center"}} className={"hide-on-mobile"}>Takipçi Oranı</p>
-                </Col>
-                <Col xs={12} md={6}>
-                  <p style={{marginBottom: 0, textAlign: "left"}} className={"hide-on-mobile"}>Etkileşim (Etkileşim Oranı %)</p>
-                </Col>
-                <Col xs={12} md={5}>
-                  <p style={{marginBottom: 0}}/>
                 </Col>
               </Row>
             </div>
@@ -715,9 +928,8 @@ const SamplePage = (props) => {
           {isPdfButtonShow &&
           <div>
             <span className={"text-muted"} style={{marginRight: 15}}>Oluşturulan Rapor: </span>
-            <PDFDownloadLink className={"btn btn-primary"} document={<PdfDocument data={reportData}/>}
-                             filename={`detailed-report.pdf`}>
-              {({blob, url, loading, error}) => (loading ? <span>Hazırlanıyor</span> : <span>Rapor Hazır</span>)}
+            <PDFDownloadLink className={"btn btn-primary"} document={<PdfDocument data={reportData}/>} filename={`detailed-report.pdf`}>
+              {({blob, url, loading, error}) => (loading ? <span>Hazırlanıyor</span> : <span>Rapor Hazır (indir)</span>)}
             </PDFDownloadLink>
           </div>
           }

@@ -81,55 +81,137 @@
       "id": 1500
     }
   ],
+  "audienceInterests": [
+    {
+      "name": "Kıyafet, Ayakkabı, Çanta & Aksesuar",
+      "id": 13
+    },
+    {
+      "name": "Arkadaşlar, Aile & İlişkiler",
+      "id": 1708
+    },
+    {
+      "name": "Kamera & Fotoğraf",
+      "id": 11
+    },
+    {
+      "name": "Restoran, Yiyecek & İçecek",
+      "id": 139
+    },
+    {
+      "name": "Gezi, Turizm & Havacılık",
+      "id": 43
+    },
+    {
+      "name": "Oyuncak, Çocuk & Bebek",
+      "id": 190
+    },
+    {
+      "name": "Güzellik & Kozmetik",
+      "id": 80
+    },
+    {
+      "name": "Müzik",
+      "id": 3
+    },
+    {
+      "name": "Televizyon & Sinema",
+      "id": 1
+    },
+    {
+      "name": "Elektronik & Bilgisayar",
+      "id": 25
+    },
+    {
+      "name": "Spor",
+      "id": 21
+    },
+    {
+      "name": "Sanat & Dizayn",
+      "id": 36
+    },
+    {
+      "name": "Araba & Motosiklet",
+      "id": 1826
+    },
+    {
+      "name": "Fitness & Yoga",
+      "id": 196
+    },
+    {
+      "name": "Evcil hayvan",
+      "id": 673
+    },
+    {
+      "name": "Alışveriş & Perakende",
+      "id": 7
+    },
+    {
+      "name": "Kahve, Çay & İçecek",
+      "id": 9
+    },
+    {
+      "name": "Sağlıklı yaşam",
+      "id": 798
+    },
+    {
+      "name": "Spor giyim",
+      "id": 33
+    },
+    {
+      "name": "Lüks Ürünler",
+      "id": 1500
+    }
+  ],
   "languages": [
     {
       "code": "tr",
-      "name": "Turkish",
+      "name": "Türkçe",
       "count": 21741207
     },
     {
       "code": "en",
-      "name": "English",
+      "name": "İngilizce",
       "count": 79842810
     },
     {
       "code": "es",
-      "name": "Spanish",
+      "name": "İspanyolca",
       "count": 51443191
     },
     {
       "code": "pt",
-      "name": "Portuguese",
+      "name": "Portekizce",
       "count": 49020894
     },
     {
       "code": "ru",
-      "name": "Russian",
+      "name": "Rusça",
       "count": 36616585
     },
     {
       "code": "fr",
-      "name": "French",
+      "name": "Fransızca",
       "count": 35588239
     },
     {
       "code": "ar",
-      "name": "Arabic",
+      "name": "Arapça",
       "count": 34145981
     },
     {
       "code": "it",
-      "name": "Italian",
+      "name": "İtalyanca",
       "count": 28652776
     },
     {
       "code": "de",
-      "name": "German",
+      "name": "Almanca",
       "count": 26725294
     },
     {
       "code": "fa",
-      "name": "Persian",
+      "name": "Farsça",
       "count": 22743528
     },
     {
@@ -179,13 +261,110 @@
     },
     {
       "code": "nl",
-      "name": "Dutch",
+      "name": "Flemenkçe",
       "count": 4360988
+    }
+  ],
+  "audienceLanguages": [
+    {
+      "code": "tr",
+      "name": "Türkçe",
+      "count": 21741207
     },
     {
-      "code": "uk",
-      "name": "Ukrainian",
-      "count": 4312603
+      "code": "en",
+      "name": "İngilizce",
+      "count": 79842810
+    },
+    {
+      "code": "es",
+      "name": "İspanyolca",
+      "count": 51443191
+    },
+    {
+      "code": "pt",
+      "name": "Portekizce",
+      "count": 49020894
+    },
+    {
+      "code": "ru",
+      "name": "Rusça",
+      "count": 36616585
+    },
+    {
+      "code": "fr",
+      "name": "Fransızca",
+      "count": 35588239
+    },
+    {
+      "code": "ar",
+      "name": "Arapça",
+      "count": 34145981
+    },
+    {
+      "code": "it",
+      "name": "İtalyanca",
+      "count": 28652776
+    },
+    {
+      "code": "de",
+      "name": "Almanca",
+      "count": 26725294
+    },
+    {
+      "code": "fa",
+      "name": "Farsça",
+      "count": 22743528
+    },
+    {
+      "code": "id",
+      "name": "Indonesian",
+      "count": 22220943
+    },
+    {
+      "code": "tr",
+      "name": "Turkish",
+      "count": 21741207
+    },
+    {
+      "code": "ja",
+      "name": "Japanese",
+      "count": 11002626
+    },
+    {
+      "code": "pl",
+      "name": "Polish",
+      "count": 9875139
+    },
+    {
+      "code": "zh",
+      "name": "Chinese",
+      "count": 6864794
+    },
+    {
+      "code": "th",
+      "name": "Thai",
+      "count": 6736537
+    },
+    {
+      "code": "hi",
+      "name": "Hindi",
+      "count": 5020969
+    },
+    {
+      "code": "ko",
+      "name": "Korean",
+      "count": 4911357
+    },
+    {
+      "code": "ms",
+      "name": "Malay",
+      "count": 4645528
+    },
+    {
+      "code": "nl",
+      "name": "Flemenkçe",
+      "count": 4360988
     }
   ],
   "locations": [
@@ -289,5 +468,6 @@
       "name": "Mexico",
       "title": "Mexico"
     }
-  ]
+  ],
+  "audienceAge": ["18-24", "25-34", "35-44", "45-64", "65-"]
 }
