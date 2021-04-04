@@ -4,7 +4,7 @@ import { Container, Row, Col } from "reactstrap";
 
 // Import images
 import saas1 from "../../assets/images/saas/infpromo-filter-image.png";
-import saas2 from "../../assets/images/saas/report-review.png";
+import saas2 from "../../assets/images/saas/report.png";
 import report from './../../../../assets/images/instagram-report.pdf';
 
 //Import Components
@@ -23,10 +23,10 @@ class Start extends Component {
         { title: "Kolay kullanım" },
       ],
       features2: [
-        { title: "Son 7 aya sahip etkileşim grafiği" },
         { title: "Detaylı takipçi sayısı grafiği" },
         { title: "Influencer' ın en çok kullandığı taglar (#hastags)" },
         { title: "Takipçilerin lokasyon bilgisi" },
+        { title: "Fake takipçi bilgisi" },
         { title: "Takipçilerin yaş aralığı ve cinsiyetleri hakkında oranlar" },
         { title: "Influencer 'ın en çok etkileşim içinde olduğu hesaplar" },
       ],
@@ -65,13 +65,10 @@ class Start extends Component {
               <div className="section-title mr-lg-5">
                 <SectionTitleLeft
                   title="Detaylı Rapor Analizi"
-                  desc="Yalnızca 2$ ödeyerek hedeflediğiniz Influencer hakkında detaylı rapor edinebilirsiniz. Bu rapor içerisinde;"
+                  desc="Yalnızca 1$ ödeyerek hedeflediğiniz Influencer hakkında detaylı rapor edinebilirsiniz. Bu rapor içerisinde;"
                   features={this.state.features2}
                   class=""
                 />
-                <a href={report} target={"_blank"} rel="noreferrer" className="mt-3 h6 text-primary">
-                  Rapor Örneği <i className="mdi mdi-chevron-right" />
-                </a>
               </div>
             </Col>
 

@@ -27,7 +27,7 @@ class Section extends Component {
                     Türkiye' nin en büyük Influencer veri platformu
                   </h1>
                   <p className="para-desc mx-auto text-muted">
-                    1$ ' dan başlayan fiyatlar ile 25.000'den fazla influencer' ın verisini görebilir, analiz edebilir
+                    0.5 $ ' dan başlayan fiyatlar ile 25.000'den fazla influencer' ın verisini görebilir, analiz edebilir
                     ve detaylı raporlarını inceleyebilirsiniz.
                   </p>
                   <div className="mt-4 pt-2">
