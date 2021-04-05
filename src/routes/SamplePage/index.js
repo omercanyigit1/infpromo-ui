@@ -720,8 +720,8 @@ const SamplePage = (props) => {
                     </Col>
                   </Row>
 
-                  <Row>
-                    <Col xs={24} sm={24}>
+                  <Row justify={"end"}>
+                    <Col xs={24} sm={3}>
                       <div style={{textAlign: 'right'}} className={"gx-mt-3"} onClick={handleFilterUserName}>
                         <Button className="btn btn-primary">
                           Arama
