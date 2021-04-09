@@ -46,12 +46,15 @@ const DetailPage = (props) => {
   useEffect(() => {
 
     if(_.isEmpty(user)) {
-      postGeneratePdf(network, id);
+      postGeneratePdf(id, network);
     }
 
   }, [postGeneratePdf])
 
   if (reportData) {
+    console.log("param id: ",params.id);
+    console.log("param id: ",reportData.profile.userId);
+
     if (params.id !== reportData.profile.userId) {
       return (
         <Result
@@ -329,7 +332,7 @@ const DetailPage = (props) => {
                         </div>
                         <div className={"box-item"} style={{padding: 20}}>
                           <Row>
-                            {(reportData.profile.audience.lookalikes).map((item, index) => {
+                            {reportData.profile.audience.lookalikes && (reportData.profile.audience.lookalikes).map((item, index) => {
                               return (
                                 <Col key={`per-look-${index}`} xs={24} md={8}>
                                   <div style={{
@@ -412,7 +415,7 @@ const DetailPage = (props) => {
                         </div>
                         <div className={"box-item"} style={{padding: 10}}>
                           <Row style={{width: 'calc(100% - 32px)'}}>
-                            {(reportData.profile.audience.hashtags).map((item, index) => {
+                            {reportData.profile.hashtags && (reportData.profile.hashtags).map((item, index) => {
                               return (
                                 <Col key={`has-tags-${index}`} xs={24} md={8}>
                                   <div style={{

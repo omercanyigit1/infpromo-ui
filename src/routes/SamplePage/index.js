@@ -188,7 +188,7 @@ const SamplePage = (props) => {
         "field": `${sortName}`,
         "direction": "desc"
       },
-      "page": page,
+      "page": page - 1,
       "filter": {
         "influencer": {
           "location": [174737],
@@ -225,7 +225,7 @@ const SamplePage = (props) => {
         "field": `${sortName}`,
         "direction": "desc"
       },
-      "page": page,
+      "page": page - 1,
       "filter": {
         "influencer": {
           "location": [174737],
@@ -263,7 +263,7 @@ const SamplePage = (props) => {
         "field": `${sortName}`,
         "direction": "desc"
       },
-      "page": page,
+      "page": page - 1,
       "filter": {
         "influencer": {
           "location": [174737],
@@ -333,31 +333,6 @@ const SamplePage = (props) => {
 
   function handlePagination() {
 
-    let data = {
-      "sort": {
-        "field": `${sortName}`,
-        "direction": "desc"
-      },
-      "page": page,
-      "filter": {
-        "influencer": {
-          "location": [174737],
-          "followers": {
-            "min": parseInt(followersFrom),
-            "max": parseInt(followersTo)
-          },
-          "engagementRate": parseInt(engagementRate),
-          "language": language,
-          "gender": gender
-        }
-      }
-    }
-
-    if (user.credit < 1) {
-      message.error(`Yetersiz Bakiye`);
-    } else {
-      postPagination(data, network);
-    }
   }
 
   function handleValue(e) {
@@ -774,6 +749,14 @@ const SamplePage = (props) => {
                     locale={{emptyText: 'Veri Yok'}}
                     bordered={true}
                     size={'large'}
+                    pagination={{
+                      onChange: page => {
+                        setPage(page);
+                        handleFilter();
+                      },
+                      pageSize: 15,
+                      total: total,
+                    }}
                     dataSource={searchList}
                     column={4}
                     renderItem={item => (
@@ -782,7 +765,7 @@ const SamplePage = (props) => {
                         className={`list-item-${item.userId}`}
                         actions={[
                           <Link to={`/detail/${network}/${item.userId}`} target={"_blank"} className={`btn btn-secondary list-item-btn-${item.userId}`}>
-                            <span>Detay</span>{" "} <span style={{fontSize: 13, marginLeft: 5}}>{" "} (1.5 kredi)</span>
+                            <span>Detay</span>{" "} <span style={{fontSize: 13, marginLeft: 5}}>{" "} (2 kredi)</span>
                           </Link>]}>
                         <Skeleton loading={loading}>
                           <Row style={{width: '100%'}} gutter={[0, 0]}>
@@ -902,11 +885,6 @@ const SamplePage = (props) => {
           <h3>Lütfen Filtreleme Seçeneğini kullanın!</h3>
           }
         </div>
-        {showSorting &&
-        <Pagination current={page} pageSize={50} total={total} onChange={(value) => {
-          setPage(value);
-          handlePagination();
-        }} showSizeChanger={false} style={{marginTop: 15}}/>}
       </div>
     </Spin>
   );

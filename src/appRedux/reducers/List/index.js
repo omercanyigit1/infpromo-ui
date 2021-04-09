@@ -47,7 +47,7 @@ const ListReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         error: null,
-        searchList: data.lookalikes,
+        searchList: action.payload.bodyNew.lookalikes,
         credit: action.payload.credit,
         total: action.payload.bodyNew.total,
         showSorting: true,
@@ -71,7 +71,7 @@ const ListReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         error: null,
-        searchList: data.lookalikes,
+        searchList: action.payload.bodyNew.lookalikes,
         credit: action.payload.credit,
         total: action.payload.bodyNew.total,
       };
@@ -115,7 +115,7 @@ const ListReducer = (state = initialState, action) => {
       return {
         ...state,
         reportDataLoading: false,
-        reportData: action.payload.pdfBody.profile,
+        reportData: action.payload.pdfBody,
         credit: action.payload.credit
       };
     case SEARCH_GENERATE_PDF_FAILED:
