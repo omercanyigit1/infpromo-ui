@@ -95,7 +95,7 @@ const SamplePage = (props) => {
   const [contactDetails, setContactDetails] = useState(false);
   const [hasYoutube, setHasYoutube] = useState(false);
   const [showLoading, setShowLoading] = useState(false);
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(0);
   const [audienceGender, setAudienceGender] = useState('')
   const [audienceInterestsState, setAudienceInterests] = useState('')
   const [audienceLanguagesState, setAudienceLanguages] = useState('')
@@ -188,7 +188,7 @@ const SamplePage = (props) => {
         "field": `${sortName}`,
         "direction": "desc"
       },
-      "page": page - 1,
+      "page": page,
       "filter": {
         "influencer": {
           "location": [174737],
@@ -225,7 +225,7 @@ const SamplePage = (props) => {
         "field": `${sortName}`,
         "direction": "desc"
       },
-      "page": page - 1,
+      "page": page,
       "filter": {
         "influencer": {
           "location": [174737],
@@ -263,7 +263,7 @@ const SamplePage = (props) => {
         "field": `${sortName}`,
         "direction": "desc"
       },
-      "page": page - 1,
+      "page": page,
       "filter": {
         "influencer": {
           "location": [174737],

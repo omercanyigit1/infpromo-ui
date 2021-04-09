@@ -332,7 +332,7 @@ const DetailPage = (props) => {
                         </div>
                         <div className={"box-item"} style={{padding: 20}}>
                           <Row>
-                            {reportData.profile.audience.lookalikes && (reportData.profile.audience.lookalikes).map((item, index) => {
+                            {reportData.profile.audience.audienceLookalikes && (reportData.profile.audience.audienceLookalikes).map((item, index) => {
                               return (
                                 <Col key={`per-look-${index}`} xs={24} md={8}>
                                   <div style={{
