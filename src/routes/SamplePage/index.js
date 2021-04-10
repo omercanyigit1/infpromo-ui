@@ -36,7 +36,7 @@ const {Panel} = Collapse;
 
 const rate = [];
 for (let i = 1; i < 21; i++) {
-  rate.push(<Option key={i.toString(21) + i} value={i}>≥ {i} %</Option>);
+  rate.push(<Option key={i.toString(21) + i} value={i / 100}>≥ {i} %</Option>);
 }
 
 const interests = [];
@@ -83,23 +83,24 @@ const SamplePage = (props) => {
   const [value, setValue] = useState('');
   const [network, setNetwork] = useState('instagram');
   const [followersFrom, setFollowersFrom] = useState(20000);
-  const [followersTo, setFollowersTo] = useState(10000000);
+  const [followersTo, setFollowersTo] = useState(1000000000);
   const [viewsFrom, setViewsFrom] = useState(20000);
-  const [viewsTo, setViewsTo] = useState(10000000);
+  const [viewsTo, setViewsTo] = useState(1000000000);
   const [gender, setGender] = useState('');
   const [sortName, setSortName] = useState('followers');
   const [interest, setInterests] = useState([]);
   const [relevance, setRelevance] = useState([]);
   const [language, setLanguages] = useState('tr');
-  const [engagementRate, setEngagementRate] = useState(0);
+  const [engagementRate, setEngagementRate] = useState(null);
   const [contactDetails, setContactDetails] = useState(false);
   const [hasYoutube, setHasYoutube] = useState(false);
   const [showLoading, setShowLoading] = useState(false);
-  const [page, setPage] = useState(0);
-  const [audienceGender, setAudienceGender] = useState('')
-  const [audienceInterestsState, setAudienceInterests] = useState('')
-  const [audienceLanguagesState, setAudienceLanguages] = useState('')
-  const [audienceAgeState, setAudienceAge] = useState('')
+  const [pageState, setPage] = useState(1);
+  const [audienceGender, setAudienceGender] = useState('');
+  const [audienceInterestsState, setAudienceInterests] = useState('');
+  const [audienceLanguagesState, setAudienceLanguages] = useState('');
+  const [audienceAgeState, setAudienceAge] = useState('');
+  const [searchListState, setSearchList] = useState([]);
 
   const {
     searchList,
@@ -116,7 +117,11 @@ const SamplePage = (props) => {
 
   useEffect(() => {
 
-  }, [total, directs, showLoading, reportId]);
+    if(searchList) {
+      setSearchList(searchListState);
+    }
+
+  }, [total, directs, showLoading, reportId, searchListState]);
 
   function handleNetworkChange(e) {
     setNetwork(e.target.value);
@@ -182,7 +187,27 @@ const SamplePage = (props) => {
     setSortName(value);
   }
 
-  function handleInstagram() {
+  function handlePageChange(value) {
+    setPage(value);
+  }
+
+  function handleLoadMore() {
+    console.log("state: ", searchListState);
+
+    switch (network) {
+      case 'instagram':
+        return handleInstagram(1);
+      case 'youtube':
+        return handleYoutube(1);
+      case 'tiktok':
+        return handleTiktok(1);
+      default:
+        return handleInstagram(1);
+    }
+  }
+
+  function handleInstagram(page) {
+
     let data = {
       "sort": {
         "field": `${sortName}`,
@@ -199,7 +224,7 @@ const SamplePage = (props) => {
           "interests": interest,
           "hasContactDetails": contactDetails,
           "hasYoutube": hasYoutube,
-          "engagementRate": parseInt(engagementRate),
+          "engagementRate": engagementRate,
           "language": language,
           "gender": gender
         },
@@ -219,7 +244,7 @@ const SamplePage = (props) => {
     }
   }
 
-  function handleYoutube() {
+  function handleYoutube(page) {
     let data = {
       "sort": {
         "field": `${sortName}`,
@@ -257,7 +282,7 @@ const SamplePage = (props) => {
     }
   }
 
-  function handleTiktok() {
+  function handleTiktok(page) {
     let data = {
       "sort": {
         "field": `${sortName}`,
@@ -299,13 +324,13 @@ const SamplePage = (props) => {
 
     switch (network) {
       case 'instagram':
-        return handleInstagram();
+        return handleInstagram(0);
       case 'youtube':
-        return handleYoutube();
+        return handleYoutube(0);
       case 'tiktok':
-        return handleTiktok();
+        return handleTiktok(0);
       default:
-        return handleInstagram();
+        return handleInstagram(0);
     }
   }
 
@@ -331,10 +356,6 @@ const SamplePage = (props) => {
     }
   }
 
-  function handlePagination() {
-
-  }
-
   function handleValue(e) {
     setValue(e.target.value);
   }
@@ -357,6 +378,22 @@ const SamplePage = (props) => {
         return `${param}`;
     }
   }
+
+  const loadMore =
+    showSorting && !loading ? (
+      <div
+        style={{
+          textAlign: 'center',
+          marginTop: 12,
+          height: 32,
+          lineHeight: '32px',
+        }}
+      >
+        <Button className={"btn btn-primary"} onClick={() => {
+          //handleLoadMore();
+        }}>Daha Fazla Yükle</Button>
+      </div>
+    ) : null;
 
   return (
     <Spin spinning={loading}>
@@ -722,8 +759,7 @@ const SamplePage = (props) => {
                   }}>
                     <SortDescendingOutlined/>
                     <span style={{marginLeft: 5}}>Sıralama: </span>
-                    <Select defaultValue={"followers"} placeholder={"Sıralama"} style={{width: 150, marginLeft: 5}}
-                            onChange={handleSortChange}>
+                    <Select defaultValue={"followers"} placeholder={"Sıralama"} style={{width: 150, marginLeft: 5}} onChange={handleSortChange}>
                       <Option value="followers">Takipçi Sayısı</Option>
                       <Option value="engagements">Etkileşim</Option>
                       <Option value="engagementsRate">Etkileşim Oranı</Option>
@@ -749,14 +785,7 @@ const SamplePage = (props) => {
                     locale={{emptyText: 'Veri Yok'}}
                     bordered={true}
                     size={'large'}
-                    pagination={{
-                      onChange: page => {
-                        setPage(page);
-                        handleFilter();
-                      },
-                      pageSize: 15,
-                      total: total,
-                    }}
+                    loadMore={loadMore}
                     dataSource={searchList}
                     column={4}
                     renderItem={item => (

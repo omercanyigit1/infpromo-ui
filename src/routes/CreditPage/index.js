@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Card, Input, Row, Col, Button, Spin, Alert} from 'antd';
+import {Card, Input, Row, Col, Button, Spin, Alert, Radio} from 'antd';
 import 'react-credit-cards/es/styles-compiled.css';
 import Cards from 'react-credit-cards';
 import {postPayment, isLoggedIn} from '../../appRedux/actions/';
@@ -7,6 +7,7 @@ import {connect} from 'react-redux';
 
 const CreditPage = (props) => {
   const [value, setValue] = useState(null);
+  const [credit, setCredit] = useState(null);
   const [cvc, setCvc] = useState('');
   const [expiry, setExpiry] = useState('');
   const [focus, setFocus] = useState('');
@@ -40,13 +41,37 @@ const CreditPage = (props) => {
   }
 
   function onChange(e) {
-    setValue(e.target.value);
+
+    switch (e.target.value) {
+      case 10:
+        setValue(10);
+        setCredit(20);
+        break;
+      case 20:
+        setValue(20);
+        setCredit(45);
+        break;
+      case 50:
+        setValue(50);
+        setCredit(110);
+        break;
+      case 100:
+        setValue(100);
+        setCredit(225);
+        break;
+      default:
+        setValue(e.target.value);
+        setCredit(e.target.value * 2);
+        break;
+    }
   }
 
   function handlePayment() {
+    console.log("credit: ", credit);
 
     let data = {
-      "credit": parseInt(value)
+      "credit": parseInt(credit),
+      "currency": parseInt(value)
     }
 
     postPayment(data);
@@ -54,7 +79,13 @@ const CreditPage = (props) => {
 
   useEffect(() => {
 
-  }, [value, issuer])
+  }, [value, issuer, credit])
+
+  const radioStyle = {
+    display: 'block',
+    height: '30px',
+    lineHeight: '30px',
+  };
 
   return (
     <Spin spinning={loading}>
@@ -80,14 +111,26 @@ const CreditPage = (props) => {
             <Col xs={24} md={14}>
               <Row>
                 <Col xs={24} md={24}>
-                  <p style={{marginBottom: 10}}><b>Kredi Miktarı:</b></p>
-                  <Input className={"credit-input"} style={{width: '50%'}} placeholder={"Miktar"} onChange={onChange} />
+                  <Radio.Group onChange={onChange} value={value} disabled={true}>
+                    <Radio style={radioStyle} value={10}>
+                      {10 * 2} Kredi = <b>10 $</b>
+                    </Radio>
+                    <Radio style={radioStyle} value={20}>
+                      {20 * 2} Kredi <span>+ 5 Kredi</span> = <b>20 $</b>
+                    </Radio>
+                    <Radio style={radioStyle} value={50}>
+                      {50 * 2} Kredi <span>+ 10 Kredi</span> = <b>50 $</b>
+                    </Radio>
+                    <Radio style={radioStyle} value={100}>
+                      {100 * 2} Kredi <span>+ 25 Kredi</span> = <b>100 $</b>
+                    </Radio>
+                  </Radio.Group>
                 </Col>
                 <Col xs={24} md={24}>
                   {value &&
                   <div className={"gx-mt-4 gx-pb-3"}>
-                    <h5>{value} Arama / {value / 2} Raporlama
-                      <span style={{fontSize: 14, marginLeft: 10}}> (Yüklenecek Tutar: {value} Kredi)</span>
+                    <h5>{credit} Arama / {parseFloat( `${credit}` / 2).toFixed(0)} Rapor
+                      <span style={{fontSize: 14, marginLeft: 10}}> (Yüklenecek Tutar: {credit} Kredi)</span>
                     </h5>
                   </div>
                   }

@@ -121,7 +121,7 @@ export const postSearchAdvanced = (data, network) => {
   };
 };
 
-export const postPagination = (data, network) => {
+export const postPagination = (data, network, newPage, currentPage) => {
 
   return dispatch => {
 
@@ -137,7 +137,7 @@ export const postPagination = (data, network) => {
 
         dispatch(postPaginationRequest());
 
-        axios.post(`${API_URL}/${network}/search/${id}`, data, axiosConfig).then((response) => {
+        axios.post(`${API_URL}/${network}/${newPage}/${currentPage}/pagination/${id}`, data, axiosConfig).then((response) => {
           dispatch(postPaginationSuccess(response.data.data));
         }).catch((error) => {
           dispatch(postPaginationFailed(error.response.data));
