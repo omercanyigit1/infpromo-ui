@@ -6,12 +6,11 @@ import createLogger from 'redux-logger';
 
 const createBrowserHistory = require('history').createBrowserHistory;
 
-
 export const history = createBrowserHistory();
 
 const routeMiddleware = routerMiddleware(history);
 
-const middlewares = [thunk, routeMiddleware];
+const middlewares = [thunk, routeMiddleware, createLogger];
 
 
 export default function configureStore(preloadedState) {

@@ -123,7 +123,7 @@ const ListReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         isLogged: false,
-        error: action.payload.data.message,
+        error: action.payload.message,
       };
     case POST_PAYMENT_REQUEST:
       return {

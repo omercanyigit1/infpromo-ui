@@ -43,6 +43,9 @@ const CreditPage = (props) => {
   function onChange(e) {
 
     switch (e.target.value) {
+      case 5:
+        setValue(5);
+        setCredit(10);
       case 10:
         setValue(10);
         setCredit(20);
@@ -67,7 +70,6 @@ const CreditPage = (props) => {
   }
 
   function handlePayment() {
-    console.log("credit: ", credit);
 
     let data = {
       "credit": parseInt(credit),
@@ -112,6 +114,9 @@ const CreditPage = (props) => {
               <Row>
                 <Col xs={24} md={24}>
                   <Radio.Group onChange={onChange} value={value} disabled={true}>
+                    <Radio style={radioStyle} value={5}>
+                      {5 * 2} Kredi = <b>5 $</b>
+                    </Radio>
                     <Radio style={radioStyle} value={10}>
                       {10 * 2} Kredi = <b>10 $</b>
                     </Radio>
