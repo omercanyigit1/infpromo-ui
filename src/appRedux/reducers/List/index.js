@@ -56,7 +56,7 @@ const ListReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        error: action.payload.data.message,
+        error: action.payload.message,
         showSorting: false
       };
     case POST_PAGINATION_REQUEST:
@@ -87,7 +87,7 @@ const ListReducer = (state = initialState, action) => {
         loading: true,
         error: null,
         credit: null,
-        showSorting: false
+        showSorting: true
       };
     case SEARCH_USERNAME_SUCCESS:
       return {
@@ -103,8 +103,8 @@ const ListReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        error: action.payload.data.message,
-        showSorting: false
+        error: action.payload.message,
+        showSorting: true
       };
     case SEARCH_GENERATE_PDF_REQUEST:
       return {

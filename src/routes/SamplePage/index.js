@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useRef} from "react";
 import {
   Radio,
   Card,
@@ -105,14 +105,14 @@ const SamplePage = (props) => {
   const {
     searchList,
     postSearchAdvanced,
-    postPagination,
     postSearchUserName,
     directs,
     loading,
     total,
     showSorting,
     reportId,
-    user
+    user,
+    error
   } = props;
 
   useEffect(() => {
@@ -121,7 +121,7 @@ const SamplePage = (props) => {
       setSearchList(searchListState);
     }
 
-  }, [total, directs, showLoading, reportId, searchListState]);
+  }, [total, directs, showLoading, reportId, error, searchListState]);
 
   function handleNetworkChange(e) {
     setNetwork(e.target.value);
@@ -189,21 +189,6 @@ const SamplePage = (props) => {
 
   function handlePageChange(value) {
     setPage(value);
-  }
-
-  function handleLoadMore() {
-    console.log("state: ", searchListState);
-
-    switch (network) {
-      case 'instagram':
-        return handleInstagram(1);
-      case 'youtube':
-        return handleYoutube(1);
-      case 'tiktok':
-        return handleTiktok(1);
-      default:
-        return handleInstagram(1);
-    }
   }
 
   function handleInstagram(page) {
@@ -321,6 +306,7 @@ const SamplePage = (props) => {
   }
 
   function handleFilter() {
+    setPage(1);
 
     switch (network) {
       case 'instagram':
@@ -379,6 +365,25 @@ const SamplePage = (props) => {
     }
   }
 
+  function handleLoadMore() {
+    setPage(pageState + 1);
+
+    if(searchList) {
+      setSearchList(searchListState => [...searchListState, ...searchList])
+    }
+
+    switch (network) {
+      case 'instagram':
+        return handleInstagram(pageState);
+      case 'youtube':
+        return handleYoutube(pageState);
+      case 'tiktok':
+        return handleTiktok(pageState);
+      default:
+        return handleInstagram(pageState);
+    }
+  }
+
   const loadMore =
     showSorting && !loading ? (
       <div
@@ -387,17 +392,18 @@ const SamplePage = (props) => {
           marginTop: 12,
           height: 32,
           lineHeight: '32px',
-        }}
-      >
-        <Button className={"btn btn-primary"} onClick={() => {
-          //handleLoadMore();
+        }}>
+        <Button className={"btn btn-primary"} disabled={(user.credit < 1) ? true : false} onClick={() => {
+          handleLoadMore();
         }}>Daha Fazla Yükle</Button>
       </div>
     ) : null;
 
+  console.log('state: ', searchListState.length);
+
   return (
     <Spin spinning={loading}>
-      <div>
+      <div style={{paddingBottom: 30}}>
         <div className="title-heading">
           <h3 className="title mb-1">
             Influencer Arama
@@ -707,7 +713,7 @@ const SamplePage = (props) => {
               <Row>
                 <Col xs={24} sm={24}>
                   <div style={{textAlign: 'right'}} className={"gx-mt-3 gx-mb-3"}>
-                    <Button className="btn btn-primary" onClick={handleFilter} disabled={loading} loading={loading}>
+                    <Button className="btn btn-primary" onClick={handleFilter} disabled={(user.credit < 1) ? true : false} loading={loading}>
                       {user.credit < 1 ? 'Yetersiz Bakiye' : 'Filtrele'}
                     </Button>
                   </div>
@@ -733,10 +739,10 @@ const SamplePage = (props) => {
                   </Row>
 
                   <Row justify={"end"}>
-                    <Col xs={24} sm={3}>
-                      <div style={{textAlign: 'right'}} className={"gx-mt-3"} onClick={handleFilterUserName}>
-                        <Button className="btn btn-primary">
-                          Arama
+                    <Col xs={24} sm={5}>
+                      <div style={{textAlign: 'right'}} className={"gx-mt-3"} >
+                        <Button className="btn btn-primary" disabled={(user.credit < 1) ? true : false} onClick={handleFilterUserName} loading={loading}>
+                          {user.credit < 1 ? 'Yetersiz Bakiye' : 'Arama'}
                         </Button>
                       </div>
                     </Col>
@@ -747,28 +753,93 @@ const SamplePage = (props) => {
           </Collapse>
         </Space>
         <div>
+          <div className={"list-header-item"}>
+            <Row align={"middle"}>
+              <Col xs={24} md={24}>
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  marginBottom: 20
+                }}>
+                  <SortDescendingOutlined/>
+                  <span style={{marginLeft: 5}}>Sıralama: </span>
+                  <Select defaultValue={"followers"} placeholder={"Sıralama"} style={{width: 150, marginLeft: 5}} onChange={handleSortChange}>
+                    <Option value="followers">Takipçi Sayısı</Option>
+                    <Option value="engagements">Etkileşim</Option>
+                    <Option value="engagementsRate">Etkileşim Oranı</Option>
+                  </Select>
+                  <hr/>
+                </div>
+              </Col>
+              <Col xs={24} md={24}>
+                <p style={{marginBottom: 0, textAlign: "left"}}><b>{total}</b> adet influencer bulundu.</p>
+              </Col>
+            </Row>
+          </div>
           {
-            showSorting &&
-            <div className={"list-header-item"}>
-              <Row align={"middle"}>
-                <Col xs={24} md={24}>
-                  <div style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    marginBottom: 20
-                  }}>
-                    <SortDescendingOutlined/>
-                    <span style={{marginLeft: 5}}>Sıralama: </span>
-                    <Select defaultValue={"followers"} placeholder={"Sıralama"} style={{width: 150, marginLeft: 5}} onChange={handleSortChange}>
-                      <Option value="followers">Takipçi Sayısı</Option>
-                      <Option value="engagements">Etkileşim</Option>
-                      <Option value="engagementsRate">Etkileşim Oranı</Option>
-                    </Select>
-                    <hr/>
-                  </div>
-                </Col>
-                <Col xs={24} md={24}>
-                  <p style={{marginBottom: 0, textAlign: "left"}}><b>{total}</b> adet influencer bulundu.</p>
+            searchListState.length > 0 &&
+            <div>
+              <Row>
+                <Col span={24}>
+                  <List
+                    className="list-item gx-mt-2"
+                    loading={loading}
+                    itemLayout="horizontal"
+                    locale={{emptyText: 'Veri Yok'}}
+                    bordered={true}
+                    size={'large'}
+                    dataSource={searchListState}
+                    column={4}
+                    renderItem={item => (
+                      <List.Item
+                        key={`list-${item.userId}`}
+                        className={`list-item-${item.userId}`}
+                        actions={[
+                          <Link to={`/detail/${network}/${item.userId}`} target={"_blank"} className={`btn btn-secondary list-item-btn-${item.userId}`}>
+                            <span>Detay</span>{" "} <span style={{fontSize: 13, marginLeft: 5}}>{" "} (2 kredi)</span>
+                          </Link>]}>
+                        <Skeleton loading={loading}>
+                          <Row style={{width: '100%'}} gutter={[0, 0]}>
+                            <Col xs={24} sm={12} md={12}>
+                              <List.Item.Meta
+                                className={"list-meta-item"}
+                                avatar={<Avatar size={50} src={`${item.profile.picture}`}/>}
+                                title={<p className={"gx-mb-0 list-item-header"}>{item.profile.fullname}</p>}
+                                description={<a href={`${item.profile.url}`} target={"_blank"} rel="noreferrer">{(item.profile.username) ? `@${item.profile.username}` : `${item.profile.fullname}`}</a>}
+                              />
+                            </Col>
+                            <Col xs={12} sm={5} md={5}>
+                              <List.Item.Meta
+                                className={"gx-text-center list-mobile-margin"}
+                                title={<p className={"gx-mb-0 list-item-header"}>
+                                  {renderSwitch(item.profile.followers.toString())}
+                                </p>}
+                                description={
+                                  <p className="text-muted" style={{fontSize: 14, marginBottom: 0}}>
+                                    Takipçi
+                                  </p>
+                                }
+                              />
+                            </Col>
+                            <Col xs={12} sm={7} md={7}>
+                              <List.Item.Meta
+                                className={"list-mobile-margin"}
+                                title={<p className={"gx-mb-0 list-item-header"}>
+                                  {item.profile.engagements.toString().substring(0, 3)}k
+                                  ({parseFloat(parseFloat(item.profile.engagementRate) * 100).toFixed(2)} %)
+                                </p>}
+                                description={
+                                  <p className="gx-text-grey" style={{fontSize: 14, marginBottom: 0}}>
+                                    Etkileşimler ve Oranı
+                                  </p>
+                                }
+                              />
+                            </Col>
+                          </Row>
+                        </Skeleton>
+                      </List.Item>
+                    )}
+                  />
                 </Col>
               </Row>
             </div>
@@ -803,8 +874,7 @@ const SamplePage = (props) => {
                                 className={"list-meta-item"}
                                 avatar={<Avatar size={50} src={`${item.profile.picture}`}/>}
                                 title={<p className={"gx-mb-0 list-item-header"}>{item.profile.fullname}</p>}
-                                description={<a href={`${item.profile.url}`} target={"_blank"}
-                                                rel="noreferrer">@{item.profile.username}</a>}
+                                description={<a href={`${item.profile.url}`} target={"_blank"} rel="noreferrer">{(item.profile.username) ? `@${item.profile.username}` : `${item.profile.fullname}`}</a>}
                               />
                             </Col>
                             <Col xs={12} sm={5} md={5}>
