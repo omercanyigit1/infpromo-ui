@@ -112,7 +112,8 @@ const SamplePage = (props) => {
     showSorting,
     reportId,
     user,
-    error
+    error,
+    lookalikesNetwork
   } = props;
 
   useEffect(() => {
@@ -825,7 +826,7 @@ const SamplePage = (props) => {
                         key={`list-${item.userId}`}
                         className={`list-item-${item.userId}`}
                         actions={[
-                          <Link to={`/detail/${network}/${item.userId}`} target={"_blank"}
+                          <Link to={`/detail/${lookalikesNetwork}/${item.userId}`} target={"_blank"}
                                 className={`btn btn-secondary list-item-btn-${item.userId}`}>
                             <span>Detay</span>{" "} <span style={{fontSize: 13, marginLeft: 5}}>{" "} (2 kredi)</span>
                           </Link>]}>
@@ -897,7 +898,7 @@ const SamplePage = (props) => {
                         key={`list-direct-${item.userId}`}
                         className={`list-item-${item.userId}`}
                         actions={[
-                          <Link to={`/detail/${network}/${item.userId}`} target={"_blank"}
+                          <Link to={`/detail/${lookalikesNetwork}/${item.userId}`} target={"_blank"}
                                 className={`btn btn-secondary list-item-btn-${item.userId}`}>
                             <span>Detay</span>{" "} <span style={{fontSize: 13, marginLeft: 5}}>{" "} (2 kredi)</span>
                           </Link>]}>
@@ -969,7 +970,7 @@ const SamplePage = (props) => {
                             key={`list-${item.userId}`}
                             className={`list-item-${item.userId}`}
                             actions={[
-                              <Link to={`/detail/${network}/${item.userId}`} target={"_blank"}
+                              <Link to={`/detail/${lookalikesNetwork}/${item.userId}`} target={"_blank"}
                                     className={`btn btn-secondary list-item-btn-${item.userId}`}>
                                 <span>Detay</span>{" "} <span
                                 style={{fontSize: 13, marginLeft: 5}}>{" "} (2 kredi)</span>
@@ -1038,6 +1039,7 @@ const mapStateToProps = (state) => {
   return {
     loading: state.list.loading,
     searchList: state.list.searchList,
+    lookalikesNetwork: state.list.lookalikesNetwork,
     directs: state.list.directs,
     reportDataLoading: state.list.reportDataLoading,
     showSorting: state.list.showSorting,

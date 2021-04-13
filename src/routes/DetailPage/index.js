@@ -52,7 +52,7 @@ const DetailPage = (props) => {
 
   useEffect(() => {
 
-    if(_.isEmpty(user)) {
+    if(!_.isEmpty(user)) {
       postGeneratePdf(id, network);
     }
 

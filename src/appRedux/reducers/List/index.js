@@ -30,6 +30,7 @@ const initialState = {
   reportDataLoading: false,
   credit: null,
   showSorting: false,
+  lookalikesNetwork: ''
 };
 
 const ListReducer = (state = initialState, action) => {
@@ -48,6 +49,7 @@ const ListReducer = (state = initialState, action) => {
         loading: false,
         error: null,
         searchList: action.payload.bodyNew.lookalikes,
+        lookalikesNetwork: action.payload.network,
         credit: action.payload.credit,
         total: action.payload.bodyNew.total,
         showSorting: true,
