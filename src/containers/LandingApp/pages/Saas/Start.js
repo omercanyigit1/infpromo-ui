@@ -3,9 +3,9 @@ import React, { Component } from "react";
 import { Container, Row, Col } from "reactstrap";
 
 // Import images
-import saas1 from "../../assets/images/saas/infpromo-filter-image.png";
-import saas2 from "../../assets/images/saas/report.png";
-import report from './../../../../assets/images/instagram-report.pdf';
+import saas1 from "../../assets/images/saas/filter-screen.png";
+import saas2 from "../../assets/images/saas/list-screen.png";
+import saas3 from "../../assets/images/saas/report.png";
 
 //Import Components
 import SectionTitleLeft from "../../components/Shared/SectionTitleLeft";
@@ -23,6 +23,11 @@ class Start extends Component {
         { title: "Kolay kullanım" },
       ],
       features2: [
+        { title: "Kolay kullanım" },
+        { title: "Etkileşim oranlarını ve toplamlarını görebilme" },
+        { title: "Takipçi sayısına göre sıralama özelliği" },
+      ],
+      features3: [
         { title: "Detaylı takipçi sayısı grafiği" },
         { title: "Influencer' ın en çok kullandığı taglar (#hastags)" },
         { title: "Takipçilerin lokasyon bilgisi" },
@@ -53,7 +58,6 @@ class Start extends Component {
             </Col>
           </Row>
         </Container>
-
         <Container className="mt-100 mt-60">
           <Row className="align-items-center">
             <Col
@@ -64,16 +68,32 @@ class Start extends Component {
             >
               <div className="section-title mr-lg-5">
                 <SectionTitleLeft
-                  title="Detaylı Rapor Analizi"
-                  desc="Yalnızca 1$ ödeyerek hedeflediğiniz Influencer hakkında detaylı rapor edinebilirsiniz. Bu rapor içerisinde;"
+                  title="25.000+ Influencer' ın listelenmesi"
+                  desc="Yalnızca 0.5 $ ödeyerek binlerce influencer 'ın etkileşim toplamlarını ve oranlarını görebilirsiniz."
                   features={this.state.features2}
                   class=""
                 />
               </div>
             </Col>
-
             <Col lg="5" md={{ size: 6, order: 2 }} xs={{ order: 1 }}>
               <img src={saas2} className="img-fluid shadow rounded" alt="" />
+            </Col>
+          </Row>
+        </Container>
+        <Container className="mt-100 mt-60">
+          <Row className="align-items-center">
+            <Col lg={6} md={6}>
+              <img src={saas3} className="img-fluid shadow rounded" alt="" />
+            </Col>
+            <Col lg={6} md={6} className="mt-4 mt-sm-0 pt-2 pt-sm-0">
+              <div className="section-title ml-lg-5">
+                <SectionTitleLeft
+                  title="Detaylı Rapor Analizi"
+                  desc="Yalnızca 1 $ ödeyerek hedeflediğiniz Influencer hakkında detaylı rapor edinebilirsiniz. Bu rapor içerisinde;"
+                  features={this.state.features3}
+                  class=""
+                />
+              </div>
             </Col>
           </Row>
         </Container>
