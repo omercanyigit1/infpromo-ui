@@ -785,23 +785,6 @@ const SamplePage = (props) => {
           <div className={"list-header-item"}>
             <Row align={"middle"}>
               <Col xs={24} md={24}>
-                <div style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  marginBottom: 20
-                }}>
-                  <SortDescendingOutlined/>
-                  <span style={{marginLeft: 5}}>Sıralama: </span>
-                  <Select defaultValue={"followers"} placeholder={"Sıralama"} style={{width: 150, marginLeft: 5}}
-                          onChange={handleSortChange}>
-                    <Option value="followers">Takipçi Sayısı</Option>
-                    <Option value="engagements">Etkileşim</Option>
-                    <Option value="engagementsRate">Etkileşim Oranı</Option>
-                  </Select>
-                  <hr/>
-                </div>
-              </Col>
-              <Col xs={24} md={24}>
                 <p style={{marginBottom: 0, textAlign: "left"}}><b>{total}</b> adet influencer bulundu.</p>
               </Col>
             </Row>

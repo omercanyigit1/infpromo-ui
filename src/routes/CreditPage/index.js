@@ -1,9 +1,15 @@
 import React, {useEffect, useState} from 'react';
-import {Card, Input, Row, Col, Button, Spin, Alert, Radio} from 'antd';
+import {Card, Input, Row, Col, Button, Spin, Alert, Radio, Divider} from 'antd';
 import 'react-credit-cards/es/styles-compiled.css';
 import Cards from 'react-credit-cards';
 import {postPayment, isLoggedIn} from '../../appRedux/actions/';
 import {connect} from 'react-redux';
+import publicIp from "public-ip";
+import InputMask from 'react-input-mask';
+
+export const getClientIp = async () => await publicIp.v4({
+  fallbackUrls: [ "https://ifconfig.co/ip" ]
+});
 
 const CreditPage = (props) => {
   const [value, setValue] = useState(null);
@@ -13,7 +19,9 @@ const CreditPage = (props) => {
   const [focus, setFocus] = useState('');
   const [cardName, setCardName] = useState('');
   const [cardNumber, setCardNumber] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
   const [issuer, setIssuer] = useState('');
+  const [ip, setIp] = useState('');
 
   const  {postPayment, loading, isPayment} = props;
 
@@ -36,6 +44,9 @@ const CreditPage = (props) => {
   function handleCardNumberChange(e) {
     setCardNumber(e.target.value);
   }
+  function handlePhoneNumberChange(e) {
+    setPhoneNumber(e.target.value);
+  }
   function handleFocusChange(e) {
     setFocus(e.target.name);
   }
@@ -46,6 +57,7 @@ const CreditPage = (props) => {
       case 5:
         setValue(5);
         setCredit(10);
+        break;
       case 10:
         setValue(10);
         setCredit(20);
@@ -71,15 +83,30 @@ const CreditPage = (props) => {
 
   function handlePayment() {
 
+    let month = (expiry.length < 2 ? `0${expiry.substring(0, 2)}` : expiry.substring(0, 2));
+    let year = expiry.substring(3, 5);
+
     let data = {
       "credit": parseInt(credit),
-      "currency": parseInt(value)
+      "currency": `${value},00`,
+      "cardNumber": cardNumber.replace(/\s/g, ''),
+      "cardName": cardName,
+      "cardCvc": cvc,
+      "cardMonth": month,
+      "cardYear": year,
+      "userIp": ip,
+      "userPhone": phoneNumber.substring(1, 11)
     }
 
     postPayment(data);
+    console.log(data);
   }
 
   useEffect(() => {
+
+    getClientIp().then((result) => {
+      setIp(result);
+    })
 
   }, [value, issuer, credit])
 
@@ -113,7 +140,7 @@ const CreditPage = (props) => {
             <Col xs={24} md={14}>
               <Row>
                 <Col xs={24} md={24}>
-                  <Radio.Group onChange={onChange} value={value} disabled={true}>
+                  <Radio.Group onChange={onChange} value={value} disabled={false}>
                     <Radio style={radioStyle} value={5}>
                       {5 * 2} Kredi = <b>5 $</b>
                     </Radio>
@@ -161,7 +188,7 @@ const CreditPage = (props) => {
                     focused={focus}
                     name={cardName}
                     number={cardNumber}
-                    locale={{valid: 'MM / YY'}}
+                    locale={{valid: 'AA / YY'}}
                     placeholders={{name: 'AD SOYAD'}}
                     callback={handleCallback}
                     style={{marginBottom: 30}}
@@ -173,7 +200,15 @@ const CreditPage = (props) => {
                       <Card>
                         <Row>
                           <Col span={24}>
-                            <Input name={"number"} onChange={handleCardNumberChange} placeholder="Kart Numarası" onFocus={handleFocusChange} style={{marginBottom: 15}} />
+                            <label><b>Telefon Numaranız: (zorunlu)</b> </label>
+                            <InputMask mask="09999999999" maskChar={null} placeholder={"5xx-xxx-xx-xx"} onChange={handlePhoneNumberChange} className={"ant-input"} style={{marginBottom: 15}} />
+                          </Col>
+                        </Row>
+                        <Divider style={{marginBottom: 10, marginTop: 0}} />
+                        <Row>
+                          <Col span={24}>
+                            <label><b>Kart Bilgileriniz:</b> </label>
+                            <InputMask name={"number"} mask="9999 9999 9999 9999" className={"ant-input"} onChange={handleCardNumberChange} placeholder="Kart Numarası" onFocus={handleFocusChange} style={{marginBottom: 15}} />
                           </Col>
                         </Row>
                         <Row>
@@ -183,15 +218,15 @@ const CreditPage = (props) => {
                         </Row>
                         <Row gutter={[10, 10]}>
                           <Col span={16}>
-                            <Input name={"expiry"} onChange={handleExpiryChange} placeholder="MM / YY" onFocus={handleFocusChange} style={{marginBottom: 15}} />
+                            <InputMask name={"expiry"} mask="99/99" className={"ant-input"} onChange={handleExpiryChange} placeholder="AA / YY" onFocus={handleFocusChange} style={{marginBottom: 15}} />
                           </Col>
                           <Col span={8}>
-                            <Input name={"cvc"} onChange={handleCvcChange} placeholder="CVC" onFocus={handleFocusChange} style={{marginBottom: 15}} />
+                            <InputMask name={"cvc"} mask="999" className={"ant-input"} onChange={handleCvcChange} placeholder="CVC" onFocus={handleFocusChange} style={{marginBottom: 15}} />
                           </Col>
                         </Row>
                         <Row>
                           <Col span={24}>
-                            <Button className={"btn- btn-primary"} block onClick={handlePayment}>Hemen Öde</Button>
+                            <Button className={"btn- btn-primary"} block onClick={handlePayment} disabled={!phoneNumber || !cardName || !cardNumber || cvc.length < 3 || !expiry}>Hemen Öde</Button>
                           </Col>
                         </Row>
                       </Card>
