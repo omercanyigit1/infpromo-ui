@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {postGeneratePdf, isLoggedIn} from "../../appRedux/actions";
 import {connect} from 'react-redux';
 import {Link, useParams} from 'react-router-dom';
-import {Row, Col, Spin, Result, Card, Avatar, Statistic, Tooltip, Progress, Tag, List, Skeleton} from 'antd';
+import {Row, Col, Spin, Result, Card, Avatar, Statistic, Tooltip, Progress, Tag, List} from 'antd';
 import {
   InstagramOutlined,
   YoutubeOutlined,
@@ -1019,13 +1019,13 @@ const DetailPage = (props) => {
                           bordered={true}
                           size={'large'}
                           dataSource={reportData.profile.audience.notableUsers.slice(0, 15)}
-                          column={4}
-                          renderItem={item => (
+                          column={3}
+                          renderItem={(item, index) => (
                             <List.Item
-                              key={`list-${item.userId}`}
-                              className={`list-item-${item.userId}`}>
+                              key={`list-${index}`}
+                              className={`list-item-${index}`}>
                               <Row style={{width: '100%'}} gutter={[0, 0]}>
-                                <Col xs={24} sm={12} md={12}>
+                                <Col xs={24} sm={12} md={18}>
                                   <List.Item.Meta
                                     className={"list-meta-item"}
                                     avatar={<Avatar size={50} src={`${item.picture}`}/>}
@@ -1035,7 +1035,7 @@ const DetailPage = (props) => {
                                                     rel="noreferrer">{(item.username) ? `@${item.username}` : `${item.fullname}`}</a>}
                                   />
                                 </Col>
-                                <Col xs={12} sm={5} md={5}>
+                                <Col xs={12} sm={5} md={3}>
                                   <List.Item.Meta
                                     className={"gx-text-center list-mobile-margin"}
                                     title={<p className={"gx-mb-0 list-item-header"}>
@@ -1048,7 +1048,7 @@ const DetailPage = (props) => {
                                     }
                                   />
                                 </Col>
-                                <Col xs={12} sm={7} md={7}>
+                                <Col xs={12} sm={7} md={3}>
                                   <List.Item.Meta
                                     className={"list-mobile-margin"}
                                     title={<p className={"gx-mb-0 list-item-header"}>
@@ -1083,12 +1083,12 @@ const DetailPage = (props) => {
                           size={'large'}
                           dataSource={reportData.profile.audienceLikers.notableUsers.slice(0, 15)}
                           column={4}
-                          renderItem={item => (
+                          renderItem={(item, index) => (
                             <List.Item
-                              key={`list-${item.userId}`}
-                              className={`list-item-${item.userId}`}>
+                              key={`list-likers-${index}`}
+                              className={`list-item-likers-${index}`}>
                               <Row style={{width: '100%'}} gutter={[0, 0]}>
-                                <Col xs={24} sm={12} md={12}>
+                                <Col xs={24} sm={12} md={18}>
                                   <List.Item.Meta
                                     className={"list-meta-item"}
                                     avatar={<Avatar size={50} src={`${item.picture}`}/>}
@@ -1098,7 +1098,7 @@ const DetailPage = (props) => {
                                                     rel="noreferrer">{(item.username) ? `@${item.username}` : `${item.fullname}`}</a>}
                                   />
                                 </Col>
-                                <Col xs={12} sm={5} md={5}>
+                                <Col xs={12} sm={5} md={3}>
                                   <List.Item.Meta
                                     className={"gx-text-center list-mobile-margin"}
                                     title={<p className={"gx-mb-0 list-item-header"}>
@@ -1111,7 +1111,7 @@ const DetailPage = (props) => {
                                     }
                                   />
                                 </Col>
-                                <Col xs={12} sm={7} md={7}>
+                                <Col xs={12} sm={7} md={3}>
                                   <List.Item.Meta
                                     className={"list-mobile-margin"}
                                     title={<p className={"gx-mb-0 list-item-header"}>
