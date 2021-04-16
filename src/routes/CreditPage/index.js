@@ -90,7 +90,7 @@ const CreditPage = (props) => {
       "credit": parseInt(credit),
       "currency": `${value},00`,
       "cardNumber": cardNumber.replace(/\s/g, ''),
-      "cardName": cardName,
+      "cardName": cardName.replace(/\s/g, ''),
       "cardCvc": cvc,
       "cardMonth": month,
       "cardYear": year,
@@ -140,7 +140,7 @@ const CreditPage = (props) => {
             <Col xs={24} md={14}>
               <Row>
                 <Col xs={24} md={24}>
-                  <Radio.Group onChange={onChange} value={value} disabled={false}>
+                  <Radio.Group onChange={onChange} value={value} disabled={true}>
                     <Radio style={radioStyle} value={5}>
                       {5 * 2} Kredi = <b>5 $</b>
                     </Radio>

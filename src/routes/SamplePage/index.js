@@ -953,7 +953,7 @@ const SamplePage = (props) => {
                             key={`list-${item.userId}`}
                             className={`list-item-${item.userId}`}
                             actions={[
-                              <Link to={`/detail/${lookalikesNetwork}/${item.userId}`} target={"_blank"}
+                              <Link to={`/detail/${network}/${item.userId}`} target={"_blank"}
                                     className={`btn btn-secondary list-item-btn-${item.userId}`}>
                                 <span>Detay</span>{" "} <span
                                 style={{fontSize: 13, marginLeft: 5}}>{" "} (2 kredi)</span>
