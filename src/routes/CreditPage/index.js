@@ -88,7 +88,7 @@ const CreditPage = (props) => {
 
     let data = {
       "credit": parseInt(credit),
-      "currency": `${value},00`,
+      "currency": `${value * 8},10`,
       "cardNumber": cardNumber.replace(/\s/g, ''),
       "cardName": cardName.replace(/\s/g, ''),
       "cardCvc": cvc,

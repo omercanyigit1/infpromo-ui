@@ -14,11 +14,14 @@ import {
   TAB_SIZE,
   THEME_TYPE_LITE
 } from "../../constants/ThemeSetting";
+import {useLocation, useHistory} from 'react-router-dom';
 
 const {Sider} = Layout;
 
 const Sidebar = (props) => {
-  const {postLogout, credit, user, getUser} = props;
+  const {postLogout, credit, user, getUser, isLogged} = props;
+  const location = useLocation();
+  const history = useHistory();
 
   const dispatch = useDispatch();
   let [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -28,6 +31,7 @@ const Sidebar = (props) => {
 
   function handleLogout() {
     postLogout();
+    window.history.replaceState(null, null, ' ');
   }
 
   const onToggleCollapsedNav = () => {

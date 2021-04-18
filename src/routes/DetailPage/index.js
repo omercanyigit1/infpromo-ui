@@ -442,7 +442,7 @@ const DetailPage = (props) => {
                         <div className="box-item">
                           {reportData.profile.recentPosts &&
                           <ResponsiveContainer width="100%" height={400}>
-                            <BarChart data={reportData.profile.recentPosts.slice(0, 8)}
+                            <BarChart data={reportData.profile.recentPosts && reportData.profile.recentPosts.slice(0, 8)}
                                       label={(name, value) => `${name}: ${value}`}
                                       margin={{top: 10, right: 0, left: 0, bottom: 0}}>
                               <XAxis dataKey="created" tickFormatter={formatXAxis} tickCount={20} minTickGap={-20}
@@ -634,7 +634,7 @@ const DetailPage = (props) => {
                               <InfoCircleOutlined/>
                             </Tooltip>
                           </div>
-                          {(reportData.profile.audience.geoCountries).slice(0, 4).map((item, index) => {
+                          {reportData.profile.audience.geoCountries && reportData.profile.audience.geoCountries.slice(0, 4).map((item, index) => {
                             return (
                               <div key={`item-geo-${index}`} style={{width: '80%', marginBottom: 15}}>
                                 <span>{item.name}</span>
@@ -650,7 +650,7 @@ const DetailPage = (props) => {
                           }}>
                             <p className={"box-item-title"} style={{marginBottom: 0, marginRight: 5}}>Top 5 Şehir</p>
                           </div>
-                          {(reportData.profile.audience.geoCities).slice(0, 5).map((item, index) => {
+                          {reportData.profile.audience.geoCities && reportData.profile.audience.geoCities.slice(0, 5).map((item, index) => {
                             return (
                               <div key={`au-city-${index}`} style={{width: '80%', marginBottom: 15}}>
                                 <span>{index + 1}. </span><span>{item.name} </span>
@@ -679,7 +679,7 @@ const DetailPage = (props) => {
                             </Tooltip>
                           </div>
                           <Row>
-                            {(reportData.profile.audience.gendersPerAge).map((item, index) => {
+                            {reportData.profile.audience.gendersPerAge && reportData.profile.audience.gendersPerAge.map((item, index) => {
                               return (
                                 <Col key={`per-age-${index}`} xs={24} md={8}>
                                   <div className={"box-item"} style={{
@@ -859,7 +859,7 @@ const DetailPage = (props) => {
                               <InfoCircleOutlined/>
                             </Tooltip>
                           </div>
-                          {(reportData.profile.audienceLikers.geoCountries).slice(0, 4).map((item, index) => {
+                          {reportData.profile.audienceLikers.geoCountries && reportData.profile.audienceLikers.geoCountries.slice(0, 4).map((item, index) => {
                             return (
                               <div key={`item-geo-${index}`} style={{width: '80%', marginBottom: 15}}>
                                 <span>{item.name}</span>
@@ -875,7 +875,7 @@ const DetailPage = (props) => {
                           }}>
                             <p className={"box-item-title"} style={{marginBottom: 0, marginRight: 5}}>Top 5 Şehir</p>
                           </div>
-                          {(reportData.profile.audienceLikers.geoCities).slice(0, 5).map((item, index) => {
+                          {reportData.profile.audienceLikers.geoCities && reportData.profile.audienceLikers.geoCities.slice(0, 5).map((item, index) => {
                             return (
                               <div key={`au-city-${index}`} style={{width: '80%', marginBottom: 15}}>
                                 <span>{index + 1}. </span><span>{item.name} </span>
@@ -904,7 +904,7 @@ const DetailPage = (props) => {
                             </Tooltip>
                           </div>
                           <Row>
-                            {(reportData.profile.audienceLikers.gendersPerAge).map((item, index) => {
+                            {reportData.profile.audienceLikers.gendersPerAge && (reportData.profile.audienceLikers.gendersPerAge).map((item, index) => {
                               return (
                                 <Col key={`per-age-${index}`} xs={24} md={8}>
                                   <div className={"box-item"} style={{
@@ -1011,60 +1011,62 @@ const DetailPage = (props) => {
                         <p className={"detail-title-item"}>Takipçilerin referans kullanıcıları</p>
                       </Col>
                       <Col xs={24} sm={24}>
-                        <List
-                          className="list-item list-item-detail-page gx-mt-2"
-                          loading={loading}
-                          itemLayout="horizontal"
-                          locale={{emptyText: 'Veri Yok'}}
-                          bordered={true}
-                          size={'large'}
-                          dataSource={reportData.profile.audience.notableUsers.slice(0, 15)}
-                          column={3}
-                          renderItem={(item, index) => (
-                            <List.Item
-                              key={`list-${index}`}
-                              className={`list-item-${index}`}>
-                              <Row style={{width: '100%'}} gutter={[0, 0]}>
-                                <Col xs={24} sm={12} md={18}>
-                                  <List.Item.Meta
-                                    className={"list-meta-item"}
-                                    avatar={<Avatar size={50} src={`${item.picture}`}/>}
-                                    title={<p
-                                      className={"gx-mb-0 list-item-header"}>{(item.fullname) ? `${item.fullname}` : `${item.username}`}</p>}
-                                    description={<a href={`${item.url}`} target={"_blank"}
-                                                    rel="noreferrer">{(item.username) ? `@${item.username}` : `${item.fullname}`}</a>}
-                                  />
-                                </Col>
-                                <Col xs={12} sm={5} md={3}>
-                                  <List.Item.Meta
-                                    className={"gx-text-center list-mobile-margin"}
-                                    title={<p className={"gx-mb-0 list-item-header"}>
-                                      {renderSwitch(item.followers.toString())}
-                                    </p>}
-                                    description={
-                                      <p className="text-muted" style={{fontSize: 14, marginBottom: 0}}>
-                                        Takipçi
-                                      </p>
-                                    }
-                                  />
-                                </Col>
-                                <Col xs={12} sm={7} md={3}>
-                                  <List.Item.Meta
-                                    className={"list-mobile-margin"}
-                                    title={<p className={"gx-mb-0 list-item-header"}>
-                                      {renderSwitch(item.engagements.toString())}
-                                    </p>}
-                                    description={
-                                      <p className="gx-text-grey" style={{fontSize: 14, marginBottom: 0}}>
-                                        Etkileşim
-                                      </p>
-                                    }
-                                  />
-                                </Col>
-                              </Row>
-                            </List.Item>
-                          )}
-                        />
+                        {reportData.profile.audience.notableUsers &&
+                          <List
+                            className="list-item list-item-detail-page gx-mt-2"
+                            loading={loading}
+                            itemLayout="horizontal"
+                            locale={{emptyText: 'Veri Yok'}}
+                            bordered={true}
+                            size={'large'}
+                            dataSource={reportData.profile.audience.notableUsers.slice(0, 15)}
+                            column={3}
+                            renderItem={(item, index) => (
+                              <List.Item
+                                key={`list-${index}`}
+                                className={`list-item-${index}`}>
+                                <Row style={{width: '100%'}} gutter={[0, 0]}>
+                                  <Col xs={24} sm={12} md={18}>
+                                    <List.Item.Meta
+                                      className={"list-meta-item"}
+                                      avatar={<Avatar size={50} src={`${item.picture}`}/>}
+                                      title={<p
+                                        className={"gx-mb-0 list-item-header"}>{(item.fullname) ? `${item.fullname}` : `${item.username}`}</p>}
+                                      description={<a href={`${item.url}`} target={"_blank"}
+                                                      rel="noreferrer">{(item.username) ? `@${item.username}` : `${item.fullname}`}</a>}
+                                    />
+                                  </Col>
+                                  <Col xs={12} sm={5} md={3}>
+                                    <List.Item.Meta
+                                      className={"gx-text-center list-mobile-margin"}
+                                      title={<p className={"gx-mb-0 list-item-header"}>
+                                        {renderSwitch(item.followers.toString())}
+                                      </p>}
+                                      description={
+                                        <p className="text-muted" style={{fontSize: 14, marginBottom: 0}}>
+                                          Takipçi
+                                        </p>
+                                      }
+                                    />
+                                  </Col>
+                                  <Col xs={12} sm={7} md={3}>
+                                    <List.Item.Meta
+                                      className={"list-mobile-margin"}
+                                      title={<p className={"gx-mb-0 list-item-header"}>
+                                        {renderSwitch(item.engagements.toString())}
+                                      </p>}
+                                      description={
+                                        <p className="gx-text-grey" style={{fontSize: 14, marginBottom: 0}}>
+                                          Etkileşim
+                                        </p>
+                                      }
+                                    />
+                                  </Col>
+                                </Row>
+                              </List.Item>
+                            )}
+                          />
+                        }
                       </Col>
                     </Row>
                   </div>
@@ -1074,6 +1076,7 @@ const DetailPage = (props) => {
                         <p className={"detail-title-item"}>Beğenenlerin referans kullanıcıları</p>
                       </Col>
                       <Col xs={24} sm={24}>
+                        {reportData.profile.audienceLikers.notableUsers &&
                         <List
                           className="list-item list-item-detail-page gx-mt-2"
                           loading={loading}
@@ -1128,6 +1131,7 @@ const DetailPage = (props) => {
                             </List.Item>
                           )}
                         />
+                        }
                       </Col>
                     </Row>
                   </div>
@@ -1274,7 +1278,7 @@ const DetailPage = (props) => {
                               <InfoCircleOutlined/>
                             </Tooltip>
                           </div>
-                          {(reportData.profile.audience.geoCountries).slice(0, 4).map((item, index) => {
+                          {reportData.profile.audience.geoCountries && reportData.profile.audience.geoCountries.slice(0, 4).map((item, index) => {
                             return (
                               <div key={`item-geo-${index}`} style={{width: '80%', marginBottom: 15}}>
                                 <span>{item.name}</span>
@@ -1739,7 +1743,7 @@ const DetailPage = (props) => {
                               <InfoCircleOutlined/>
                             </Tooltip>
                           </div>
-                          {(reportData.profile.audience.geoCountries).slice(0, 4).map((item, index) => {
+                          {reportData.profile.audience.geoCountries && reportData.profile.audience.geoCountries.slice(0, 4).map((item, index) => {
                             return (
                               <div key={`item-geo-${index}`} style={{width: '80%', marginBottom: 15}}>
                                 <span>{item.name}</span>
@@ -2082,7 +2086,6 @@ const mapStateToProps = (state) =>
     loading: state.list.loading,
   }
 }
-
 
 export default connect(mapStateToProps,
 {

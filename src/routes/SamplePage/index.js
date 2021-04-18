@@ -458,7 +458,7 @@ const SamplePage = (props) => {
                       <Row gutter={[10, 10]}>
                         <Col span={24}>
                           <label>
-                            <b>Takipçi Sayısı:</b>
+                            <b>{network === 'instagram' ? 'Takipçi Sayısı': 'Abone Sayısı'}</b>
                           </label>
                         </Col>
                         <Col span={12}>
@@ -744,6 +744,7 @@ const SamplePage = (props) => {
                   </div>
                 </Col>
               </Row>
+              {network !== 'youtube' &&
               <Card type="inner"
                     title={`${(network === 'youtube') ? 'İsim ya da Kanal ID si ile arama' : 'Kullanıcı Adına Göre Arama'}`}
                     extra={null}>
@@ -777,6 +778,7 @@ const SamplePage = (props) => {
                   </Row>
                 </div>
               </Card>
+              }
             </Panel>
           </Collapse>
         </Space>

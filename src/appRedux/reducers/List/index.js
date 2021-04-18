@@ -111,12 +111,12 @@ const ListReducer = (state = initialState, action) => {
     case SEARCH_GENERATE_PDF_REQUEST:
       return {
         ...state,
-        reportDataLoading: true,
+        loading: true,
       };
     case SEARCH_GENERATE_PDF_SUCCESS:
       return {
         ...state,
-        reportDataLoading: false,
+        loading: false,
         reportData: action.payload.pdfBody,
         credit: action.payload.credit
       };

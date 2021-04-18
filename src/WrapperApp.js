@@ -15,11 +15,10 @@ const WrapperApp = (props) => {
 
     if(isLogged === false) {
       if(location.hash === '#/search' || location.hash === '#/account' || location.hash === '#/credit' || location.hash === '#/support') {
-        history.push('#/');
-        history.go(0);
+        //history.push('#/');
+        //history.go(0);
       }
     }
-
 
     if(isLogged === true) {
       if(location.hash === '#/login' || location.hash === '#/register' || location.hash === '#/forget-password') {
