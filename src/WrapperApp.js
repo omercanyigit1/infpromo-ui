@@ -4,7 +4,6 @@ import {Route, Switch, HashRouter, useLocation, BrowserRouter} from "react-route
 import App from "./containers/App";
 import LandingApp from "./containers/LandingApp";
 import {connect} from "react-redux";
-import jwt from 'jsonwebtoken';
 
 const WrapperApp = (props) => {
   let location = useLocation();
@@ -37,19 +36,21 @@ const WrapperApp = (props) => {
 
   if(isLogged) {
     return (
-      <Switch>
-        <Route path="/" component={App} />
-      </Switch>
+      <HashRouter>
+        <Switch>
+          <Route path={`/`} component={App} />
+        </Switch>
+      </HashRouter>
     )
   }
 
   if(!isLogged) {
     return (
-      <BrowserRouter>
+      <HashRouter>
         <Switch>
           <Route path={`/`} component={LandingApp} />
         </Switch>
-      </BrowserRouter>
+      </HashRouter>
     )
   }
 }

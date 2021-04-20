@@ -93,7 +93,7 @@ const CreditPage = (props) => {
 
     let data = {
       "credit": parseInt(credit),
-      "currency": `${value * 8},10`,
+      "currency": `${value * 8},50`,
       "cardNumber": cardNumber.replace(/\s/g, ''),
       "cardName": cardName.replace(/\s/g, ''),
       "cardCvc": cvc,
@@ -102,8 +102,6 @@ const CreditPage = (props) => {
       "userIp": ip,
       "userPhone": phoneNumber.substring(1, 11)
     }
-
-    console.log(data);
 
     postPayment(data);
   }

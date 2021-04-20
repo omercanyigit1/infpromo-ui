@@ -97,6 +97,5 @@ const MainApp = (props) => {
   )
 };
 
-
 export default MainApp;
 
