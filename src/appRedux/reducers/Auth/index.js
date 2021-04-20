@@ -34,7 +34,7 @@ const initialState = {
   message: '',
   isCreated: false,
   isResetPassword: false,
-  isRecoveryPassword: false
+  isRecoveryPassword: false,
 };
 
 const AuthReducer = (state = initialState, action) => {

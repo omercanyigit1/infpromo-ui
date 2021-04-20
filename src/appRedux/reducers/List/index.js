@@ -27,10 +27,12 @@ const initialState = {
   total: 0,
   reportId: null,
   reportData: null,
+  reportDataError: null,
   reportDataLoading: false,
   credit: null,
   showSorting: false,
-  lookalikesNetwork: ''
+  lookalikesNetwork: '',
+  url: ''
 };
 
 const ListReducer = (state = initialState, action) => {
@@ -112,6 +114,7 @@ const ListReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: true,
+        reportDataError: null,
       };
     case SEARCH_GENERATE_PDF_SUCCESS:
       return {
@@ -125,7 +128,7 @@ const ListReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         isLogged: false,
-        error: action.payload.message,
+        reportDataError: action.payload.message,
       };
     case POST_PAYMENT_REQUEST:
       return {
@@ -138,7 +141,8 @@ const ListReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         isPayment: action.payload.isPayment,
-        credit: action.payload.credit
+        credit: action.payload.credit,
+        url: action.payload.url
       };
     case POST_PAYMENT_FAILED:
       return {

@@ -109,7 +109,11 @@ export const postSearchAdvanced = (data, network) => {
         dispatch(postSearchAdvancedRequest());
 
         axios.post(`${API_URL}/${network}/search/${id}`, data, axiosConfig).then((response) => {
-          dispatch(postSearchAdvancedSuccess(response.data.data));
+
+          if(response.status === 200) {
+            dispatch(postSearchAdvancedSuccess(response.data.data));
+          }
+
         }).catch((error) => {
           dispatch(postSearchAdvancedFailed(error.response.data));
         });

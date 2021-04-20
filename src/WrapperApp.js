@@ -1,14 +1,16 @@
 import React, {useEffect} from "react";
-import {isLoggedIn} from "./appRedux/actions";
-import {Route, Switch, HashRouter, useLocation} from "react-router-dom";
+import {isLoggedIn, postLogout} from "./appRedux/actions";
+import {Route, Switch, HashRouter, useLocation, BrowserRouter} from "react-router-dom";
 import App from "./containers/App";
 import LandingApp from "./containers/LandingApp";
 import {connect} from "react-redux";
+import jwt from 'jsonwebtoken';
 
 const WrapperApp = (props) => {
   let location = useLocation();
+  const token = localStorage.getItem('access_token');
 
-  const {isLoggedIn, isLogged, history} = props;
+  const {isLoggedIn, isLogged, history, postLogout} = props;
 
   useEffect(() => {
     isLoggedIn();
@@ -24,27 +26,30 @@ const WrapperApp = (props) => {
       if(location.hash === '#/login' || location.hash === '#/register' || location.hash === '#/forget-password') {
         history.push('#/search');
       }
+
+      if(!token) {
+        history.push('#/');
+        history.go(0);
+      }
     }
 
   }, [isLoggedIn, isLogged, history])
 
   if(isLogged) {
     return (
-      <HashRouter>
-        <Switch>
-          <Route path="/" component={App} />
-        </Switch>
-      </HashRouter>
+      <Switch>
+        <Route path="/" component={App} />
+      </Switch>
     )
   }
 
   if(!isLogged) {
     return (
-      <HashRouter>
+      <BrowserRouter>
         <Switch>
           <Route path={`/`} component={LandingApp} />
         </Switch>
-      </HashRouter>
+      </BrowserRouter>
     )
   }
 }
@@ -58,4 +63,4 @@ const mapStateToProps = (state) => {
   }
 };
 
-export default connect(mapStateToProps, {isLoggedIn})(WrapperApp);
+export default connect(mapStateToProps, {isLoggedIn, postLogout})(WrapperApp);

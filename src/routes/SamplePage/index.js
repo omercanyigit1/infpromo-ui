@@ -101,6 +101,7 @@ const SamplePage = (props) => {
   const [audienceLanguagesState, setAudienceLanguages] = useState('');
   const [audienceAgeState, setAudienceAge] = useState('');
   const [searchListState, setSearchList] = useState([]);
+  const [showDirect, setShowDirect] = useState(false);
 
   const {
     searchList,
@@ -113,7 +114,10 @@ const SamplePage = (props) => {
     reportId,
     user,
     error,
-    lookalikesNetwork
+    isLoggedIn,
+    lookalikesNetwork,
+    credit,
+    isLogged
   } = props;
 
   useEffect(() => {
@@ -121,8 +125,9 @@ const SamplePage = (props) => {
     if (searchList) {
       setSearchList(searchListState);
     }
+    isLoggedIn()
 
-  }, [total, directs, showLoading, reportId, error, searchListState]);
+  }, [total, directs, showLoading, reportId, error, searchListState, isLogged, credit]);
 
   function handleNetworkChange(e) {
     setNetwork(e.target.value);
@@ -227,6 +232,7 @@ const SamplePage = (props) => {
       message.error(`Yetersiz Bakiye`);
     } else {
       postSearchAdvanced(data, network);
+      setShowDirect(false);
     }
   }
 
@@ -265,6 +271,7 @@ const SamplePage = (props) => {
       message.error(`Yetersiz Bakiye`);
     } else {
       postSearchAdvanced(data, network);
+      setShowDirect(false);
     }
   }
 
@@ -304,6 +311,7 @@ const SamplePage = (props) => {
       message.error(`Yetersiz Bakiye`);
     } else {
       postSearchAdvanced(data, network);
+      setShowDirect(false);
     }
   }
 
@@ -344,6 +352,7 @@ const SamplePage = (props) => {
         message.error(`Yetersiz Bakiye`);
       } else {
         postSearchUserName(data, network);
+        setShowDirect(true);
       }
     } else {
       let data = {
@@ -363,6 +372,7 @@ const SamplePage = (props) => {
         message.error(`Yetersiz Bakiye`);
       } else {
         postSearchUserName(data, network);
+        setShowDirect(true);
       }
     }
   }
@@ -418,12 +428,11 @@ const SamplePage = (props) => {
           height: 32,
           lineHeight: '32px',
         }}>
-        <Button className={"btn btn-primary"} disabled={(user.credit < 1) ? true : false} onClick={() => {
+        <Button className={"btn btn-primary"} disabled={(user.credit < 1 && credit < 1) ? true : false} onClick={() => {
           handleLoadMore();
         }}>Daha Fazla Yükle</Button>
       </div>
     ) : null;
-
 
   return (
     <Spin spinning={loading}>
@@ -594,7 +603,7 @@ const SamplePage = (props) => {
                         <Col span={24}>
                           <label>
                             <b>Etkileşim Oranı:
-                              <Tooltip title="prompt text">
+                              <Tooltip title="Takipçi sayısının beğeni ve yorum sayısı toplamına oranı">
                                 <InfoCircleOutlined/>
                               </Tooltip>
                             </b>
@@ -739,7 +748,7 @@ const SamplePage = (props) => {
                   <div style={{textAlign: 'right'}} className={"gx-mt-3 gx-mb-3"}>
                     <Button className="btn btn-primary" onClick={handleFilter}
                             disabled={(user.credit < 1) ? true : false} loading={loading}>
-                      {user.credit < 1 ? 'Yetersiz Bakiye' : 'Filtrele'}
+                      {user.credit < 1 ? 'Yetersiz Bakiye' : 'Filtrele (1 Kredi)'}
                     </Button>
                   </div>
                 </Col>
@@ -771,7 +780,7 @@ const SamplePage = (props) => {
                       <div style={{textAlign: 'right'}} className={"gx-mt-3"}>
                         <Button className="btn btn-primary" disabled={(user.credit < 1) ? true : false}
                                 onClick={handleFilterUserName} loading={loading}>
-                          {user.credit < 1 ? 'Yetersiz Bakiye' : 'Arama'}
+                          {user.credit < 1 ? 'Yetersiz Bakiye' : 'Arama (1 Kredi)'}
                         </Button>
                       </div>
                     </Col>
@@ -793,7 +802,7 @@ const SamplePage = (props) => {
           </div>
           }
           {
-            searchListState.length > 0 &&
+            showDirect === false && searchListState.length > 0 &&
             <div>
               <Row>
                 <Col span={24}>
@@ -812,7 +821,7 @@ const SamplePage = (props) => {
                         className={`list-item-${item.userId}`}
                         actions={[
                           <Link to={`/detail/${lookalikesNetwork}/${item.userId}`} target={"_blank"}
-                                className={`btn btn-secondary list-item-btn-${item.userId}`}>
+                                className={(credit < 2) ? `btn btn-secondary disable-link` : `btn btn-secondary list-item-btn-${item.userId}`}>
                             <span>Detay</span>{" "} <span style={{fontSize: 13, marginLeft: 5}}>{" "} (2 kredi)</span>
                           </Link>]}>
                         <Skeleton loading={loading}>
@@ -864,7 +873,7 @@ const SamplePage = (props) => {
             </div>
           }
           {
-            directs.length === 0 && searchList &&
+            showDirect === false && searchList &&
             <div>
               <Row>
                 <Col span={24}>
@@ -884,7 +893,7 @@ const SamplePage = (props) => {
                         className={`list-item-${item.userId}`}
                         actions={[
                           <Link to={`/detail/${lookalikesNetwork}/${item.userId}`} target={"_blank"}
-                                className={`btn btn-secondary list-item-btn-${item.userId}`}>
+                                className={(credit < 2) ? `btn btn-secondary disable-link` : `btn btn-secondary list-item-btn-${item.userId}`}>
                             <span>Detay</span>{" "} <span style={{fontSize: 13, marginLeft: 5}}>{" "} (2 kredi)</span>
                           </Link>]}>
                         <Skeleton loading={loading}>
@@ -936,7 +945,7 @@ const SamplePage = (props) => {
             </div>
           }
           {
-            directs && directs.map((item, index) => {
+            showDirect === true && directs && directs.map((item, index) => {
               return (
                 <div>
                   <Row>
@@ -956,7 +965,7 @@ const SamplePage = (props) => {
                             className={`list-item-${item.userId}`}
                             actions={[
                               <Link to={`/detail/${network}/${item.userId}`} target={"_blank"}
-                                    className={`btn btn-secondary list-item-btn-${item.userId}`}>
+                                    className={(credit < 2) ? `btn btn-secondary disable-link` : `btn btn-secondary list-item-btn-${item.userId}`}>
                                 <span>Detay</span>{" "} <span
                                 style={{fontSize: 13, marginLeft: 5}}>{" "} (2 kredi)</span>
                               </Link>]}>
@@ -1031,7 +1040,8 @@ const mapStateToProps = (state) => {
     reportId: state.list.reportId,
     total: state.list.total,
     error: state.list.error,
-    user: state.user.user
+    user: state.user.user,
+    credit: state.list.credit
   }
 }
 

@@ -6,6 +6,9 @@ import {postPayment, isLoggedIn} from '../../appRedux/actions/';
 import {connect} from 'react-redux';
 import publicIp from "public-ip";
 import InputMask from 'react-input-mask';
+import axios from 'axios';
+
+const currencyUrl = 'http://data.fixer.io/api/latest?access_key = 70ac47fa3ce9f5ac30ab85e03112ff8d'
 
 export const getClientIp = async () => await publicIp.v4({
   fallbackUrls: [ "https://ifconfig.co/ip" ]
@@ -22,8 +25,9 @@ const CreditPage = (props) => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [issuer, setIssuer] = useState('');
   const [ip, setIp] = useState('');
+  const [currency, setCurrency] = useState('');
 
-  const  {postPayment, loading, isPayment} = props;
+  const  {postPayment, loading, isPayment, isLogged, isLoggedIn, url} = props;
 
   const handleCallback = ({ issuer }, isValid) => {
     if (isValid) {
@@ -85,6 +89,7 @@ const CreditPage = (props) => {
 
     let month = (expiry.length < 2 ? `0${expiry.substring(0, 2)}` : expiry.substring(0, 2));
     let year = expiry.substring(3, 5);
+    //setCurrencyValue();
 
     let data = {
       "credit": parseInt(credit),
@@ -98,8 +103,9 @@ const CreditPage = (props) => {
       "userPhone": phoneNumber.substring(1, 11)
     }
 
-    postPayment(data);
     console.log(data);
+
+    postPayment(data);
   }
 
   useEffect(() => {
@@ -108,7 +114,13 @@ const CreditPage = (props) => {
       setIp(result);
     })
 
-  }, [value, issuer, credit])
+    isLoggedIn()
+
+    if(url) {
+      window.location.href = `${url}`;
+    }
+
+  }, [value, issuer, credit, isLogged, url])
 
   const radioStyle = {
     display: 'block',
@@ -140,7 +152,7 @@ const CreditPage = (props) => {
             <Col xs={24} md={14}>
               <Row>
                 <Col xs={24} md={24}>
-                  <Radio.Group onChange={onChange} value={value} disabled={true}>
+                  <Radio.Group onChange={onChange} value={value} disabled={false}>
                     <Radio style={radioStyle} value={5}>
                       {5 * 2} Kredi = <b>5 $</b>
                     </Radio>
@@ -245,9 +257,11 @@ const CreditPage = (props) => {
 const mapStateToProps = (state) => {
   return {
     loading: state.user.loading,
+    isLogged: state.auth.isLogged,
     error: state.user.error,
     user: state.user.user,
-    isPayment: state.list.isPayment
+    isPayment: state.list.isPayment,
+    url: state.list.url
   }
 }
 

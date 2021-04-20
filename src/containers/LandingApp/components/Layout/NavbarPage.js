@@ -26,7 +26,7 @@ class NavbarPage extends Component {
           <Container>
             <div>
               <Link className="logo" to="#">
-                <img src={logodark} height="24" alt="" />
+                <img src="https://infpromo.com/images/logo-black.svg" height="24" alt="" />
               </Link>
             </div>
             <div className={"mobile-buy-buttons"}>

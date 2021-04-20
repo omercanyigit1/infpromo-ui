@@ -33,8 +33,8 @@ const SidebarLogo = ({sidebarCollapsed, setSidebarCollapsed}) => {
         {navStyle === NAV_STYLE_NO_HEADER_MINI_SIDEBAR && width >= TAB_SIZE ?
           <img alt="lo" src="assets/images/w-logo.png"/> :
           themeType === THEME_TYPE_LITE ?
-            <img alt="logo1" src="assets/images/infpromo-logo.png"/> :
-            <img alt="logo2" src={logo}/>}
+            <img alt="logo1" src="https://infpromo.com/images/logo-white.svg"/> :
+            <img alt="logo2" src="https://infpromo.com/images/logo-white.svg"/>}
       </Link>
     </div>
   );

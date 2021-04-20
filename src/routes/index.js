@@ -1,5 +1,5 @@
 import React from "react";
-import {Route, Switch, HashRouter} from "react-router-dom";
+import {Route, Switch, HashRouter, BrowserRouter} from "react-router-dom";
 import asyncComponent from "util/asyncComponent";
 import {isLoggedIn} from "../appRedux/actions";
 import {connect} from 'react-redux';
@@ -8,7 +8,7 @@ const App = ({match}) => {
 
   return (
     <div className="gx-main-content-wrapper">
-      <HashRouter>
+      <BrowserRouter>
         <Switch>
           <Route path={`${match.url}search`} component={asyncComponent(() => import('./SamplePage'))}/>
           <Route path={`${match.url}credit`} component={asyncComponent(() => import('./CreditPage'))}/>
@@ -18,7 +18,7 @@ const App = ({match}) => {
           <Route path={`${match.url}payment/success`} component={asyncComponent(() => import('./PaymentSuccessPage'))}/>
           <Route path={`${match.url}detail/:network/:id`} component={asyncComponent(() => import('./DetailPage'))}/>
         </Switch>
-      </HashRouter>
+      </BrowserRouter>
     </div>
   )
 };

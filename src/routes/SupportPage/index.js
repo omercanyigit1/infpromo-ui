@@ -17,7 +17,7 @@ const formItemLayout = {
 
 const SupportPage = (props) => {
   const [form] = Form.useForm();
-  const {user, loading, postTicket, errorTicket, isTicketSend} = props;
+  const {user, loading, postTicket, errorTicket, isTicketSend, isLoggedIn, isLogged} = props;
   const [subject, setSubject] = useState('');
   const [message, setMessage] = useState('');
 
@@ -29,8 +29,9 @@ const SupportPage = (props) => {
   }
 
   useEffect(() => {
+    isLoggedIn()
 
-  }, [user])
+  }, [user, isLogged])
 
   const onFinish = (values) => {
 
@@ -145,7 +146,8 @@ const mapStateToProps = (state) => {
     loading: state.user.loading,
     errorTicket: state.user.errorTicket,
     user: state.user.user,
-    isTicketSend: state.user.isTicketSend
+    isTicketSend: state.user.isTicketSend,
+    isLogged: state.auth.isLogged
   }
 }
 

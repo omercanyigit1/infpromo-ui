@@ -19,7 +19,18 @@ import {
 } from "@ant-design/icons";
 import _ from 'lodash'
 import moment from 'moment';
-import {LineChart, Line, CartesianGrid, XAxis, YAxis, ResponsiveContainer, Legend, Bar, BarChart} from 'recharts';
+import {
+  LineChart,
+  Line,
+  CartesianGrid,
+  XAxis,
+  YAxis,
+  ResponsiveContainer,
+  Legend,
+  Bar,
+  BarChart,
+} from 'recharts';
+import LineChartComponent from "./components/LineChart";
 
 function renderSwitch(param) {
   switch (param.length) {
@@ -45,11 +56,8 @@ const DetailPage = (props) => {
   let params = useParams();
   const id = params.id;
   const network = params.network;
-  const [avgLikesState, setAvgLikesState] = useState(0);
-  const [avgCommentsState, setAvgCommentsState] = useState(0);
-  const [avgViewsState, setAvgViewsState] = useState(0);
 
-  const {postGeneratePdf, reportData, loading, user} = props;
+  const {postGeneratePdf, reportData, loading, user, reportDataError} = props;
 
   useEffect(() => {
 
@@ -91,6 +99,18 @@ const DetailPage = (props) => {
 
   function formatMonthAxis(tickItem) {
     return tickItem;
+  }
+
+  if (reportDataError) {
+    return (
+      <Result
+        status="error"
+        title={`${reportDataError}`}
+        subTitle="Hemen kredi yükleyerek güncel verileri görebilirsiniz."
+        extra={null}
+      >
+      </Result>
+    )
   }
 
   return (
@@ -139,9 +159,6 @@ const DetailPage = (props) => {
                               suffix={
                                 <div style={{display: 'flex', alignItems: "center"}}>
                                   <span>% </span> {" "}
-                                  <Tooltip title="prompt text">
-                                    <InfoCircleOutlined/>
-                                  </Tooltip>
                                 </div>
                               }
                             />
@@ -157,9 +174,6 @@ const DetailPage = (props) => {
                               suffix={
                                 <div style={{display: 'flex', alignItems: "center"}}>
                                   <span>% </span> {" "}
-                                  <Tooltip title="prompt text">
-                                    <InfoCircleOutlined/>
-                                  </Tooltip>
                                 </div>
                               }
                             />
@@ -170,7 +184,7 @@ const DetailPage = (props) => {
                         <div className={"box-item"}>
                           <HeartFilled style={{fontSize: 25, color: 'rgb(241, 133, 131)'}}/>
                           <h4
-                            style={{marginTop: 10}}>{reportData.profile.profile.engagements.toString().substring(0, 3)} k</h4>
+                            style={{marginTop: 10}}>{renderSwitch(reportData.profile.profile.engagements.toString())}</h4>
                           <p style={{marginBottom: 0}}>Toplam Etkilesim</p>
                           {
                             reportData.profile.stats.avgLikes.compared > 0 &&
@@ -183,9 +197,6 @@ const DetailPage = (props) => {
                               suffix={
                                 <div style={{display: 'flex', alignItems: "center"}}>
                                   <span>% </span> {" "}
-                                  <Tooltip title="prompt text">
-                                    <InfoCircleOutlined/>
-                                  </Tooltip>
                                 </div>
                               }
                             />
@@ -201,9 +212,6 @@ const DetailPage = (props) => {
                               suffix={
                                 <div style={{display: 'flex', alignItems: "center"}}>
                                   <span>% </span> {" "}
-                                  <Tooltip title="prompt text">
-                                    <InfoCircleOutlined/>
-                                  </Tooltip>
                                 </div>
                               }
                             />
@@ -217,7 +225,8 @@ const DetailPage = (props) => {
                             style={{marginTop: 10}}>{parseFloat(parseFloat(reportData.profile.profile.engagementRate) * 100).toFixed(2)} %</h4>
                           <div style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
                             <p style={{marginBottom: 0, marginRight: 5}}>Etkileşim Oranı</p>
-                            <Tooltip title="prompt text">
+                            <Tooltip
+                              title="Takipçi sayısının beğeni ve yorum toplamına oranı (followers / likes + comments)">
                               <InfoCircleOutlined/>
                             </Tooltip>
                           </div>
@@ -227,7 +236,7 @@ const DetailPage = (props) => {
                   </div>
                   <div className={"gx-mt-1"}>
                     <Row gutter={[10, 10]}>
-                      <Col xs={24} md={8}>
+                      <Col xs={24} md={12}>
                         <div className={"box-item"}>
                           <HeartFilled style={{fontSize: 25, color: 'rgb(241, 133, 131)'}}/>
                           <h4
@@ -235,21 +244,21 @@ const DetailPage = (props) => {
                           <p style={{marginBottom: 0}}>Ortalama Beğeni Sayısı</p>
                         </div>
                       </Col>
-                      <Col xs={24} md={8}>
+                      <Col xs={24} md={12}>
                         <div className={"box-item"}>
                           <CommentOutlined style={{fontSize: 25, color: '#003366'}}/>
                           <h4 style={{marginTop: 10}}>{reportData.profile.avgComments}</h4>
                           <p style={{marginBottom: 0}}>Ortalama Yorum Sayısı</p>
                         </div>
                       </Col>
-                      <Col xs={24} md={8}>
-                        <div className={"box-item"}>
-                          <EyeOutlined style={{fontSize: 25, color: '#003366'}}/>
-                          <h4
-                            style={{marginTop: 10}}>{renderSwitch(reportData.profile.avgViews.toString())}</h4>
-                          <p style={{marginBottom: 0}}>Ortalama Görüntülenme Sayısı</p>
-                        </div>
-                      </Col>
+                      {/**<Col xs={24} md={8}>
+                       <div className={"box-item"}>
+                       <EyeOutlined style={{fontSize: 25, color: '#003366'}}/>
+                       <h4
+                       style={{marginTop: 10}}>{renderSwitch(reportData.profile.avgViews.toString())}</h4>
+                       <p style={{marginBottom: 0}}>Ortalama Görüntülenme Sayısı</p>
+                       </div>
+                       </Col>**/}
                     </Row>
                   </div>
                   <div className="gx-mt-5">
@@ -380,21 +389,11 @@ const DetailPage = (props) => {
                         </div>
                         <div className="box-item">
                           {reportData.profile.statHistory &&
-                          <ResponsiveContainer width="100%" height={300}>
-                            <LineChart data={reportData.profile.statHistory}
-                                       margin={{top: 10, right: 10, left: -10, bottom: 0}}>
-                              <XAxis dataKey="month" tickCount={20} minTickGap={-20} angle={-30} tickSize={15}
-                                     height={40} padding={{top: 10}}/>
-                              <YAxis tickFormatter={formatYAxis}/>
-                              <CartesianGrid strokeDasharray="3 3"/>
-                              <Tooltip/>
-                              <Legend/>
-                              <Line type="monotone" dataKey="followers" stroke="#3367d6" strokeWidth={2}
-                                    activeDot={{r: 3}}/>
-                            </LineChart>
-                          </ResponsiveContainer>
+                          <LineChartComponent data={reportData.profile.statHistory}
+                                              tickFormatX={formatXAxis}
+                                              dataKeyLine={"followers"}
+                          />
                           }
-
                         </div>
                       </Col>
                       <Col xs={24} md={12}>
@@ -442,9 +441,10 @@ const DetailPage = (props) => {
                         <div className="box-item">
                           {reportData.profile.recentPosts &&
                           <ResponsiveContainer width="100%" height={400}>
-                            <BarChart data={reportData.profile.recentPosts && reportData.profile.recentPosts.slice(0, 8)}
-                                      label={(name, value) => `${name}: ${value}`}
-                                      margin={{top: 10, right: 0, left: 0, bottom: 0}}>
+                            <BarChart
+                              data={reportData.profile.recentPosts && reportData.profile.recentPosts.slice(0, 8)}
+                              label={(name, value) => `${name}: ${value}`}
+                              margin={{top: 10, right: 0, left: 0, bottom: 0}}>
                               <XAxis dataKey="created" tickFormatter={formatXAxis} tickCount={20} minTickGap={-20}
                                      angle={0} tickSize={20} height={40} padding={{top: 10}}/>
                               <YAxis tickFormatter={formatYAxis}/>
@@ -590,7 +590,7 @@ const DetailPage = (props) => {
                         <div className={"gx-mt-1 box-item"}>
                           <div style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
                             <p className={"box-item-title"} style={{marginRight: 5}}>Takipçi Cinsiyeti</p>
-                            <Tooltip title="prompt text">
+                            <Tooltip title="Takipçilerin cinsiyetlerine göre ayrımı">
                               <InfoCircleOutlined/>
                             </Tooltip>
                           </div>
@@ -630,7 +630,7 @@ const DetailPage = (props) => {
                           }}>
                             <p className={"box-item-title"} style={{marginBottom: 0, marginRight: 5}}>Takipçi
                               Lokasyonları</p>
-                            <Tooltip title="prompt text">
+                            <Tooltip title="Takipçilerin girdiği popüler lokasyonlar">
                               <InfoCircleOutlined/>
                             </Tooltip>
                           </div>
@@ -731,7 +731,7 @@ const DetailPage = (props) => {
                             justifyContent: 'flex-start',
                             marginBottom: 10,
                             flexDirection: 'column',
-                            textAlign:'left',
+                            textAlign: 'left',
                             width: '100%'
                           }}>
                             {reportData.profile.brandAffinity && reportData.profile.brandAffinity.slice(0, 8).map((item, index) => {
@@ -765,7 +765,7 @@ const DetailPage = (props) => {
                             justifyContent: 'flex-start',
                             marginBottom: 10,
                             flexDirection: 'column',
-                            textAlign:'left',
+                            textAlign: 'left',
                             width: '100%'
                           }}>
                             {reportData.profile.audience.interests && reportData.profile.audience.interests.slice(0, 8).map((item, index) => {
@@ -792,20 +792,21 @@ const DetailPage = (props) => {
                               <UsergroupDeleteOutlined style={{fontSize: 25, color: 'rgb(250, 143, 56)'}}/>
                               <h4>{parseFloat((parseFloat(reportData.profile.audienceLikers.credibility) * 100).toFixed(2)).toFixed(2)} %</h4>
                               <div style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
-                                <p style={{marginBottom: 0, marginRight: 5}}>Beğeni güvenilirliği</p>
-                                <Tooltip title="profilin gerçek takipçi sayısı oranı">
+                                <p style={{marginBottom: 0, marginRight: 5}}>Beğenen kullanıcıların güvenilirliği</p>
+                                <Tooltip
+                                  title="Paylaşılan postları beğenen kullanıcıların güvenilirliği (fake olma durumları)">
                                   <InfoCircleOutlined/>
                                 </Tooltip>
                               </div>
                             </div>
                           </Col>
                           <Col xs={24} md={12}>
-                              <div className={"box-item"}>
+                            <div className={"box-item"}>
                               <UsergroupDeleteOutlined style={{fontSize: 25, color: 'rgb(250, 143, 56)'}}/>
                               <h4>{parseFloat((parseFloat(reportData.profile.audienceLikers.nonFollowerLikes) * 100).toFixed(2)).toFixed(2)} %</h4>
                               <div style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
-                                <p style={{marginBottom: 0, marginRight: 5}}>Takipçi olmayan kitle beğeni </p>
-                                <Tooltip title="profilin gerçek takipçi sayısı oranı">
+                                <p style={{marginBottom: 0, marginRight: 5}}>Takipçi olmayan kitlenin beğeni oranı </p>
+                                <Tooltip title="Influencer' ı beğenen kullanıcıların takip etmediği oran">
                                   <InfoCircleOutlined/>
                                 </Tooltip>
                               </div>
@@ -815,7 +816,7 @@ const DetailPage = (props) => {
                         <div className={"gx-mt-1 box-item"}>
                           <div style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
                             <p className={"box-item-title"} style={{marginRight: 5}}>Beğeni Cinsiyet Dağılımı</p>
-                            <Tooltip title="prompt text">
+                            <Tooltip title="Influencer' ı beğenen kullanıcıların cinsiyet dağılımı">
                               <InfoCircleOutlined/>
                             </Tooltip>
                           </div>
@@ -855,7 +856,7 @@ const DetailPage = (props) => {
                           }}>
                             <p className={"box-item-title"} style={{marginBottom: 0, marginRight: 5}}>Beğeni
                               Lokasyonları</p>
-                            <Tooltip title="prompt text">
+                            <Tooltip title="Influencer' ı beğenen kullanıcıların popüler lolasyonları">
                               <InfoCircleOutlined/>
                             </Tooltip>
                           </div>
@@ -897,9 +898,10 @@ const DetailPage = (props) => {
                             marginBottom: 15,
                             marginTop: 10
                           }}>
-                            <p className={"box-item-title"} style={{marginBottom: 0, marginRight: 5}}>Beğeni Yaş ve Cinsiyet
+                            <p className={"box-item-title"} style={{marginBottom: 0, marginRight: 5}}>Beğeni Yaş ve
+                              Cinsiyet
                               İstatistikleri</p>
-                            <Tooltip title="Takipçilerin yaş ve cinsiyet grafikleri">
+                            <Tooltip title="Beğenen takipçilerin yaş ve cinsiyet grafikleri">
                               <InfoCircleOutlined/>
                             </Tooltip>
                           </div>
@@ -944,9 +946,10 @@ const DetailPage = (props) => {
                             marginBottom: 15,
                             marginTop: 10
                           }}>
-                            <p className={"box-item-title"} style={{marginBottom: 0, marginRight: 5}}>Beğenen Kullanıcıların Marka Yakınlığı
+                            <p className={"box-item-title"} style={{marginBottom: 0, marginRight: 5}}>Beğenen
+                              Kullanıcıların Marka Yakınlığı
                               (Brand Affinity)</p>
-                            <Tooltip title="Seçtiğiniz influencer ile yakınlık gösteren markalar">
+                            <Tooltip title="Influencer' ı beğenen kullanıcılara yakınlık gösteren markalar">
                               <InfoCircleOutlined/>
                             </Tooltip>
                           </div>
@@ -956,7 +959,7 @@ const DetailPage = (props) => {
                             justifyContent: 'flex-start',
                             marginBottom: 10,
                             flexDirection: 'column',
-                            textAlign:'left',
+                            textAlign: 'left',
                             width: '100%'
                           }}>
                             {reportData.profile.audienceLikers.brandAffinity && reportData.profile.audienceLikers.brandAffinity.slice(0, 8).map((item, index) => {
@@ -978,9 +981,10 @@ const DetailPage = (props) => {
                             marginBottom: 15,
                             marginTop: 10
                           }}>
-                            <p className={"box-item-title"} style={{marginBottom: 0, marginRight: 5}}>Beğenen Kullanıcıların İlgi alanları
+                            <p className={"box-item-title"} style={{marginBottom: 0, marginRight: 5}}>Beğenen
+                              Kullanıcıların İlgi alanları
                               (Interests)</p>
-                            <Tooltip title="Takipçileirn ön plana çıkan ilgi alanları">
+                            <Tooltip title="Influencer' ı beğenen kullanıcıların ilgi alanları">
                               <InfoCircleOutlined/>
                             </Tooltip>
                           </div>
@@ -990,7 +994,7 @@ const DetailPage = (props) => {
                             justifyContent: 'flex-start',
                             marginBottom: 10,
                             flexDirection: 'column',
-                            textAlign:'left',
+                            textAlign: 'left',
                             width: '100%'
                           }}>
                             {reportData.profile.audienceLikers.interests && reportData.profile.audienceLikers.interests.slice(0, 8).map((item, index) => {
@@ -1012,60 +1016,60 @@ const DetailPage = (props) => {
                       </Col>
                       <Col xs={24} sm={24}>
                         {reportData.profile.audience.notableUsers &&
-                          <List
-                            className="list-item list-item-detail-page gx-mt-2"
-                            loading={loading}
-                            itemLayout="horizontal"
-                            locale={{emptyText: 'Veri Yok'}}
-                            bordered={true}
-                            size={'large'}
-                            dataSource={reportData.profile.audience.notableUsers.slice(0, 15)}
-                            column={3}
-                            renderItem={(item, index) => (
-                              <List.Item
-                                key={`list-${index}`}
-                                className={`list-item-${index}`}>
-                                <Row style={{width: '100%'}} gutter={[0, 0]}>
-                                  <Col xs={24} sm={12} md={18}>
-                                    <List.Item.Meta
-                                      className={"list-meta-item"}
-                                      avatar={<Avatar size={50} src={`${item.picture}`}/>}
-                                      title={<p
-                                        className={"gx-mb-0 list-item-header"}>{(item.fullname) ? `${item.fullname}` : `${item.username}`}</p>}
-                                      description={<a href={`${item.url}`} target={"_blank"}
-                                                      rel="noreferrer">{(item.username) ? `@${item.username}` : `${item.fullname}`}</a>}
-                                    />
-                                  </Col>
-                                  <Col xs={12} sm={5} md={3}>
-                                    <List.Item.Meta
-                                      className={"gx-text-center list-mobile-margin"}
-                                      title={<p className={"gx-mb-0 list-item-header"}>
-                                        {renderSwitch(item.followers.toString())}
-                                      </p>}
-                                      description={
-                                        <p className="text-muted" style={{fontSize: 14, marginBottom: 0}}>
-                                          Takipçi
-                                        </p>
-                                      }
-                                    />
-                                  </Col>
-                                  <Col xs={12} sm={7} md={3}>
-                                    <List.Item.Meta
-                                      className={"list-mobile-margin"}
-                                      title={<p className={"gx-mb-0 list-item-header"}>
-                                        {renderSwitch(item.engagements.toString())}
-                                      </p>}
-                                      description={
-                                        <p className="gx-text-grey" style={{fontSize: 14, marginBottom: 0}}>
-                                          Etkileşim
-                                        </p>
-                                      }
-                                    />
-                                  </Col>
-                                </Row>
-                              </List.Item>
-                            )}
-                          />
+                        <List
+                          className="list-item list-item-detail-page gx-mt-2"
+                          loading={loading}
+                          itemLayout="horizontal"
+                          locale={{emptyText: 'Veri Yok'}}
+                          bordered={true}
+                          size={'large'}
+                          dataSource={reportData.profile.audience.notableUsers.slice(0, 15)}
+                          column={3}
+                          renderItem={(item, index) => (
+                            <List.Item
+                              key={`list-${index}`}
+                              className={`list-item-${index}`}>
+                              <Row style={{width: '100%'}} gutter={[0, 0]}>
+                                <Col xs={24} sm={12} md={18}>
+                                  <List.Item.Meta
+                                    className={"list-meta-item"}
+                                    avatar={<Avatar size={50} src={`${item.picture}`}/>}
+                                    title={<p
+                                      className={"gx-mb-0 list-item-header"}>{(item.fullname) ? `${item.fullname}` : `${item.username}`}</p>}
+                                    description={<a href={`${item.url}`} target={"_blank"}
+                                                    rel="noreferrer">{(item.username) ? `@${item.username}` : `${item.fullname}`}</a>}
+                                  />
+                                </Col>
+                                <Col xs={12} sm={5} md={3}>
+                                  <List.Item.Meta
+                                    className={"gx-text-center list-mobile-margin"}
+                                    title={<p className={"gx-mb-0 list-item-header"}>
+                                      {renderSwitch(item.followers.toString())}
+                                    </p>}
+                                    description={
+                                      <p className="text-muted" style={{fontSize: 14, marginBottom: 0}}>
+                                        Takipçi
+                                      </p>
+                                    }
+                                  />
+                                </Col>
+                                <Col xs={12} sm={7} md={3}>
+                                  <List.Item.Meta
+                                    className={"list-mobile-margin"}
+                                    title={<p className={"gx-mb-0 list-item-header"}>
+                                      {renderSwitch(item.engagements.toString())}
+                                    </p>}
+                                    description={
+                                      <p className="gx-text-grey" style={{fontSize: 14, marginBottom: 0}}>
+                                        Etkileşim
+                                      </p>
+                                    }
+                                  />
+                                </Col>
+                              </Row>
+                            </List.Item>
+                          )}
+                        />
                         }
                       </Col>
                     </Row>
@@ -1096,7 +1100,8 @@ const DetailPage = (props) => {
                                     className={"list-meta-item"}
                                     avatar={<Avatar size={50} src={`${item.picture}`}/>}
                                     title={
-                                      <p className={"gx-mb-0 list-item-header"}>{(item.fullname) ? `${item.fullname}` : `${item.username}`}</p>}
+                                      <p
+                                        className={"gx-mb-0 list-item-header"}>{(item.fullname) ? `${item.fullname}` : `${item.username}`}</p>}
                                     description={<a href={`${item.url}`} target={"_blank"}
                                                     rel="noreferrer">{(item.username) ? `@${item.username}` : `${item.fullname}`}</a>}
                                   />
@@ -2077,13 +2082,14 @@ const DetailPage = (props) => {
   )
 }
 
+
 const mapStateToProps = (state) =>
 {
-
   return {
     user: state.user.user,
     reportData: state.list.reportData,
     loading: state.list.loading,
+    reportDataError: state.list.reportDataError
   }
 }
 

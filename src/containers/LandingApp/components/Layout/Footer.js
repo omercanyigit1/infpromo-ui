@@ -35,12 +35,11 @@ class Footer extends Component {
                 lg="4"
                 xs="12"
                 className="mb-0 mb-md-4 pb-0 pb-md-2"
-                name="footercolumn"
-              >
+                name="footercolumn">
                 <Link to="#" className="logo-footer">
                   <img
-                    src={this.props.isLight ? logodark : logolight}
-                    height="40"
+                    src={this.props.isLight ? 'https://infpromo.com/images/logo-black.svg' : 'https://infpromo.com/images/logo-white.svg'}
+                    height="30"
                     alt=""
                   />
                 </Link>
