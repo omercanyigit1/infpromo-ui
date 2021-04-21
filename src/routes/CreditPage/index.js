@@ -238,7 +238,7 @@ const CreditPage = (props) => {
                         </Row>
                         <Row>
                           <Col span={24}>
-                            <Button className={"btn- btn-primary"} block onClick={handlePayment} disabled={!phoneNumber || !cardName || !cardNumber || cvc.length < 3 || !expiry}>Hemen Öde</Button>
+                            <Button className={"btn- btn-primary"} block onClick={handlePayment} disabled={!phoneNumber || !cardName || !cardNumber || cvc.length < 3 || !expiry} loading={loading}>Hemen Öde</Button>
                           </Col>
                         </Row>
                       </Card>

@@ -420,7 +420,7 @@ const SamplePage = (props) => {
   }
 
   const loadMore =
-    directs.length === 0 && showSorting && !loading ? (
+    showDirect === false && showSorting && !loading ? (
       <div
         style={{
           textAlign: 'center',

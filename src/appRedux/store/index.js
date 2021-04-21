@@ -10,7 +10,7 @@ export const history = createBrowserHistory();
 
 const routeMiddleware = routerMiddleware(history);
 
-const middlewares = [thunk, routeMiddleware, createLogger];
+const middlewares = [thunk, routeMiddleware];
 
 
 export default function configureStore(preloadedState) {

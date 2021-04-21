@@ -32,6 +32,8 @@ import {
   Tooltip
 } from 'recharts';
 import ReactTooltip from 'react-tooltip';
+import { usePopperTooltip } from 'react-popper-tooltip';
+import 'react-popper-tooltip/dist/styles.css';
 
 function renderSwitch(param) {
   switch (param.length) {
@@ -57,6 +59,13 @@ const DetailPage = (props) => {
   let params = useParams();
   const id = params.id;
   const network = params.network;
+  const {
+    getArrowProps,
+    getTooltipProps,
+    setTooltipRef,
+    setTriggerRef,
+    visible,
+  } = usePopperTooltip();
 
   const {postGeneratePdf, reportData, loading, user, reportDataError} = props;
 
@@ -65,6 +74,7 @@ const DetailPage = (props) => {
     if (!_.isEmpty(user)) {
       postGeneratePdf(id, network);
     }
+
 
   }, [postGeneratePdf])
 
@@ -101,6 +111,31 @@ const DetailPage = (props) => {
   function formatMonthAxis(tickItem) {
     return tickItem;
   }
+
+  const CustomTooltip = ({ active, payload, label }) => {
+    if (active && payload && payload.length) {
+      return (
+        <div className="custom-tooltip" style={{backgroundColor: 'rgba(255, 255, 255, .9)', padding: 10, borderRadius: 4, border: '1px solid #e5e5e5'}}>
+          <p className="label" style={{color: `${payload[0].color}`}}>{`Beğeni : ${formatYAxis(payload[0].value)}`}</p>
+          <p className="label" style={{color: `${payload[1].color}`}}>{`Yorum : ${formatYAxis(payload[1].value)}`}</p>
+          <p className="intro" style={{color: '#000'}}>Tarih: {formatXAxis(label)}</p>
+        </div>
+      );
+    }
+    return null;
+  };
+
+  const CustomTooltipOne = ({ active, payload, label, string }) => {
+    if (active && payload && payload.length) {
+      return (
+        <div className="custom-tooltip" style={{backgroundColor: 'rgba(255, 255, 255, .9)', padding: 10, borderRadius: 4, border: '1px solid #e5e5e5'}}>
+          <p className="label" style={{color: `${payload[0].color}`}}>{`${string}: ${formatYAxis(payload[0].value)}`}</p>
+          <p className="intro" style={{color: '#000'}}>Tarih: {label}</p>
+        </div>
+      );
+    }
+    return null;
+  };
 
   if (reportDataError) {
     return (
@@ -226,15 +261,22 @@ const DetailPage = (props) => {
                             style={{marginTop: 10}}>{parseFloat(parseFloat(reportData.profile.profile.engagementRate) * 100).toFixed(2)} %</h4>
                           <div style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
                             <p style={{marginBottom: 0, marginRight: 5}}>Etkileşim Oranı</p>
-                            <InfoCircleOutlined data-for="happyFace"/>
-                            <ReactTooltip id="happyFace">
-                              <span>Takipçi sayısının beğeni ve yorum toplamına oranı (followers / likes + comments)</span>
-                            </ReactTooltip>
+                            <InfoCircleOutlined ref={setTriggerRef} />
+                            {visible && (
+                              <div
+                                ref={setTooltipRef}
+                                {...getTooltipProps({ className: 'tooltip-container' })}
+                              >
+                                Takipçi sayısının beğeni ve yorum toplamına oranı (followers / likes + comments)
+                                <div {...getArrowProps({ className: 'tooltip-arrow' })} />
+                              </div>
+                            )}
                           </div>
                         </div>
                       </Col>
                     </Row>
                   </div>
+
                   <div className={"gx-mt-1"}>
                     <Row gutter={[10, 10]}>
                       <Col xs={24} md={12}>
@@ -397,7 +439,7 @@ const DetailPage = (props) => {
                                      height={40} padding={{top: 10}}/>
                               <YAxis tickFormatter={formatYAxis}/>
                               <CartesianGrid strokeDasharray="3 3"/>
-                              <Tooltip />
+                              <Tooltip content={<CustomTooltipOne string={"Takipçi"} />} />
                               <Legend/>
                               <Line type="monotone" dataKey="followers" stroke="#3367d6" strokeWidth={2}
                                     activeDot={{r: 3}}/>
@@ -425,7 +467,7 @@ const DetailPage = (props) => {
                                      height={40} padding={{top: 10}}/>
                               <YAxis/>
                               <CartesianGrid strokeDasharray="3 3"/>
-                              <Tooltip/>
+                              <Tooltip content={<CustomTooltipOne string={"Takip"} />}/>
                               <Legend/>
                               <Line type="monotone" dataKey="following" stroke="#3367d6" strokeWidth={2}
                                     activeDot={{r: 3}}/>
@@ -459,7 +501,7 @@ const DetailPage = (props) => {
                                      angle={0} tickSize={20} height={40} padding={{top: 10}}/>
                               <YAxis tickFormatter={formatYAxis}/>
                               <CartesianGrid strokeDasharray="3 3"/>
-                              <Tooltip/>
+                              <Tooltip content={<CustomTooltip />}/>
                               <Legend/>
                               <Bar dataKey="likes" fill="#3367d6"/>
                               <Bar dataKey="comments" fill="#ffc658"/>
@@ -539,7 +581,7 @@ const DetailPage = (props) => {
                                      height={40} padding={{top: 10}}/>
                               <YAxis tickFormatter={formatYAxis}/>
                               <CartesianGrid strokeDasharray="3 3"/>
-                              <Tooltip/>
+                              <Tooltip content={<CustomTooltipOne string={"Beğeni"} />} />
                               <Legend/>
                               <Line type="monotone" dataKey="avgLikes" stroke="#3367d6" strokeWidth={2}
                                     activeDot={{r: 3}}/>
@@ -558,9 +600,16 @@ const DetailPage = (props) => {
                         }}>
                           <p className={"detail-title-item"} style={{marginBottom: 0, marginRight: 5}}>Popüler #
                             (hastags)</p>
-                          <ReactTooltip title="Influencer 'ın kullandığı populer # (hastags) ve @(metions)">
-                            <InfoCircleOutlined/>
-                          </ReactTooltip>
+                          <InfoCircleOutlined ref={setTriggerRef} />
+                          {visible && (
+                            <div
+                              ref={setTooltipRef}
+                              {...getTooltipProps({ className: 'tooltip-container' })}
+                            >
+                              Influencer 'ın kullandığı populer # (hastags) ve @(metions)
+                              <div {...getArrowProps({ className: 'tooltip-arrow' })} />
+                            </div>
+                          )}
                         </div>
                         <div className={"box-item"} style={{padding: 10}}>
                           <div style={{marginTop: 15}}>
@@ -579,9 +628,16 @@ const DetailPage = (props) => {
                         }}>
                           <p className={"detail-title-item"} style={{marginBottom: 0, marginRight: 5}}>Popüler @
                             (mentions)</p>
-                          <ReactTooltip title="Influencer 'ın kullandığı populer # (hastags) ve @(metions)">
-                            <InfoCircleOutlined/>
-                          </ReactTooltip>
+                          <InfoCircleOutlined ref={setTriggerRef} />
+                          {visible && (
+                            <div
+                              ref={setTooltipRef}
+                              {...getTooltipProps({ className: 'tooltip-container' })}
+                            >
+                              Influencer 'ın kullandığı populer # (hastags) ve @(metions)
+                              <div {...getArrowProps({ className: 'tooltip-arrow' })} />
+                            </div>
+                          )}
                         </div>
                         <div className="box-item" style={{padding: 10}}>
                             <div style={{marginTop: 15}}>
@@ -606,17 +662,31 @@ const DetailPage = (props) => {
                           <h4>{parseFloat((parseFloat(reportData.profile.audience.credibility) * 100).toFixed(2)).toFixed(2)} %</h4>
                           <div style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
                             <p style={{marginBottom: 0, marginRight: 5}}>Takipçi güvenilirliği</p>
-                            <ReactTooltip title="profilin gerçek takipçi sayısı oranı">
-                              <InfoCircleOutlined/>
-                            </ReactTooltip>
+                            <InfoCircleOutlined ref={setTriggerRef} />
+                            {visible && (
+                              <div
+                                ref={setTooltipRef}
+                                {...getTooltipProps({ className: 'tooltip-container' })}
+                              >
+                                profilin gerçek takipçi sayısı oranı
+                                <div {...getArrowProps({ className: 'tooltip-arrow' })} />
+                              </div>
+                            )}
                           </div>
                         </div>
                         <div className={"gx-mt-1 box-item"}>
                           <div style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
                             <p className={"box-item-title"} style={{marginRight: 5}}>Takipçi Cinsiyeti</p>
-                            <ReactTooltip title="Takipçilerin cinsiyetlerine göre ayrımı">
-                              <InfoCircleOutlined/>
-                            </ReactTooltip>
+                            <InfoCircleOutlined ref={setTriggerRef} />
+                            {visible && (
+                              <div
+                                ref={setTooltipRef}
+                                {...getTooltipProps({ className: 'tooltip-container' })}
+                              >
+                                Takipçilerin cinsiyetlerine göre ayrımı
+                                <div {...getArrowProps({ className: 'tooltip-arrow' })} />
+                              </div>
+                            )}
                           </div>
                           <div style={{
                             display: "flex",
@@ -654,9 +724,16 @@ const DetailPage = (props) => {
                           }}>
                             <p className={"box-item-title"} style={{marginBottom: 0, marginRight: 5}}>Takipçi
                               Lokasyonları</p>
-                            <ReactTooltip title="Takipçilerin girdiği popüler lokasyonlar">
-                              <InfoCircleOutlined/>
-                            </ReactTooltip>
+                            <InfoCircleOutlined ref={setTriggerRef} />
+                            {visible && (
+                              <div
+                                ref={setTooltipRef}
+                                {...getTooltipProps({ className: 'tooltip-container' })}
+                              >
+                                Takipçilerin bulunduğu popüler lokasyonlar
+                                <div {...getArrowProps({ className: 'tooltip-arrow' })} />
+                              </div>
+                            )}
                           </div>
                           {reportData.profile.audience.geoCountries && reportData.profile.audience.geoCountries.slice(0, 4).map((item, index) => {
                             return (
@@ -698,9 +775,16 @@ const DetailPage = (props) => {
                           }}>
                             <p className={"box-item-title"} style={{marginBottom: 0, marginRight: 5}}>Yaş ve Cinsiyet
                               İstatistikleri</p>
-                            <ReactTooltip title="Takipçilerin yaş ve cinsiyet grafikleri">
-                              <InfoCircleOutlined/>
-                            </ReactTooltip>
+                            <InfoCircleOutlined ref={setTriggerRef} />
+                            {visible && (
+                              <div
+                                ref={setTooltipRef}
+                                {...getTooltipProps({ className: 'tooltip-container' })}
+                              >
+                                Takipçilerin yaş ve cinsiyet grafikleri
+                                <div {...getArrowProps({ className: 'tooltip-arrow' })} />
+                              </div>
+                            )}
                           </div>
                           <Row>
                             {reportData.profile.audience.gendersPerAge && reportData.profile.audience.gendersPerAge.map((item, index) => {
@@ -745,9 +829,16 @@ const DetailPage = (props) => {
                           }}>
                             <p className={"box-item-title"} style={{marginBottom: 0, marginRight: 5}}>Marka Yakınlığı
                               (Brand Affinity)</p>
-                            <ReactTooltip title="Seçtiğiniz influencer ile yakınlık gösteren markalar">
-                              <InfoCircleOutlined/>
-                            </ReactTooltip>
+                            <InfoCircleOutlined ref={setTriggerRef} />
+                            {visible && (
+                              <div
+                                ref={setTooltipRef}
+                                {...getTooltipProps({ className: 'tooltip-container' })}
+                              >
+                                Seçtiğiniz influencer ile yakınlık gösteren markalar
+                                <div {...getArrowProps({ className: 'tooltip-arrow' })} />
+                              </div>
+                            )}
                           </div>
                           <div style={{
                             display: "flex",
@@ -779,9 +870,16 @@ const DetailPage = (props) => {
                           }}>
                             <p className={"box-item-title"} style={{marginBottom: 0, marginRight: 5}}>İlgi alanları
                               (Interests)</p>
-                            <ReactTooltip title="Takipçileirn ön plana çıkan ilgi alanları">
-                              <InfoCircleOutlined/>
-                            </ReactTooltip>
+                            <InfoCircleOutlined ref={setTriggerRef} />
+                            {visible && (
+                              <div
+                                ref={setTooltipRef}
+                                {...getTooltipProps({ className: 'tooltip-container' })}
+                              >
+                                Takipçileirn ön plana çıkan ilgi alanları
+                                <div {...getArrowProps({ className: 'tooltip-arrow' })} />
+                              </div>
+                            )}
                           </div>
                           <div style={{
                             display: "flex",
@@ -817,10 +915,16 @@ const DetailPage = (props) => {
                               <h4>{parseFloat((parseFloat(reportData.profile.audienceLikers.credibility) * 100).toFixed(2)).toFixed(2)} %</h4>
                               <div style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
                                 <p style={{marginBottom: 0, marginRight: 5}}>Beğenen kullanıcıların güvenilirliği</p>
-                                <Tooltip
-                                  title="Paylaşılan postları beğenen kullanıcıların güvenilirliği (fake olma durumları)">
-                                  <InfoCircleOutlined/>
-                                </Tooltip>
+                                <InfoCircleOutlined ref={setTriggerRef} />
+                                {visible && (
+                                  <div
+                                    ref={setTooltipRef}
+                                    {...getTooltipProps({ className: 'tooltip-container' })}
+                                  >
+                                    Paylaşılan postları beğenen kullanıcıların güvenilirliği (fake olmama durumları)
+                                    <div {...getArrowProps({ className: 'tooltip-arrow' })} />
+                                  </div>
+                                )}
                               </div>
                             </div>
                           </Col>
@@ -830,9 +934,16 @@ const DetailPage = (props) => {
                               <h4>{parseFloat((parseFloat(reportData.profile.audienceLikers.nonFollowerLikes) * 100).toFixed(2)).toFixed(2)} %</h4>
                               <div style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
                                 <p style={{marginBottom: 0, marginRight: 5}}>Takipçi olmayan kitlenin beğeni oranı </p>
-                                <ReactTooltip title="Influencer' ı beğenen kullanıcıların takip etmediği oran">
-                                  <InfoCircleOutlined/>
-                                </ReactTooltip>
+                                <InfoCircleOutlined ref={setTriggerRef} />
+                                {visible && (
+                                  <div
+                                    ref={setTooltipRef}
+                                    {...getTooltipProps({ className: 'tooltip-container' })}
+                                  >
+                                    Influencer' ı beğenen kullanıcıların takip etmediği oran
+                                    <div {...getArrowProps({ className: 'tooltip-arrow' })} />
+                                  </div>
+                                )}
                               </div>
                             </div>
                           </Col>
@@ -840,9 +951,16 @@ const DetailPage = (props) => {
                         <div className={"gx-mt-1 box-item"}>
                           <div style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
                             <p className={"box-item-title"} style={{marginRight: 5}}>Beğeni Cinsiyet Dağılımı</p>
-                            <ReactTooltip title="Influencer' ı beğenen kullanıcıların cinsiyet dağılımı">
-                              <InfoCircleOutlined/>
-                            </ReactTooltip>
+                            <InfoCircleOutlined ref={setTriggerRef} />
+                            {visible && (
+                              <div
+                                ref={setTooltipRef}
+                                {...getTooltipProps({ className: 'tooltip-container' })}
+                              >
+                                Influencer' ı beğenen kullanıcıların cinsiyet dağılımı
+                                <div {...getArrowProps({ className: 'tooltip-arrow' })} />
+                              </div>
+                            )}
                           </div>
                           <div style={{
                             display: "flex",
@@ -880,9 +998,16 @@ const DetailPage = (props) => {
                           }}>
                             <p className={"box-item-title"} style={{marginBottom: 0, marginRight: 5}}>Beğeni
                               Lokasyonları</p>
-                            <ReactTooltip title="Influencer' ı beğenen kullanıcıların popüler lolasyonları">
-                              <InfoCircleOutlined/>
-                            </ReactTooltip>
+                            <InfoCircleOutlined ref={setTriggerRef} />
+                            {visible && (
+                              <div
+                                ref={setTooltipRef}
+                                {...getTooltipProps({ className: 'tooltip-container' })}
+                              >
+                                Influencer' ı beğenen kullanıcıların popüler lolasyonları
+                                <div {...getArrowProps({ className: 'tooltip-arrow' })} />
+                              </div>
+                            )}
                           </div>
                           {reportData.profile.audienceLikers.geoCountries && reportData.profile.audienceLikers.geoCountries.slice(0, 4).map((item, index) => {
                             return (
@@ -925,9 +1050,16 @@ const DetailPage = (props) => {
                             <p className={"box-item-title"} style={{marginBottom: 0, marginRight: 5}}>Beğeni Yaş ve
                               Cinsiyet
                               İstatistikleri</p>
-                            <ReactTooltip title="Beğenen takipçilerin yaş ve cinsiyet grafikleri">
-                              <InfoCircleOutlined/>
-                            </ReactTooltip>
+                            <InfoCircleOutlined ref={setTriggerRef} />
+                            {visible && (
+                              <div
+                                ref={setTooltipRef}
+                                {...getTooltipProps({ className: 'tooltip-container' })}
+                              >
+                                Beğenen takipçilerin yaş ve cinsiyet grafikleri
+                                <div {...getArrowProps({ className: 'tooltip-arrow' })} />
+                              </div>
+                            )}
                           </div>
                           <Row>
                             {reportData.profile.audienceLikers.gendersPerAge && (reportData.profile.audienceLikers.gendersPerAge).map((item, index) => {
@@ -973,9 +1105,16 @@ const DetailPage = (props) => {
                             <p className={"box-item-title"} style={{marginBottom: 0, marginRight: 5}}>Beğenen
                               Kullanıcıların Marka Yakınlığı
                               (Brand Affinity)</p>
-                            <ReactTooltip title="Influencer' ı beğenen kullanıcılara yakınlık gösteren markalar">
-                              <InfoCircleOutlined/>
-                            </ReactTooltip>
+                            <InfoCircleOutlined ref={setTriggerRef} />
+                            {visible && (
+                              <div
+                                ref={setTooltipRef}
+                                {...getTooltipProps({ className: 'tooltip-container' })}
+                              >
+                                Influencer' ı beğenen kullanıcıların yakınlık gösterdiği markalar
+                                <div {...getArrowProps({ className: 'tooltip-arrow' })} />
+                              </div>
+                            )}
                           </div>
                           <div style={{
                             display: "flex",
@@ -1008,9 +1147,16 @@ const DetailPage = (props) => {
                             <p className={"box-item-title"} style={{marginBottom: 0, marginRight: 5}}>Beğenen
                               Kullanıcıların İlgi alanları
                               (Interests)</p>
-                            <ReactTooltip title="Influencer' ı beğenen kullanıcıların ilgi alanları">
-                              <InfoCircleOutlined/>
-                            </ReactTooltip>
+                            <InfoCircleOutlined ref={setTriggerRef} />
+                            {visible && (
+                              <div
+                                ref={setTooltipRef}
+                                {...getTooltipProps({ className: 'tooltip-container' })}
+                              >
+                                Influencer' ı beğenen kullanıcıların ilgi alanları
+                                <div {...getArrowProps({ className: 'tooltip-arrow' })} />
+                              </div>
+                            )}
                           </div>
                           <div style={{
                             display: "flex",
