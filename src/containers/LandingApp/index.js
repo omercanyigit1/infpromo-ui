@@ -54,7 +54,7 @@ class LandingApp extends Component {
 
     return (
       <React.Fragment>
-        <BrowserRouter>
+        <HashRouter>
           <Suspense fallback={this.Loader()}>
             <Switch>
               {routes.map((route, idx) =>
@@ -76,7 +76,7 @@ class LandingApp extends Component {
               )}
             </Switch>
           </Suspense>
-        </BrowserRouter>
+        </HashRouter>
       </React.Fragment>
     );
   }

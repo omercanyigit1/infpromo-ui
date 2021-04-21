@@ -26,6 +26,7 @@ const CreditPage = (props) => {
   const [issuer, setIssuer] = useState('');
   const [ip, setIp] = useState('');
   const [currency, setCurrency] = useState('');
+  const [orderId, setOrderId] = useState(1000);
 
   const  {postPayment, loading, isPayment, isLogged, isLoggedIn, url} = props;
 
@@ -86,6 +87,7 @@ const CreditPage = (props) => {
   }
 
   function handlePayment() {
+    setOrderId(+ 1);
 
     let month = (expiry.length < 2 ? `0${expiry.substring(0, 2)}` : expiry.substring(0, 2));
     let year = expiry.substring(3, 5);
@@ -102,8 +104,6 @@ const CreditPage = (props) => {
       "userIp": ip,
       "userPhone": phoneNumber.substring(1, 11)
     }
-
-    console.log(data);
 
     postPayment(data);
   }

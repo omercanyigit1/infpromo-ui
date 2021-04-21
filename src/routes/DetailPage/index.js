@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {postGeneratePdf, isLoggedIn} from "../../appRedux/actions";
 import {connect} from 'react-redux';
 import {Link, useParams} from 'react-router-dom';
-import {Row, Col, Spin, Result, Card, Avatar, Statistic, Tooltip, Progress, Tag, List} from 'antd';
+import {Row, Col, Spin, Result, Card, Avatar, Statistic, Progress, Tag, List} from 'antd';
 import {
   InstagramOutlined,
   YoutubeOutlined,
@@ -29,8 +29,9 @@ import {
   Legend,
   Bar,
   BarChart,
+  Tooltip
 } from 'recharts';
-import LineChartComponent from "./components/LineChart";
+import ReactTooltip from 'react-tooltip';
 
 function renderSwitch(param) {
   switch (param.length) {
@@ -225,10 +226,10 @@ const DetailPage = (props) => {
                             style={{marginTop: 10}}>{parseFloat(parseFloat(reportData.profile.profile.engagementRate) * 100).toFixed(2)} %</h4>
                           <div style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
                             <p style={{marginBottom: 0, marginRight: 5}}>Etkileşim Oranı</p>
-                            <Tooltip
-                              title="Takipçi sayısının beğeni ve yorum toplamına oranı (followers / likes + comments)">
-                              <InfoCircleOutlined/>
-                            </Tooltip>
+                            <InfoCircleOutlined data-for="happyFace"/>
+                            <ReactTooltip id="happyFace">
+                              <span>Takipçi sayısının beğeni ve yorum toplamına oranı (followers / likes + comments)</span>
+                            </ReactTooltip>
                           </div>
                         </div>
                       </Col>
@@ -389,10 +390,19 @@ const DetailPage = (props) => {
                         </div>
                         <div className="box-item">
                           {reportData.profile.statHistory &&
-                          <LineChartComponent data={reportData.profile.statHistory}
-                                              tickFormatX={formatXAxis}
-                                              dataKeyLine={"followers"}
-                          />
+                          <ResponsiveContainer width="100%" height={300}>
+                            <LineChart data={reportData.profile.statHistory}
+                                       margin={{top: 10, right: 10, left: -10, bottom: 0}}>
+                              <XAxis dataKey="month" tickCount={20} minTickGap={-20} angle={-30} tickSize={15}
+                                     height={40} padding={{top: 10}}/>
+                              <YAxis tickFormatter={formatYAxis}/>
+                              <CartesianGrid strokeDasharray="3 3"/>
+                              <Tooltip />
+                              <Legend/>
+                              <Line type="monotone" dataKey="followers" stroke="#3367d6" strokeWidth={2}
+                                    activeDot={{r: 3}}/>
+                            </LineChart>
+                          </ResponsiveContainer>
                           }
                         </div>
                       </Col>
@@ -547,23 +557,37 @@ const DetailPage = (props) => {
                           marginBottom: 25
                         }}>
                           <p className={"detail-title-item"} style={{marginBottom: 0, marginRight: 5}}>Popüler #
-                            (hastags) ve @(metions)</p>
-                          <Tooltip title="Influencer 'ın kullandığı populer # (hastags) ve @(metions)">
+                            (hastags)</p>
+                          <ReactTooltip title="Influencer 'ın kullandığı populer # (hastags) ve @(metions)">
                             <InfoCircleOutlined/>
-                          </Tooltip>
+                          </ReactTooltip>
                         </div>
                         <div className={"box-item"} style={{padding: 10}}>
-                          <div style={{marginTop: 15}}>
-                            {reportData.profile.mentions && reportData.profile.mentions.slice(0, 8).map((item, index) => {
-                              return (
-                                <Tag color={"#108ee9"}>@{item.tag}</Tag>
-                              )
-                            })}
-                          </div>
                           <div style={{marginTop: 15}}>
                             {reportData.profile.hashtags && reportData.profile.hashtags.slice(0, 8).map((item, index) => {
                               return (
                                 <Tag color={"#108ee9"}>#{item.tag}</Tag>
+                              )
+                            })}
+                          </div>
+                        </div>
+                        <div style={{
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "flex-start",
+                          marginBottom: 25
+                        }}>
+                          <p className={"detail-title-item"} style={{marginBottom: 0, marginRight: 5}}>Popüler @
+                            (mentions)</p>
+                          <ReactTooltip title="Influencer 'ın kullandığı populer # (hastags) ve @(metions)">
+                            <InfoCircleOutlined/>
+                          </ReactTooltip>
+                        </div>
+                        <div className="box-item" style={{padding: 10}}>
+                            <div style={{marginTop: 15}}>
+                            {reportData.profile.mentions && reportData.profile.mentions.slice(0, 8).map((item, index) => {
+                              return (
+                                <Tag color={"#108ee9"}>@{item.tag}</Tag>
                               )
                             })}
                           </div>
@@ -582,17 +606,17 @@ const DetailPage = (props) => {
                           <h4>{parseFloat((parseFloat(reportData.profile.audience.credibility) * 100).toFixed(2)).toFixed(2)} %</h4>
                           <div style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
                             <p style={{marginBottom: 0, marginRight: 5}}>Takipçi güvenilirliği</p>
-                            <Tooltip title="profilin gerçek takipçi sayısı oranı">
+                            <ReactTooltip title="profilin gerçek takipçi sayısı oranı">
                               <InfoCircleOutlined/>
-                            </Tooltip>
+                            </ReactTooltip>
                           </div>
                         </div>
                         <div className={"gx-mt-1 box-item"}>
                           <div style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
                             <p className={"box-item-title"} style={{marginRight: 5}}>Takipçi Cinsiyeti</p>
-                            <Tooltip title="Takipçilerin cinsiyetlerine göre ayrımı">
+                            <ReactTooltip title="Takipçilerin cinsiyetlerine göre ayrımı">
                               <InfoCircleOutlined/>
-                            </Tooltip>
+                            </ReactTooltip>
                           </div>
                           <div style={{
                             display: "flex",
@@ -630,9 +654,9 @@ const DetailPage = (props) => {
                           }}>
                             <p className={"box-item-title"} style={{marginBottom: 0, marginRight: 5}}>Takipçi
                               Lokasyonları</p>
-                            <Tooltip title="Takipçilerin girdiği popüler lokasyonlar">
+                            <ReactTooltip title="Takipçilerin girdiği popüler lokasyonlar">
                               <InfoCircleOutlined/>
-                            </Tooltip>
+                            </ReactTooltip>
                           </div>
                           {reportData.profile.audience.geoCountries && reportData.profile.audience.geoCountries.slice(0, 4).map((item, index) => {
                             return (
@@ -674,9 +698,9 @@ const DetailPage = (props) => {
                           }}>
                             <p className={"box-item-title"} style={{marginBottom: 0, marginRight: 5}}>Yaş ve Cinsiyet
                               İstatistikleri</p>
-                            <Tooltip title="Takipçilerin yaş ve cinsiyet grafikleri">
+                            <ReactTooltip title="Takipçilerin yaş ve cinsiyet grafikleri">
                               <InfoCircleOutlined/>
-                            </Tooltip>
+                            </ReactTooltip>
                           </div>
                           <Row>
                             {reportData.profile.audience.gendersPerAge && reportData.profile.audience.gendersPerAge.map((item, index) => {
@@ -721,9 +745,9 @@ const DetailPage = (props) => {
                           }}>
                             <p className={"box-item-title"} style={{marginBottom: 0, marginRight: 5}}>Marka Yakınlığı
                               (Brand Affinity)</p>
-                            <Tooltip title="Seçtiğiniz influencer ile yakınlık gösteren markalar">
+                            <ReactTooltip title="Seçtiğiniz influencer ile yakınlık gösteren markalar">
                               <InfoCircleOutlined/>
-                            </Tooltip>
+                            </ReactTooltip>
                           </div>
                           <div style={{
                             display: "flex",
@@ -755,9 +779,9 @@ const DetailPage = (props) => {
                           }}>
                             <p className={"box-item-title"} style={{marginBottom: 0, marginRight: 5}}>İlgi alanları
                               (Interests)</p>
-                            <Tooltip title="Takipçileirn ön plana çıkan ilgi alanları">
+                            <ReactTooltip title="Takipçileirn ön plana çıkan ilgi alanları">
                               <InfoCircleOutlined/>
-                            </Tooltip>
+                            </ReactTooltip>
                           </div>
                           <div style={{
                             display: "flex",
@@ -806,9 +830,9 @@ const DetailPage = (props) => {
                               <h4>{parseFloat((parseFloat(reportData.profile.audienceLikers.nonFollowerLikes) * 100).toFixed(2)).toFixed(2)} %</h4>
                               <div style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
                                 <p style={{marginBottom: 0, marginRight: 5}}>Takipçi olmayan kitlenin beğeni oranı </p>
-                                <Tooltip title="Influencer' ı beğenen kullanıcıların takip etmediği oran">
+                                <ReactTooltip title="Influencer' ı beğenen kullanıcıların takip etmediği oran">
                                   <InfoCircleOutlined/>
-                                </Tooltip>
+                                </ReactTooltip>
                               </div>
                             </div>
                           </Col>
@@ -816,9 +840,9 @@ const DetailPage = (props) => {
                         <div className={"gx-mt-1 box-item"}>
                           <div style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
                             <p className={"box-item-title"} style={{marginRight: 5}}>Beğeni Cinsiyet Dağılımı</p>
-                            <Tooltip title="Influencer' ı beğenen kullanıcıların cinsiyet dağılımı">
+                            <ReactTooltip title="Influencer' ı beğenen kullanıcıların cinsiyet dağılımı">
                               <InfoCircleOutlined/>
-                            </Tooltip>
+                            </ReactTooltip>
                           </div>
                           <div style={{
                             display: "flex",
@@ -856,9 +880,9 @@ const DetailPage = (props) => {
                           }}>
                             <p className={"box-item-title"} style={{marginBottom: 0, marginRight: 5}}>Beğeni
                               Lokasyonları</p>
-                            <Tooltip title="Influencer' ı beğenen kullanıcıların popüler lolasyonları">
+                            <ReactTooltip title="Influencer' ı beğenen kullanıcıların popüler lolasyonları">
                               <InfoCircleOutlined/>
-                            </Tooltip>
+                            </ReactTooltip>
                           </div>
                           {reportData.profile.audienceLikers.geoCountries && reportData.profile.audienceLikers.geoCountries.slice(0, 4).map((item, index) => {
                             return (
@@ -901,9 +925,9 @@ const DetailPage = (props) => {
                             <p className={"box-item-title"} style={{marginBottom: 0, marginRight: 5}}>Beğeni Yaş ve
                               Cinsiyet
                               İstatistikleri</p>
-                            <Tooltip title="Beğenen takipçilerin yaş ve cinsiyet grafikleri">
+                            <ReactTooltip title="Beğenen takipçilerin yaş ve cinsiyet grafikleri">
                               <InfoCircleOutlined/>
-                            </Tooltip>
+                            </ReactTooltip>
                           </div>
                           <Row>
                             {reportData.profile.audienceLikers.gendersPerAge && (reportData.profile.audienceLikers.gendersPerAge).map((item, index) => {
@@ -949,9 +973,9 @@ const DetailPage = (props) => {
                             <p className={"box-item-title"} style={{marginBottom: 0, marginRight: 5}}>Beğenen
                               Kullanıcıların Marka Yakınlığı
                               (Brand Affinity)</p>
-                            <Tooltip title="Influencer' ı beğenen kullanıcılara yakınlık gösteren markalar">
+                            <ReactTooltip title="Influencer' ı beğenen kullanıcılara yakınlık gösteren markalar">
                               <InfoCircleOutlined/>
-                            </Tooltip>
+                            </ReactTooltip>
                           </div>
                           <div style={{
                             display: "flex",
@@ -984,9 +1008,9 @@ const DetailPage = (props) => {
                             <p className={"box-item-title"} style={{marginBottom: 0, marginRight: 5}}>Beğenen
                               Kullanıcıların İlgi alanları
                               (Interests)</p>
-                            <Tooltip title="Influencer' ı beğenen kullanıcıların ilgi alanları">
+                            <ReactTooltip title="Influencer' ı beğenen kullanıcıların ilgi alanları">
                               <InfoCircleOutlined/>
-                            </Tooltip>
+                            </ReactTooltip>
                           </div>
                           <div style={{
                             display: "flex",
@@ -1170,9 +1194,9 @@ const DetailPage = (props) => {
                             style={{marginTop: 10}}>{renderSwitch(reportData.profile.profile.followers.toString())}</h4>
                           <div style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
                             <p style={{marginBottom: 0, marginRight: 5}}>Toplam Takipçi</p>
-                            <Tooltip title="Youtube üzerinde olan toplam takipçi sayısı">
+                            <ReactTooltip title="Youtube üzerinde olan toplam takipçi sayısı">
                               <InfoCircleOutlined/>
-                            </Tooltip>
+                            </ReactTooltip>
                           </div>
                         </div>
                       </Col>
@@ -1183,9 +1207,9 @@ const DetailPage = (props) => {
                             style={{marginTop: 10}}>{parseFloat(parseFloat(reportData.profile.profile.engagementRate) * 100).toFixed(2)} %</h4>
                           <div style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
                             <p style={{marginBottom: 0, marginRight: 5}}>Toplam Etkileşim</p>
-                            <Tooltip title="Ortalama beğenilerin abone sayısına oranı">
+                            <ReactTooltip title="Ortalama beğenilerin abone sayısına oranı">
                               <InfoCircleOutlined/>
-                            </Tooltip>
+                            </ReactTooltip>
                           </div>
                         </div>
                       </Col>
@@ -1197,9 +1221,9 @@ const DetailPage = (props) => {
                           <h4 style={{marginTop: 10}}>{renderSwitch(avgViews.toString())}</h4>
                           <div style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
                             <p style={{marginBottom: 0, marginRight: 5}}>Ortalama İzlenme Sayısı</p>
-                            <Tooltip title="Son 10 video nun ortalama izlenme sayısı">
+                            <ReactTooltip title="Son 10 video nun ortalama izlenme sayısı">
                               <InfoCircleOutlined/>
-                            </Tooltip>
+                            </ReactTooltip>
                           </div>
                         </div>
                       </Col>
@@ -1209,9 +1233,9 @@ const DetailPage = (props) => {
                           <h4 style={{marginTop: 10}}>{renderSwitch(avgComments.toString())}</h4>
                           <div style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
                             <p style={{marginBottom: 0, marginRight: 5}}>Ortalama Yorum Sayısı</p>
-                            <Tooltip title="Son 10 video nun ortalama yorum sayısı">
+                            <ReactTooltip title="Son 10 video nun ortalama yorum sayısı">
                               <InfoCircleOutlined/>
-                            </Tooltip>
+                            </ReactTooltip>
                           </div>
                         </div>
                       </Col>
@@ -1221,9 +1245,9 @@ const DetailPage = (props) => {
                           <h4 style={{marginTop: 10}}>{renderSwitch(avgLikes.toString())}</h4>
                           <div style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
                             <p style={{marginBottom: 0, marginRight: 5}}>Ortalama Beğeni Sayısı</p>
-                            <Tooltip title="Son 10 video nun ortalama beğeni sayısı">
+                            <ReactTooltip title="Son 10 video nun ortalama beğeni sayısı">
                               <InfoCircleOutlined/>
-                            </Tooltip>
+                            </ReactTooltip>
                           </div>
                         </div>
                       </Col>
@@ -1240,17 +1264,17 @@ const DetailPage = (props) => {
                           <h4>{(parseFloat(reportData.profile.audience.notable) * 100).toFixed(2)} %</h4>
                           <div style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
                             <p style={{marginBottom: 0, marginRight: 5}}>Önemli Abone Oranı</p>
-                            <Tooltip title="prompt text">
+                            <ReactTooltip title="prompt text">
                               <InfoCircleOutlined/>
-                            </Tooltip>
+                            </ReactTooltip>
                           </div>
                         </div>
                         <div className={"gx-mt-1 box-item"}>
                           <div style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
                             <p className={"box-item-title"} style={{marginRight: 5}}>Takipçi Cinsiyeti</p>
-                            <Tooltip title="prompt text">
+                            <ReactTooltip title="prompt text">
                               <InfoCircleOutlined/>
-                            </Tooltip>
+                            </ReactTooltip>
                           </div>
                           <div style={{
                             display: "flex",
@@ -1279,9 +1303,9 @@ const DetailPage = (props) => {
                           }}>
                             <p className={"box-item-title"} style={{marginBottom: 0, marginRight: 5}}>Takipçi
                               Lokasyonları</p>
-                            <Tooltip title="prompt text">
+                            <ReactTooltip title="prompt text">
                               <InfoCircleOutlined/>
-                            </Tooltip>
+                            </ReactTooltip>
                           </div>
                           {reportData.profile.audience.geoCountries && reportData.profile.audience.geoCountries.slice(0, 4).map((item, index) => {
                             return (
@@ -1308,9 +1332,9 @@ const DetailPage = (props) => {
                           }}>
                             <p className={"detail-title-item"} style={{marginBottom: 0, marginRight: 5}}>Age and Gender
                               Split</p>
-                            <Tooltip title="prompt text">
+                            <ReactTooltip title="prompt text">
                               <InfoCircleOutlined/>
-                            </Tooltip>
+                            </ReactTooltip>
                           </div>
                           <Row>
                             {(reportData.profile.audience.gendersPerAge).map((item, index) => {
@@ -1353,9 +1377,9 @@ const DetailPage = (props) => {
                         }}>
                           <p className={"detail-title-item"} style={{marginBottom: 0, marginRight: 5}}>Benzer
                             Kullanıcılar</p>
-                          <Tooltip title="prompt text">
+                          <ReactTooltip title="prompt text">
                             <InfoCircleOutlined/>
-                          </Tooltip>
+                          </ReactTooltip>
                         </div>
                         <div className={"box-item"} style={{padding: 20}}>
                           <Row>
@@ -1398,9 +1422,9 @@ const DetailPage = (props) => {
                         }}>
                           <p className={"detail-title-item"} style={{marginBottom: 0, marginRight: 5}}>Dikkat Edilebilir
                             Fenomenler</p>
-                          <Tooltip title="prompt text">
+                          <ReactTooltip title="prompt text">
                             <InfoCircleOutlined/>
-                          </Tooltip>
+                          </ReactTooltip>
                         </div>
                         <div className={"box-item"} style={{padding: 20}}>
                           <Row>
@@ -1443,9 +1467,9 @@ const DetailPage = (props) => {
                         }}>
                           <p className={"detail-title-item"} style={{marginBottom: 0, marginRight: 5}}>Takipçi
                             Dilleri</p>
-                          <Tooltip title="prompt text">
+                          <ReactTooltip title="prompt text">
                             <InfoCircleOutlined/>
-                          </Tooltip>
+                          </ReactTooltip>
                         </div>
                         <div className={"box-item"} style={{padding: 10}}>
                           <Row style={{width: 'calc(100% - 32px)'}}>
@@ -1548,9 +1572,9 @@ const DetailPage = (props) => {
                           marginBottom: 25
                         }}>
                           <p className={"detail-title-item"} style={{marginBottom: 0, marginRight: 5}}>Son videolar </p>
-                          <Tooltip title="prompt text">
+                          <ReactTooltip title="prompt text">
                             <InfoCircleOutlined/>
-                          </Tooltip>
+                          </ReactTooltip>
                         </div>
                         <div>
                           <Row gutter={[10, 10]}>
@@ -1635,9 +1659,9 @@ const DetailPage = (props) => {
                             style={{marginTop: 10}}>{renderSwitch(reportData.profile.profile.followers.toString())}</h4>
                           <div style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
                             <p style={{marginBottom: 0, marginRight: 5}}>Toplam Takipçi</p>
-                            <Tooltip title="Youtube üzerinde olan toplam takipçi sayısı">
+                            <ReactTooltip title="Youtube üzerinde olan toplam takipçi sayısı">
                               <InfoCircleOutlined/>
-                            </Tooltip>
+                            </ReactTooltip>
                           </div>
                         </div>
                       </Col>
@@ -1648,9 +1672,9 @@ const DetailPage = (props) => {
                             style={{marginTop: 10}}>{parseFloat(parseFloat(reportData.profile.profile.engagementRate) * 100).toFixed(2)} %</h4>
                           <div style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
                             <p style={{marginBottom: 0, marginRight: 5}}>Toplam Etkileşim</p>
-                            <Tooltip title="Ortalama beğenilerin abone sayısına oranı">
+                            <ReactTooltip title="Ortalama beğenilerin abone sayısına oranı">
                               <InfoCircleOutlined/>
-                            </Tooltip>
+                            </ReactTooltip>
                           </div>
                         </div>
                       </Col>
@@ -1662,9 +1686,9 @@ const DetailPage = (props) => {
                           <h4 style={{marginTop: 10}}>{renderSwitch(avgViews.toString())}</h4>
                           <div style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
                             <p style={{marginBottom: 0, marginRight: 5}}>Ortalama İzlenme Sayısı</p>
-                            <Tooltip title="Son 10 video nun ortalama izlenme sayısı">
+                            <ReactTooltip title="Son 10 video nun ortalama izlenme sayısı">
                               <InfoCircleOutlined/>
-                            </Tooltip>
+                            </ReactTooltip>
                           </div>
                         </div>
                       </Col>
@@ -1674,9 +1698,9 @@ const DetailPage = (props) => {
                           <h4 style={{marginTop: 10}}>{renderSwitch(avgComments.toString())}</h4>
                           <div style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
                             <p style={{marginBottom: 0, marginRight: 5}}>Ortalama Yorum Sayısı</p>
-                            <Tooltip title="Son 10 video nun ortalama yorum sayısı">
+                            <ReactTooltip title="Son 10 video nun ortalama yorum sayısı">
                               <InfoCircleOutlined/>
-                            </Tooltip>
+                            </ReactTooltip>
                           </div>
                         </div>
                       </Col>
@@ -1686,9 +1710,9 @@ const DetailPage = (props) => {
                           <h4 style={{marginTop: 10}}>{renderSwitch(avgLikes.toString())}</h4>
                           <div style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
                             <p style={{marginBottom: 0, marginRight: 5}}>Ortalama Beğeni Sayısı</p>
-                            <Tooltip title="Son 10 video nun ortalama beğeni sayısı">
+                            <ReactTooltip title="Son 10 video nun ortalama beğeni sayısı">
                               <InfoCircleOutlined/>
-                            </Tooltip>
+                            </ReactTooltip>
                           </div>
                         </div>
                       </Col>
@@ -1705,17 +1729,17 @@ const DetailPage = (props) => {
                           <h4>{(parseFloat(reportData.profile.audience.notable) * 100).toFixed(2)} %</h4>
                           <div style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
                             <p style={{marginBottom: 0, marginRight: 5}}>Önemli Abone Oranı</p>
-                            <Tooltip title="prompt text">
+                            <ReactTooltip title="prompt text">
                               <InfoCircleOutlined/>
-                            </Tooltip>
+                            </ReactTooltip>
                           </div>
                         </div>
                         <div className={"gx-mt-1 box-item"}>
                           <div style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
                             <p className={"box-item-title"} style={{marginRight: 5}}>Takipçi Cinsiyeti</p>
-                            <Tooltip title="prompt text">
+                            <ReactTooltip title="prompt text">
                               <InfoCircleOutlined/>
-                            </Tooltip>
+                            </ReactTooltip>
                           </div>
                           <div style={{
                             display: "flex",
@@ -1744,9 +1768,9 @@ const DetailPage = (props) => {
                           }}>
                             <p className={"box-item-title"} style={{marginBottom: 0, marginRight: 5}}>Takipçi
                               Lokasyonları</p>
-                            <Tooltip title="prompt text">
+                            <ReactTooltip title="prompt text">
                               <InfoCircleOutlined/>
-                            </Tooltip>
+                            </ReactTooltip>
                           </div>
                           {reportData.profile.audience.geoCountries && reportData.profile.audience.geoCountries.slice(0, 4).map((item, index) => {
                             return (
@@ -1773,9 +1797,9 @@ const DetailPage = (props) => {
                           }}>
                             <p className={"detail-title-item"} style={{marginBottom: 0, marginRight: 5}}>Yaş ve Cinsiyet
                               İstatistikleri</p>
-                            <Tooltip title="Takipçilerin yaş ve cinsiyet grafikleri">
+                            <ReactTooltip title="Takipçilerin yaş ve cinsiyet grafikleri">
                               <InfoCircleOutlined/>
-                            </Tooltip>
+                            </ReactTooltip>
                           </div>
                           <Row>
                             {(reportData.profile.audience.gendersPerAge).map((item, index) => {
@@ -1818,9 +1842,9 @@ const DetailPage = (props) => {
                         }}>
                           <p className={"detail-title-item"} style={{marginBottom: 0, marginRight: 5}}>Benzer
                             Kullanıcılar</p>
-                          <Tooltip title="prompt text">
+                          <ReactTooltip title="prompt text">
                             <InfoCircleOutlined/>
-                          </Tooltip>
+                          </ReactTooltip>
                         </div>
                         <div className={"box-item"} style={{padding: 20}}>
                           <Row>
@@ -1863,9 +1887,9 @@ const DetailPage = (props) => {
                         }}>
                           <p className={"detail-title-item"} style={{marginBottom: 0, marginRight: 5}}>Dikkat Edilebilir
                             Fenomenler</p>
-                          <Tooltip title="prompt text">
+                          <ReactTooltip title="prompt text">
                             <InfoCircleOutlined/>
-                          </Tooltip>
+                          </ReactTooltip>
                         </div>
                         <div className={"box-item"} style={{padding: 20}}>
                           <Row>
@@ -1908,9 +1932,9 @@ const DetailPage = (props) => {
                         }}>
                           <p className={"detail-title-item"} style={{marginBottom: 0, marginRight: 5}}>Takipçi
                             Dilleri</p>
-                          <Tooltip title="prompt text">
+                          <ReactTooltip title="prompt text">
                             <InfoCircleOutlined/>
-                          </Tooltip>
+                          </ReactTooltip>
                         </div>
                         <div className={"box-item"} style={{padding: 10}}>
                           <Row style={{width: 'calc(100% - 32px)'}}>
@@ -2013,9 +2037,9 @@ const DetailPage = (props) => {
                           marginBottom: 25
                         }}>
                           <p className={"detail-title-item"} style={{marginBottom: 0, marginRight: 5}}>Son videolar </p>
-                          <Tooltip title="prompt text">
+                          <ReactTooltip title="prompt text">
                             <InfoCircleOutlined/>
-                          </Tooltip>
+                          </ReactTooltip>
                         </div>
                         <div>
                           <Row gutter={[10, 10]}>
@@ -2092,6 +2116,7 @@ const mapStateToProps = (state) =>
     reportDataError: state.list.reportDataError
   }
 }
+
 
 export default connect(mapStateToProps,
 {

@@ -37,19 +37,21 @@ const WrapperApp = (props) => {
 
   if(isLogged) {
     return (
-      <Switch>
-        <Route path="/" component={App} />
-      </Switch>
+      <HashRouter>
+        <Switch>
+          <Route path="/" component={App} />
+        </Switch>
+      </HashRouter>
     )
   }
 
   if(!isLogged) {
     return (
-      <BrowserRouter>
+      <HashRouter>
         <Switch>
           <Route path={`/`} component={LandingApp} />
         </Switch>
-      </BrowserRouter>
+      </HashRouter>
     )
   }
 }
