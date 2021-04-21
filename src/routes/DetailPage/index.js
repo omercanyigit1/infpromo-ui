@@ -167,7 +167,7 @@ const DetailPage = (props) => {
             <Row align={"middle"} justify={"center"}>
               <Col xs={24} md={24}>
                 <div className={"gx-text-center"}>
-                  <Avatar size={100} src={`${reportData.profile.profile.picture}`}/>
+                  <Avatar size={100} src={`${reportData.profile.profile.picture}`} style={{border: '1px solid #e5e5e5'}}/>
                   <h4>{reportData.profile.profile.fullname}</h4>
                   <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
                     <InstagramOutlined size={40}/>
@@ -261,17 +261,8 @@ const DetailPage = (props) => {
                             style={{marginTop: 10}}>{parseFloat(parseFloat(reportData.profile.profile.engagementRate) * 100).toFixed(2)} %</h4>
                           <div style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
                             <p style={{marginBottom: 0, marginRight: 5}}>Etkileşim Oranı</p>
-                            <InfoCircleOutlined ref={setTriggerRef} />
-                            {visible && (
-                              <div
-                                ref={setTooltipRef}
-                                {...getTooltipProps({ className: 'tooltip-container' })}
-                              >
-                                Takipçi sayısının beğeni ve yorum toplamına oranı (followers / likes + comments)
-                                <div {...getArrowProps({ className: 'tooltip-arrow' })} />
-                              </div>
-                            )}
                           </div>
+                          <small className={"text-muted"} style={{marginTop: 5}}>( takipçi sayısı / <br/> ( beğeni sayısı + yorum sayısı + vs. ) )</small>
                         </div>
                       </Col>
                     </Row>
@@ -285,6 +276,7 @@ const DetailPage = (props) => {
                           <h4
                             style={{marginTop: 10}}>{renderSwitch(reportData.profile.avgLikes.toString())}</h4>
                           <p style={{marginBottom: 0}}>Ortalama Beğeni Sayısı</p>
+                          <small className={"text-muted"} style={{marginTop: 5}}>(***Son 10 post baz alınarak hesaplanmıştır.)</small>
                         </div>
                       </Col>
                       <Col xs={24} md={12}>
@@ -292,6 +284,7 @@ const DetailPage = (props) => {
                           <CommentOutlined style={{fontSize: 25, color: '#003366'}}/>
                           <h4 style={{marginTop: 10}}>{reportData.profile.avgComments}</h4>
                           <p style={{marginBottom: 0}}>Ortalama Yorum Sayısı</p>
+                          <small className={"text-muted"} style={{marginTop: 5}}>(***Son 10 post baz alınarak hesaplanmıştır.)</small>
                         </div>
                       </Col>
                       {/**<Col xs={24} md={8}>
@@ -600,16 +593,6 @@ const DetailPage = (props) => {
                         }}>
                           <p className={"detail-title-item"} style={{marginBottom: 0, marginRight: 5}}>Popüler #
                             (hastags)</p>
-                          <InfoCircleOutlined ref={setTriggerRef} />
-                          {visible && (
-                            <div
-                              ref={setTooltipRef}
-                              {...getTooltipProps({ className: 'tooltip-container' })}
-                            >
-                              Influencer 'ın kullandığı populer # (hastags) ve @(metions)
-                              <div {...getArrowProps({ className: 'tooltip-arrow' })} />
-                            </div>
-                          )}
                         </div>
                         <div className={"box-item"} style={{padding: 10}}>
                           <div style={{marginTop: 15}}>
@@ -628,16 +611,6 @@ const DetailPage = (props) => {
                         }}>
                           <p className={"detail-title-item"} style={{marginBottom: 0, marginRight: 5}}>Popüler @
                             (mentions)</p>
-                          <InfoCircleOutlined ref={setTriggerRef} />
-                          {visible && (
-                            <div
-                              ref={setTooltipRef}
-                              {...getTooltipProps({ className: 'tooltip-container' })}
-                            >
-                              Influencer 'ın kullandığı populer # (hastags) ve @(metions)
-                              <div {...getArrowProps({ className: 'tooltip-arrow' })} />
-                            </div>
-                          )}
                         </div>
                         <div className="box-item" style={{padding: 10}}>
                             <div style={{marginTop: 15}}>
@@ -661,32 +634,13 @@ const DetailPage = (props) => {
                           <UsergroupDeleteOutlined style={{fontSize: 25, color: 'rgb(250, 143, 56)'}}/>
                           <h4>{parseFloat((parseFloat(reportData.profile.audience.credibility) * 100).toFixed(2)).toFixed(2)} %</h4>
                           <div style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
-                            <p style={{marginBottom: 0, marginRight: 5}}>Takipçi güvenilirliği</p>
-                            <InfoCircleOutlined ref={setTriggerRef} />
-                            {visible && (
-                              <div
-                                ref={setTooltipRef}
-                                {...getTooltipProps({ className: 'tooltip-container' })}
-                              >
-                                profilin gerçek takipçi sayısı oranı
-                                <div {...getArrowProps({ className: 'tooltip-arrow' })} />
-                              </div>
-                            )}
+                            <p style={{marginBottom: 0, marginRight: 5}}>Reel Takipçi Oranı</p>
                           </div>
+                          <small className={"text-muted"} style={{marginTop: 5}}>(Influencer 'ı takip edip, aktif olmayan kullanıcılar baz alınarak hesaplanmıştır. )</small>
                         </div>
                         <div className={"gx-mt-1 box-item"}>
                           <div style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
                             <p className={"box-item-title"} style={{marginRight: 5}}>Takipçi Cinsiyeti</p>
-                            <InfoCircleOutlined ref={setTriggerRef} />
-                            {visible && (
-                              <div
-                                ref={setTooltipRef}
-                                {...getTooltipProps({ className: 'tooltip-container' })}
-                              >
-                                Takipçilerin cinsiyetlerine göre ayrımı
-                                <div {...getArrowProps({ className: 'tooltip-arrow' })} />
-                              </div>
-                            )}
                           </div>
                           <div style={{
                             display: "flex",
@@ -722,18 +676,7 @@ const DetailPage = (props) => {
                             marginBottom: 15,
                             marginTop: 10
                           }}>
-                            <p className={"box-item-title"} style={{marginBottom: 0, marginRight: 5}}>Takipçi
-                              Lokasyonları</p>
-                            <InfoCircleOutlined ref={setTriggerRef} />
-                            {visible && (
-                              <div
-                                ref={setTooltipRef}
-                                {...getTooltipProps({ className: 'tooltip-container' })}
-                              >
-                                Takipçilerin bulunduğu popüler lokasyonlar
-                                <div {...getArrowProps({ className: 'tooltip-arrow' })} />
-                              </div>
-                            )}
+                            <p className={"box-item-title"} style={{marginBottom: 0, marginRight: 5}}>Takipçi Lokasyonları</p>
                           </div>
                           {reportData.profile.audience.geoCountries && reportData.profile.audience.geoCountries.slice(0, 4).map((item, index) => {
                             return (
@@ -775,16 +718,6 @@ const DetailPage = (props) => {
                           }}>
                             <p className={"box-item-title"} style={{marginBottom: 0, marginRight: 5}}>Yaş ve Cinsiyet
                               İstatistikleri</p>
-                            <InfoCircleOutlined ref={setTriggerRef} />
-                            {visible && (
-                              <div
-                                ref={setTooltipRef}
-                                {...getTooltipProps({ className: 'tooltip-container' })}
-                              >
-                                Takipçilerin yaş ve cinsiyet grafikleri
-                                <div {...getArrowProps({ className: 'tooltip-arrow' })} />
-                              </div>
-                            )}
                           </div>
                           <Row>
                             {reportData.profile.audience.gendersPerAge && reportData.profile.audience.gendersPerAge.map((item, index) => {
@@ -827,18 +760,7 @@ const DetailPage = (props) => {
                             marginBottom: 15,
                             marginTop: 10
                           }}>
-                            <p className={"box-item-title"} style={{marginBottom: 0, marginRight: 5}}>Marka Yakınlığı
-                              (Brand Affinity)</p>
-                            <InfoCircleOutlined ref={setTriggerRef} />
-                            {visible && (
-                              <div
-                                ref={setTooltipRef}
-                                {...getTooltipProps({ className: 'tooltip-container' })}
-                              >
-                                Seçtiğiniz influencer ile yakınlık gösteren markalar
-                                <div {...getArrowProps({ className: 'tooltip-arrow' })} />
-                              </div>
-                            )}
+                            <p className={"box-item-title"} style={{marginBottom: 0, marginRight: 5}}>Marka Yakınlığı (Brand Affinity)</p>
                           </div>
                           <div style={{
                             display: "flex",
@@ -868,18 +790,7 @@ const DetailPage = (props) => {
                             marginBottom: 15,
                             marginTop: 10
                           }}>
-                            <p className={"box-item-title"} style={{marginBottom: 0, marginRight: 5}}>İlgi alanları
-                              (Interests)</p>
-                            <InfoCircleOutlined ref={setTriggerRef} />
-                            {visible && (
-                              <div
-                                ref={setTooltipRef}
-                                {...getTooltipProps({ className: 'tooltip-container' })}
-                              >
-                                Takipçileirn ön plana çıkan ilgi alanları
-                                <div {...getArrowProps({ className: 'tooltip-arrow' })} />
-                              </div>
-                            )}
+                            <p className={"box-item-title"} style={{marginBottom: 0, marginRight: 5}}>İlgi alanları (Interests)</p>
                           </div>
                           <div style={{
                             display: "flex",
@@ -905,7 +816,7 @@ const DetailPage = (props) => {
                   <div className="gx-mt-5">
                     <Row gutter={[10, 10]}>
                       <Col xs={24} md={24}>
-                        <p className={"detail-title-item"}>Beğenilere göre kitle verileri</p>
+                        <p className={"detail-title-item"}>Beğenilere göre kitle verileri (Beğenen kullanıcıların verileri)</p>
                       </Col>
                       <Col xs={24} md={12}>
                         <Row gutter={[5, 5]}>
@@ -914,17 +825,7 @@ const DetailPage = (props) => {
                               <UsergroupDeleteOutlined style={{fontSize: 25, color: 'rgb(250, 143, 56)'}}/>
                               <h4>{parseFloat((parseFloat(reportData.profile.audienceLikers.credibility) * 100).toFixed(2)).toFixed(2)} %</h4>
                               <div style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
-                                <p style={{marginBottom: 0, marginRight: 5}}>Beğenen kullanıcıların güvenilirliği</p>
-                                <InfoCircleOutlined ref={setTriggerRef} />
-                                {visible && (
-                                  <div
-                                    ref={setTooltipRef}
-                                    {...getTooltipProps({ className: 'tooltip-container' })}
-                                  >
-                                    Paylaşılan postları beğenen kullanıcıların güvenilirliği (fake olmama durumları)
-                                    <div {...getArrowProps({ className: 'tooltip-arrow' })} />
-                                  </div>
-                                )}
+                                <p style={{marginBottom: 0, marginRight: 5}}>Beğenen kullanıcıların reel oranı</p>
                               </div>
                             </div>
                           </Col>
@@ -933,17 +834,7 @@ const DetailPage = (props) => {
                               <UsergroupDeleteOutlined style={{fontSize: 25, color: 'rgb(250, 143, 56)'}}/>
                               <h4>{parseFloat((parseFloat(reportData.profile.audienceLikers.nonFollowerLikes) * 100).toFixed(2)).toFixed(2)} %</h4>
                               <div style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
-                                <p style={{marginBottom: 0, marginRight: 5}}>Takipçi olmayan kitlenin beğeni oranı </p>
-                                <InfoCircleOutlined ref={setTriggerRef} />
-                                {visible && (
-                                  <div
-                                    ref={setTooltipRef}
-                                    {...getTooltipProps({ className: 'tooltip-container' })}
-                                  >
-                                    Influencer' ı beğenen kullanıcıların takip etmediği oran
-                                    <div {...getArrowProps({ className: 'tooltip-arrow' })} />
-                                  </div>
-                                )}
+                                <p style={{marginBottom: 0, marginRight: 5}}>Takipçi olmayan kullanıcıların beğenme oranı </p>
                               </div>
                             </div>
                           </Col>
@@ -951,16 +842,6 @@ const DetailPage = (props) => {
                         <div className={"gx-mt-1 box-item"}>
                           <div style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
                             <p className={"box-item-title"} style={{marginRight: 5}}>Beğeni Cinsiyet Dağılımı</p>
-                            <InfoCircleOutlined ref={setTriggerRef} />
-                            {visible && (
-                              <div
-                                ref={setTooltipRef}
-                                {...getTooltipProps({ className: 'tooltip-container' })}
-                              >
-                                Influencer' ı beğenen kullanıcıların cinsiyet dağılımı
-                                <div {...getArrowProps({ className: 'tooltip-arrow' })} />
-                              </div>
-                            )}
                           </div>
                           <div style={{
                             display: "flex",
@@ -996,18 +877,7 @@ const DetailPage = (props) => {
                             marginBottom: 15,
                             marginTop: 10
                           }}>
-                            <p className={"box-item-title"} style={{marginBottom: 0, marginRight: 5}}>Beğeni
-                              Lokasyonları</p>
-                            <InfoCircleOutlined ref={setTriggerRef} />
-                            {visible && (
-                              <div
-                                ref={setTooltipRef}
-                                {...getTooltipProps({ className: 'tooltip-container' })}
-                              >
-                                Influencer' ı beğenen kullanıcıların popüler lolasyonları
-                                <div {...getArrowProps({ className: 'tooltip-arrow' })} />
-                              </div>
-                            )}
+                            <p className={"box-item-title"} style={{marginBottom: 0, marginRight: 5}}>Beğenen kullanıcıların Lokasyonları</p>
                           </div>
                           {reportData.profile.audienceLikers.geoCountries && reportData.profile.audienceLikers.geoCountries.slice(0, 4).map((item, index) => {
                             return (
@@ -1047,19 +917,7 @@ const DetailPage = (props) => {
                             marginBottom: 15,
                             marginTop: 10
                           }}>
-                            <p className={"box-item-title"} style={{marginBottom: 0, marginRight: 5}}>Beğeni Yaş ve
-                              Cinsiyet
-                              İstatistikleri</p>
-                            <InfoCircleOutlined ref={setTriggerRef} />
-                            {visible && (
-                              <div
-                                ref={setTooltipRef}
-                                {...getTooltipProps({ className: 'tooltip-container' })}
-                              >
-                                Beğenen takipçilerin yaş ve cinsiyet grafikleri
-                                <div {...getArrowProps({ className: 'tooltip-arrow' })} />
-                              </div>
-                            )}
+                            <p className={"box-item-title"} style={{marginBottom: 0, marginRight: 5}}>Beğenen kullanıcıların Yaş ve Cinsiyet İstatistikleri</p>
                           </div>
                           <Row>
                             {reportData.profile.audienceLikers.gendersPerAge && (reportData.profile.audienceLikers.gendersPerAge).map((item, index) => {
@@ -1102,19 +960,7 @@ const DetailPage = (props) => {
                             marginBottom: 15,
                             marginTop: 10
                           }}>
-                            <p className={"box-item-title"} style={{marginBottom: 0, marginRight: 5}}>Beğenen
-                              Kullanıcıların Marka Yakınlığı
-                              (Brand Affinity)</p>
-                            <InfoCircleOutlined ref={setTriggerRef} />
-                            {visible && (
-                              <div
-                                ref={setTooltipRef}
-                                {...getTooltipProps({ className: 'tooltip-container' })}
-                              >
-                                Influencer' ı beğenen kullanıcıların yakınlık gösterdiği markalar
-                                <div {...getArrowProps({ className: 'tooltip-arrow' })} />
-                              </div>
-                            )}
+                            <p className={"box-item-title"} style={{marginBottom: 0, marginRight: 5}}>Beğenen Kullanıcıların Marka Yakınlığı (Brand Affinity)</p>
                           </div>
                           <div style={{
                             display: "flex",
@@ -1144,19 +990,7 @@ const DetailPage = (props) => {
                             marginBottom: 15,
                             marginTop: 10
                           }}>
-                            <p className={"box-item-title"} style={{marginBottom: 0, marginRight: 5}}>Beğenen
-                              Kullanıcıların İlgi alanları
-                              (Interests)</p>
-                            <InfoCircleOutlined ref={setTriggerRef} />
-                            {visible && (
-                              <div
-                                ref={setTooltipRef}
-                                {...getTooltipProps({ className: 'tooltip-container' })}
-                              >
-                                Influencer' ı beğenen kullanıcıların ilgi alanları
-                                <div {...getArrowProps({ className: 'tooltip-arrow' })} />
-                              </div>
-                            )}
+                            <p className={"box-item-title"} style={{marginBottom: 0, marginRight: 5}}>Beğenen Kullanıcıların İlgi alanları (Interests)</p>
                           </div>
                           <div style={{
                             display: "flex",
@@ -1182,7 +1016,7 @@ const DetailPage = (props) => {
                   <div className="gx-mt-5">
                     <Row gutter={[10, 10]}>
                       <Col xs={24} sm={24}>
-                        <p className={"detail-title-item"}>Takipçilerin referans kullanıcıları</p>
+                        <p className={"detail-title-item"}>Takipçilerin referans kullanıcıları (Notable followers)</p>
                       </Col>
                       <Col xs={24} sm={24}>
                         {reportData.profile.audience.notableUsers &&
@@ -1247,7 +1081,7 @@ const DetailPage = (props) => {
                   <div className="gx-mt-5">
                     <Row gutter={[10, 10]}>
                       <Col xs={24} sm={24}>
-                        <p className={"detail-title-item"}>Beğenenlerin referans kullanıcıları</p>
+                        <p className={"detail-title-item"}>Beğenenlerin referans kullanıcıları (Notable likers)</p>
                       </Col>
                       <Col xs={24} sm={24}>
                         {reportData.profile.audienceLikers.notableUsers &&
@@ -1316,6 +1150,7 @@ const DetailPage = (props) => {
           </div>
         </Card>
         }
+
         {network === 'youtube' &&
         <Card className={"gx-mt-3"} type="inner" title={null} extra={null} style={{marginTop: 10}}>
           <div>

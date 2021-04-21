@@ -602,11 +602,15 @@ const SamplePage = (props) => {
                       <Row gutter={[10, 10]}>
                         <Col span={24}>
                           <label>
-                            <b>Etkileşim Oranı:
-                              <Tooltip title="Takipçi sayısının beğeni ve yorum sayısı toplamına oranı">
-                                <InfoCircleOutlined/>
-                              </Tooltip>
-                            </b>
+                            <div>
+                              <b>Etkileşim Oranı:
+                                <span style={{marginTop: '-5px', marginLeft: '5px'}}>
+                                  <Tooltip title="Takipçi sayısının beğeni ve yorum sayısı toplamına oranı">
+                                  <InfoCircleOutlined/>
+                                </Tooltip>
+                                </span>
+                              </b>
+                            </div>
                           </label>
                         </Col>
                         <Col span={24}>
