@@ -73,6 +73,8 @@ export const POST_PAYMENT_REQUEST = 'POST_PAYMENT_REQUEST';
 export const POST_PAYMENT_SUCCESS = 'POST_PAYMENT_SUCCESS';
 export const POST_PAYMENT_FAILED = 'POST_PAYMENT_FAILED';
 
+export const SELECTED_PRICE_SUCCESS = 'SELECTED_PRICE_SUCCESS';
+
 //Auth const
 export const INIT_URL = 'INIT_URL';
 export const USER_DATA = 'user_data';

@@ -11,7 +11,7 @@ import {
   POST_TICKET_REQUEST,
   POST_TICKET_SUCCESS,
   POST_TICKET_FAILED,
-  API_URL,
+  API_URL, SELECTED_PRICE_SUCCESS,
 } from "../../../constants/ActionTypes";
 import axios from 'axios';
 
@@ -90,6 +90,11 @@ export const postTicketFailed = error => ({
 
 export const postTicketSuccess = (data) => ({
   type: POST_TICKET_SUCCESS,
+  payload: data,
+});
+
+export const postSelectedPriceSuccess = (data) => ({
+  type: SELECTED_PRICE_SUCCESS,
   payload: data,
 });
 
@@ -197,6 +202,12 @@ export const postTicket = (data) => {
         });
       });
     });
+  };
+};
+
+export const postSelectedPrice = (data) => {
+  return (dispatch) => {
+    dispatch(postSelectedPriceSuccess(data));
   };
 };
 

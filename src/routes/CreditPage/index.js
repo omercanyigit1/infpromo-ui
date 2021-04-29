@@ -2,13 +2,12 @@ import React, {useEffect, useState} from 'react';
 import {Card, Input, Row, Col, Button, Spin, Alert, Radio, Divider} from 'antd';
 import 'react-credit-cards/es/styles-compiled.css';
 import Cards from 'react-credit-cards';
-import {postPayment, isLoggedIn} from '../../appRedux/actions/';
+import {postPayment, isLoggedIn, postSelectedPrice} from '../../appRedux/actions/';
 import {connect} from 'react-redux';
 import publicIp from "public-ip";
 import InputMask from 'react-input-mask';
-import axios from 'axios';
-
-const currencyUrl = 'http://data.fixer.io/api/latest?access_key = 70ac47fa3ce9f5ac30ab85e03112ff8d'
+import PricingList from "./components/PricingList";
+import {ArrowLeftOutlined} from "@ant-design/icons";
 
 export const getClientIp = async () => await publicIp.v4({
   fallbackUrls: [ "https://ifconfig.co/ip" ]
@@ -27,8 +26,9 @@ const CreditPage = (props) => {
   const [ip, setIp] = useState('');
   const [currency, setCurrency] = useState('');
   const [orderId, setOrderId] = useState(1000);
+  const [priceList, setPriceList] = useState(true);
 
-  const  {postPayment, loading, isPayment, isLogged, isLoggedIn, url} = props;
+  const  {postPayment, loading, isPayment, isLogged, isLoggedIn, url, selectedCredit, selectedCurrency, postSelectedPrice, showList} = props;
 
   const handleCallback = ({ issuer }, isValid) => {
     if (isValid) {
@@ -94,8 +94,8 @@ const CreditPage = (props) => {
     //setCurrencyValue();
 
     let data = {
-      "credit": parseInt(credit),
-      "currency": `${value * 8},10`,
+      "credit": parseInt(selectedCredit),
+      "currency": `${selectedCurrency},90`,
       "cardNumber": cardNumber.replace(/\s/g, ''),
       "cardName": cardName.replace(/\s/g, ''),
       "cardCvc": cvc,
@@ -104,7 +104,6 @@ const CreditPage = (props) => {
       "userIp": ip,
       "userPhone": phoneNumber.substring(1, 11)
     }
-
     postPayment(data);
   }
 
@@ -149,104 +148,167 @@ const CreditPage = (props) => {
           }
 
           <Row gutter={[10, 10]} align={"middle"} justify={"center"}>
-            <Col xs={24} md={14}>
+            {showList === true &&
+            <Col xs={24} md={24}>
               <Row>
                 <Col xs={24} md={24}>
-                  <Radio.Group onChange={onChange} value={value} disabled={false}>
-                    <Radio style={radioStyle} value={5}>
-                      {5 * 2} Kredi = <b>5 $</b>
-                    </Radio>
-                    <Radio style={radioStyle} value={10}>
-                      {10 * 2} Kredi = <b>10 $</b>
-                    </Radio>
-                    <Radio style={radioStyle} value={20}>
-                      {20 * 2} Kredi <span>+ 5 Kredi</span> = <b>20 $</b>
-                    </Radio>
-                    <Radio style={radioStyle} value={50}>
-                      {50 * 2} Kredi <span>+ 10 Kredi</span> = <b>50 $</b>
-                    </Radio>
-                    <Radio style={radioStyle} value={100}>
-                      {100 * 2} Kredi <span>+ 25 Kredi</span> = <b>100 $</b>
-                    </Radio>
-                  </Radio.Group>
-                </Col>
-                <Col xs={24} md={24}>
-                  {value &&
-                  <div className={"gx-mt-4 gx-pb-3"}>
-                    <h5>{credit} Arama / {parseFloat( `${credit}` / 2).toFixed(0)} Rapor
-                      <span style={{fontSize: 14, marginLeft: 10}}> (Yüklenecek Tutar: {credit} Kredi)</span>
-                    </h5>
-                  </div>
-                  }
-                  {!value &&
-                  <div className={"gx-mt-4 gx-pb-3"}>
-                    <h5>0 Arama / 0 Raporlama</h5>
-                  </div>
-                  }
-                </Col>
-                <Col span={24}>
-                  <h3 className={"gx-mt-5 credit-page-margin gx-text-right"}>
-                    <b>Tutar: {value} $ ({value} dolar)</b>
-                  </h3>
-                </Col>
-              </Row>
-            </Col>
-            <Col xs={24} md={10}>
-              <Row gutter={[30]} justify={"center"} align={"middle"} className={"payment-details"}>
-                <Col xs={24} md={24}>
-                  <Cards
-                    cvc={cvc}
-                    expiry={expiry}
-                    focused={focus}
-                    name={cardName}
-                    number={cardNumber}
-                    locale={{valid: 'AA / YY'}}
-                    placeholders={{name: 'AD SOYAD'}}
-                    callback={handleCallback}
-                    style={{marginBottom: 30}}
-                  />
-                </Col>
-                <Col xs={24} md={24}>
-                  <Row justify={"center"} className={"gx-mt-3"}>
-                    <Col xs={24} md={18}>
-                      <Card>
-                        <Row>
-                          <Col span={24}>
-                            <label><b>Telefon Numaranız: (zorunlu)</b> </label>
-                            <InputMask mask="09999999999" maskChar={null} placeholder={"5xx-xxx-xx-xx"} onChange={handlePhoneNumberChange} className={"ant-input"} style={{marginBottom: 15}} />
-                          </Col>
-                        </Row>
-                        <Divider style={{marginBottom: 10, marginTop: 0}} />
-                        <Row>
-                          <Col span={24}>
-                            <label><b>Kart Bilgileriniz:</b> </label>
-                            <InputMask name={"number"} mask="9999 9999 9999 9999" className={"ant-input"} onChange={handleCardNumberChange} placeholder="Kart Numarası" onFocus={handleFocusChange} style={{marginBottom: 15}} />
-                          </Col>
-                        </Row>
-                        <Row>
-                          <Col span={24}>
-                            <Input name={"name"} onChange={handleCardNameChange} placeholder="İsim Soyisim" onFocus={handleFocusChange} style={{marginBottom: 15}} />
-                          </Col>
-                        </Row>
-                        <Row gutter={[10, 10]}>
-                          <Col span={16}>
-                            <InputMask name={"expiry"} mask="99/99" className={"ant-input"} onChange={handleExpiryChange} placeholder="AA / YY" onFocus={handleFocusChange} style={{marginBottom: 15}} />
-                          </Col>
-                          <Col span={8}>
-                            <InputMask name={"cvc"} mask="999" className={"ant-input"} onChange={handleCvcChange} placeholder="CVC" onFocus={handleFocusChange} style={{marginBottom: 15}} />
-                          </Col>
-                        </Row>
-                        <Row>
-                          <Col span={24}>
-                            <Button className={"btn- btn-primary"} block onClick={handlePayment} disabled={!phoneNumber || !cardName || !cardNumber || cvc.length < 3 || !expiry} loading={loading}>Hemen Öde</Button>
-                          </Col>
-                        </Row>
-                      </Card>
+                  <Row>
+                    <Col xs={24} md={8}>
+                      <PricingList
+                        title="5"
+                        desc="20"
+                        features={[
+                          { title: "5 Arama İmkanı" },
+                          { title: "2 Detaylı Rapor" },
+                        ]}
+                      />
+                    </Col>
+                    <Col xs={24} md={8}>
+                      <PricingList
+                        title="15"
+                        desc="40"
+                        features={[
+                          { title: "15 Arama İmkanı" },
+                          { title: "7 Detaylı Rapor" },
+                        ]}
+                      />
+                    </Col>
+                    <Col xs={24} md={8}>
+                      <PricingList
+                        title="30"
+                        desc="80"
+                        features={[
+                          { title: "30 Arama İmkanı" },
+                          { title: "15 Detaylı Rapor" },
+                        ]}
+                      />
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col xs={24} md={8}>
+                      <PricingList
+                        title="65"
+                        desc="150"
+                        features={[
+                          { title: "65 Arama İmkanı" },
+                          { title: "30 Detaylı Rapor" },
+                        ]}
+                      />
+                    </Col>
+                    <Col xs={24} md={8}>
+                      <PricingList
+                        title="165"
+                        desc="350"
+                        features={[
+                          { title: "165 Arama İmkanı" },
+                          { title: "82 Detaylı Rapor" },
+                        ]}
+                      />
+                    </Col>
+                    <Col xs={24} md={8}>
+                      <PricingList
+                        title="350"
+                        desc="700"
+                        features={[
+                          { title: "350 Arama İmkanı" },
+                          { title: "175 Detaylı Rapor" },
+                        ]}
+                      />
                     </Col>
                   </Row>
                 </Col>
               </Row>
             </Col>
+            }
+            {showList === false &&
+            <Col xs={24} md={24}>
+              <Row gutter={[30]} className={"payment-details"}>
+                <Col xs={24} md={12}>
+                  <Button type={"link"} icon={<ArrowLeftOutlined />} onClick={() => {
+
+                    let data = {
+                      title: '',
+                      desc: '',
+                      list: true
+                    }
+
+                    postSelectedPrice(data);
+                  }}>
+                    <span>Başka Paket Seç</span>
+                  </Button>
+                  <div className={"gx-mt-4"}>
+                    <h5><i className="uil uil-check-circle align-middle"></i> {selectedCredit} Arama</h5>
+                  </div>
+                  <div className={"gx-mt-2"}>
+                    <h5><i className="uil uil-check-circle align-middle"></i> {parseFloat( `${selectedCredit}` / 2).toFixed(0)} Rapor</h5>
+                  </div>
+
+                  <div className={"gx-mt-2"}>
+                    <h6><i className="uil uil-check-circle align-middle"></i> (Yüklenecek toplam kredi miktari: {selectedCredit} Kredi)</h6>
+                  </div>
+                  <h3 className={"gx-mt-4 credit-page-margin gx-text-left"}>
+                    <b>Tutar: {selectedCurrency} ₺ ({selectedCurrency} TL)</b>
+                  </h3>
+                </Col>
+                <Col xs={24} sm={12}>
+                  <Row>
+                    <Col xs={24} md={24}>
+                      <Cards
+                        cvc={cvc}
+                        expiry={expiry}
+                        focused={focus}
+                        name={cardName}
+                        number={cardNumber}
+                        locale={{valid: 'AA / YY'}}
+                        placeholders={{name: 'AD SOYAD'}}
+                        callback={handleCallback}
+                        style={{marginBottom: 30}}
+                      />
+                    </Col>
+                    <Col xs={24} md={24}>
+                      <Row justify={"center"} className={"gx-mt-3"}>
+                        <Col xs={24} md={24}>
+                          <Card>
+                            <Row>
+                              <Col span={24}>
+                                <label><b>Telefon Numaranız: (zorunlu)</b> </label>
+                                <InputMask mask="09999999999" maskChar={null} placeholder={"5xx-xxx-xx-xx"} onChange={handlePhoneNumberChange} className={"ant-input"} style={{marginBottom: 15}} />
+                              </Col>
+                            </Row>
+                            <Divider style={{marginBottom: 10, marginTop: 0}} />
+                            <Row>
+                              <Col span={24}>
+                                <label><b>Kart Bilgileriniz:</b> </label>
+                                <InputMask name={"number"} mask="9999 9999 9999 9999" className={"ant-input"} onChange={handleCardNumberChange} placeholder="Kart Numarası" onFocus={handleFocusChange} style={{marginBottom: 15}} />
+                              </Col>
+                            </Row>
+                            <Row>
+                              <Col span={24}>
+                                <Input name={"name"} onChange={handleCardNameChange} placeholder="İsim Soyisim" onFocus={handleFocusChange} style={{marginBottom: 15}} />
+                              </Col>
+                            </Row>
+                            <Row gutter={[10, 10]}>
+                              <Col span={16}>
+                                <InputMask name={"expiry"} mask="99/99" className={"ant-input"} onChange={handleExpiryChange} placeholder="AA / YY" onFocus={handleFocusChange} style={{marginBottom: 15}} />
+                              </Col>
+                              <Col span={8}>
+                                <InputMask name={"cvc"} mask="999" className={"ant-input"} onChange={handleCvcChange} placeholder="CVC" onFocus={handleFocusChange} style={{marginBottom: 15}} />
+                              </Col>
+                            </Row>
+                            <Row>
+                              <Col span={24}>
+                                <Button className={"btn- btn-primary"} block onClick={handlePayment} disabled={!phoneNumber || !cardName || !cardNumber || cvc.length < 3 || !expiry} loading={loading}>Hemen Öde</Button>
+                              </Col>
+                            </Row>
+                          </Card>
+                        </Col>
+                      </Row>
+                    </Col>
+                  </Row>
+                </Col>
+              </Row>
+            </Col>
+            }
           </Row>
         </Card>
       </div>
@@ -261,8 +323,12 @@ const mapStateToProps = (state) => {
     error: state.user.error,
     user: state.user.user,
     isPayment: state.list.isPayment,
-    url: state.list.url
+    url: state.list.url,
+    selectedCredit: state.list.selectedCredit,
+    selectedCurrency: state.list.selectedCurrency,
+    showList: state.list.showList
   }
 }
 
-export default connect(mapStateToProps, {postPayment, isLoggedIn})(CreditPage);
+export default connect(mapStateToProps, {postPayment, isLoggedIn, postSelectedPrice})(CreditPage);
+

@@ -16,6 +16,7 @@ import {
   POST_PAYMENT_REQUEST,
   POST_PAYMENT_SUCCESS,
   POST_PAYMENT_FAILED,
+  SELECTED_PRICE_SUCCESS
 } from "../../../constants/ActionTypes";
 import data from './data.json';
 
@@ -32,7 +33,10 @@ const initialState = {
   credit: null,
   showSorting: false,
   lookalikesNetwork: '',
-  url: ''
+  url: '',
+  selectedCredit: '',
+  selectedCurrency: '',
+  showList: true
 };
 
 const ListReducer = (state = initialState, action) => {
@@ -151,6 +155,13 @@ const ListReducer = (state = initialState, action) => {
         error: 'Invalid User',
         isPayment: false,
       };
+    case SELECTED_PRICE_SUCCESS:
+      return {
+        ...state,
+        selectedCredit: action.payload.title,
+        selectedCurrency: action.payload.desc,
+        showList: action.payload.list
+      }
     case LOGGED_IN:
       return {
         ...state,
