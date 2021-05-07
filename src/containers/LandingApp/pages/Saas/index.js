@@ -18,6 +18,7 @@ import SectionTitle from "../../components/Shared/SectionTitle";
 import Feature from "../../components/Shared/Feature";
 import Start from "./Start";
 import Client from "./Client";
+import PricingList from "../../../../routes/CreditPage/components/PricingList";
 
 class Index extends Component {
   constructor(props) {
@@ -127,6 +128,85 @@ class Index extends Component {
 
           {/* Start */}
           <Start />
+
+          <Container className="pb-lg-4 mb-md-5 mb-4 mt-100 mt-60">
+
+            <Row>
+              <Col xs={12} md={12}>
+                <SectionTitle
+                  title="Fiyatlandırma"
+                  desc="Sizde çok uygun fiyatlarla bu raporları görebilir ve çalışmak istediğiniz influencer hakkında ki tüm detayları öğrenebilirsiniz."
+                />
+              </Col>
+            </Row>
+
+            <Row>
+              <Col xs={12} md={4}>
+                <PricingList
+                  title="5"
+                  desc="20"
+                  features={[
+                    { title: "5 Arama İmkanı" },
+                    { title: "2 Detaylı Rapor" },
+                  ]}
+                />
+              </Col>
+              <Col xs={12} md={4}>
+                <PricingList
+                  title="15"
+                  desc="40"
+                  features={[
+                    { title: "15 Arama İmkanı" },
+                    { title: "7 Detaylı Rapor" },
+                  ]}
+                />
+              </Col>
+              <Col xs={12} md={4}>
+                <PricingList
+                  title="30"
+                  desc="80"
+                  features={[
+                    { title: "30 Arama İmkanı" },
+                    { title: "15 Detaylı Rapor" },
+                  ]}
+                />
+              </Col>
+            </Row>
+
+            <Row>
+              <Col xs={12} md={4}>
+                <PricingList
+                  title="65"
+                  desc="150"
+                  features={[
+                    { title: "65 Arama İmkanı" },
+                    { title: "30 Detaylı Rapor" },
+                  ]}
+                />
+              </Col>
+              <Col xs={12} md={4}>
+                <PricingList
+                  title="165"
+                  desc="350"
+                  features={[
+                    { title: "165 Arama İmkanı" },
+                    { title: "82 Detaylı Rapor" },
+                  ]}
+                />
+              </Col>
+              <Col xs={12} md={4}>
+                <PricingList
+                  title="350"
+                  desc="700"
+                  features={[
+                    { title: "350 Arama İmkanı" },
+                    { title: "175 Detaylı Rapor" },
+                  ]}
+                />
+              </Col>
+            </Row>
+
+          </Container>
 
           {/* Client */}
           <Client />

@@ -4,7 +4,7 @@ import {isLoggedIn, postSelectedPrice} from '../../../appRedux/actions/';
 import {connect} from 'react-redux';
 
 const PricingList = (props) => {
-  const {title, desc, features, children, postSelectedPrice} = props;
+  const {title, desc, features, children, postSelectedPrice, isButton} = props;
 
   function handleClick() {
     let data = {
@@ -34,7 +34,9 @@ const PricingList = (props) => {
           </li>
         ))}
       </ul>
+        {isButton &&
         <Button className={"btn btn-primary mb-2"} onClick={handleClick}>Hemen Seç</Button>
+        }
       </div>
     </React.Fragment>
   );

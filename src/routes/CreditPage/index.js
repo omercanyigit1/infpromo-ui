@@ -161,6 +161,7 @@ const CreditPage = (props) => {
                           { title: "5 Arama İmkanı" },
                           { title: "2 Detaylı Rapor" },
                         ]}
+                        isButton={true}
                       />
                     </Col>
                     <Col xs={24} md={8}>
@@ -171,6 +172,7 @@ const CreditPage = (props) => {
                           { title: "15 Arama İmkanı" },
                           { title: "7 Detaylı Rapor" },
                         ]}
+                        isButton={true}
                       />
                     </Col>
                     <Col xs={24} md={8}>
@@ -181,6 +183,7 @@ const CreditPage = (props) => {
                           { title: "30 Arama İmkanı" },
                           { title: "15 Detaylı Rapor" },
                         ]}
+                        isButton={true}
                       />
                     </Col>
                   </Row>
@@ -193,6 +196,7 @@ const CreditPage = (props) => {
                           { title: "65 Arama İmkanı" },
                           { title: "30 Detaylı Rapor" },
                         ]}
+                        isButton={true}
                       />
                     </Col>
                     <Col xs={24} md={8}>
@@ -203,6 +207,7 @@ const CreditPage = (props) => {
                           { title: "165 Arama İmkanı" },
                           { title: "82 Detaylı Rapor" },
                         ]}
+                        isButton={true}
                       />
                     </Col>
                     <Col xs={24} md={8}>
@@ -213,6 +218,7 @@ const CreditPage = (props) => {
                           { title: "350 Arama İmkanı" },
                           { title: "175 Detaylı Rapor" },
                         ]}
+                        isButton={true}
                       />
                     </Col>
                   </Row>
