@@ -21,14 +21,14 @@ class Client extends Component {
             <Col xs="12" className="text-center">
               <div className="section-title">
                 <h4 className="title mb-4">
-                  İhtiyacınız olan herşeyi ücretsiz denemek ister misiniz?
+                  İhtiyacınız olan her şeyi ücretsiz denemek ister misiniz?
                 </h4>
                 <p className="text-muted para-desc mx-auto mb-0">
-                  Sizde{" "}
+                  Siz de{" "}
                   <span className="text-primary font-weight-bold">
                     infpromo
                   </span>{" "}
-                  ile Türkiye'de ki tüm Influencer etkileşim oranlarını ve detaylı etkileşim raporlarını{" "}
+                  ile Türkiye’deki tüm influencer etkileşim oranlarını ve detaylı etkileşim raporlarını{" "}
                   <span className="text-primary font-weight-bold">
                     ücretsiz
                   </span>{" "}

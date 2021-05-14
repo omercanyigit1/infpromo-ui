@@ -172,13 +172,6 @@ export const postResetPassword = (user, tokenId) => {
 export const isLoggedIn = () => {
   const token = localStorage.getItem('access_token');
 
-  jwt.verify(token, 'infpromokey', function (error, decode) {
-    if(error) {
-      localStorage.removeItem('access_token');
-      window.location.href = '#/';
-    }
-  });
-
   return (dispatch) => {
     if (token) {
       dispatch({

@@ -64,7 +64,7 @@ class Index extends Component {
         icon: "uil uil-airplay h1 text-primary",
         title: "Kolay Kullanım",
         description:
-          "Geniş filtre özelliğimizle Türkiye'de ki Tüm influencer ağına erişebilirsiniz.",
+          "Geniş filtre özelliğimiz ile Türkiye'deki tüm influencer ağına erişebilirsiniz.",
         imgUrl: user,
       },
       {
@@ -80,7 +80,7 @@ class Index extends Component {
         icon: "uil uil-clock h1 text-primary",
         title: "Gerçek ve Güncel Veriler",
         description:
-          "Verilerin hepsi influencerların güncel olan verileridir.",
+          "Verilerin hepsi influencerların güncel verileridir.",
         imgUrl: sandClock,
       },
     ];
@@ -95,8 +95,8 @@ class Index extends Component {
           <Container>
             {/* section title */}
             <SectionTitle
-              title="Tüm Türkiye' de arama yapabileceğiniz platformlar"
-              desc="Dünya' nın en çok kullanılan sosyal medya platformlarını kullanan 25.000 'den fazla inlfuencer ı kolayca sörebilirsiniz."
+              title="Arama yapabileceğiniz platformlar"
+              desc="Dünyanın en popüler sosyal medya platformlarındaki 50.000’den fazla Türk influencerı keşfedebilirsiniz."
             />
 
             {/* partners */}
@@ -112,7 +112,7 @@ class Index extends Component {
                   <img
                     src={partner.image}
                     className="avatar avatar-ex-sm"
-                    alt="Landrick"
+                    alt="infpromo"
                   />
                 </Col>
               ))}
@@ -135,7 +135,7 @@ class Index extends Component {
               <Col xs={12} md={12}>
                 <SectionTitle
                   title="Fiyatlandırma"
-                  desc="Sizde çok uygun fiyatlarla bu raporları görebilir ve çalışmak istediğiniz influencer hakkında ki tüm detayları öğrenebilirsiniz."
+                  desc="Siz de çok uygun fiyatlarla bu raporlara ulaşabilir ve çalışmak istediğiniz influencer hakkındaki tüm detayları öğrenebilirsiniz."
                 />
               </Col>
             </Row>
