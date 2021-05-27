@@ -164,6 +164,11 @@ const DetailPage = (props) => {
         {network === 'instagram' &&
         <Card className={"gx-mt-3"} type="inner" title={null} extra={null} style={{marginTop: 10}}>
           <div>
+            <Row align={"middle"} justify={"space-between"}>
+              <Col xs={24} md={24}>
+
+              </Col>
+            </Row>
             <Row align={"middle"} justify={"center"}>
               <Col xs={24} md={24}>
                 <div className={"gx-text-center"}>

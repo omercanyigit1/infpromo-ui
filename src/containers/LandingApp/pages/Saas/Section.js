@@ -34,6 +34,7 @@ class Section extends Component {
                     <Link to="/register" className="btn btn-primary">
                       Ücretsiz Dene! <i className="mdi mdi-chevron-right"></i>
                     </Link>
+                    <Link to={"/sample-report"} className={"btn btn-secondary"} target={"_blank"} rel="noreferrer">Örnek Rapor</Link>
                   </div>
                 </div>
                 <div className="home-dashboard">

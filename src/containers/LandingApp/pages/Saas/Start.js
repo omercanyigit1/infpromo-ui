@@ -1,6 +1,7 @@
 // React Basic and Bootstrap
 import React, { Component } from "react";
 import { Container, Row, Col } from "reactstrap";
+import {Link} from 'react-router-dom';
 
 // Import images
 import saas1 from "../../assets/images/saas/filter-screen.png";
@@ -93,6 +94,7 @@ class Start extends Component {
                   features={this.state.features3}
                   class=""
                 />
+                <Link to={"/sample-report"} className={"btn btn-secondary"} target={"_blank"} rel="noreferrer">Örnek Raporu Görmek İçin Tıklayınız</Link>
               </div>
             </Col>
           </Row>

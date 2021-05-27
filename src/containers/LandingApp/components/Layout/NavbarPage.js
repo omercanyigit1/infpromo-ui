@@ -33,7 +33,7 @@ class NavbarPage extends Component {
               <div className="buy-button">
                 <Link
                   to="/login"
-                  className="btn btn-secondary"
+                  className="btn btn-outline-primary"
                 >
                   Giriş Yap
                 </Link>

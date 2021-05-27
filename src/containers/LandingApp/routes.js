@@ -21,6 +21,8 @@ const PageRecoveryPassword = React.lazy(() =>
 
 const Saas = React.lazy(() => import("./pages/Saas/index"));
 
+const SampleReport = React.lazy(() => import("../SampleReport/index"));
+
 //Blog
 const PageBlog = React.lazy(() => import("./pages/Pages/Blog/PageBlog"));
 const PageBlogDetail = React.lazy(() =>
@@ -63,6 +65,11 @@ const routes = [
   {
     path: "/forget-password",
     component: PageCoverRePassword,
+    isWithoutLayout: true,
+  },
+  {
+    path: "/sample-report",
+    component: SampleReport,
     isWithoutLayout: true,
   },
 
