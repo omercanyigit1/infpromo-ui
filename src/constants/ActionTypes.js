@@ -1,4 +1,4 @@
-export const API_URL = "https://infpromo-backend-plxkq.ondigitalocean.app";
+export const API_URL = "http://backend.infpromo.com";
 //export const API_URL = "http://localhost:8000";
 
 // Customizer const
